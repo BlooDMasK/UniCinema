@@ -52,7 +52,7 @@ FOREIGN KEY (id_room) REFERENCES room(id) ON DELETE CASCADE
 CREATE TABLE film (
 id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 title VARCHAR(50),
-lenght int,
+duration int,
 date_publishing date,
 genre int,
 plot VARCHAR(500)
@@ -83,5 +83,13 @@ id_film INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 firstname VARCHAR(30),
 lastname VARCHAR(30),
 FOREIGN KEY (id_film) REFERENCES film(id) ON DELETE CASCADE 
+);
+
+CREATE TABLE review (
+id_client int NOT NULL AUTO_INCREMENT,
+id_film int NOT NULL AUTO_INCREMENT,
+caption varchar(500),
+stars int,
+PRIMARY KEY(id_client,id_film)
 );
 
