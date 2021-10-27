@@ -15,6 +15,7 @@ public class FilmExtractor {
         film.setLength(resultSet.getInt("film.duration"));
         film.setPlot(resultSet.getString("film.plot"));
         film.setTitle(resultSet.getString("film.title"));
+        film.setCover(resultSet.getString("film.cover"));
 
         return film;
     }

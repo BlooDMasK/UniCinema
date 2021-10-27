@@ -81,15 +81,10 @@ public class ReviewDAO implements SqlMethods<Review> {
     }
 
     @Override
-    public Optional<Review> fetch(int id) throws SQLException {
-        return Optional.empty();
-    }
-
-    public Optional<Review> fetch(int id_client, int id_film) throws SQLException {
+    public Optional<Review> fetch(int id_client) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN film on rev.id_film = film.id JOIN clients acc on rev.id_client = acc.id WHERE id_client = ? AND id_film = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN film on rev.id_film = film.id JOIN clients acc on rev.id_client = acc.id WHERE id_client = ?")) {
                 ps.setInt(1, id_client);
-                ps.setInt(2, id_film);
 
                 ResultSet rs = ps.executeQuery();
                 Review review = null;
@@ -125,11 +120,10 @@ public class ReviewDAO implements SqlMethods<Review> {
     @Override
     public boolean update(Review review) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("UPDATE review SET caption = ?, stars = ? WHERE id_client = ? AND id_film = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("UPDATE review SET caption = ?, stars = ? WHERE id_client = ?")) {
                 ps.setString(1, review.getDescription());
                 ps.setInt(2, review.getStars());
                 ps.setInt(3, review.getAccount().getId());
-                ps.setInt(4, review.getFilm().getId());
 
                 int rows = ps.executeUpdate();
                 return rows == 1;
@@ -138,15 +132,10 @@ public class ReviewDAO implements SqlMethods<Review> {
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
-        return false;
-    }
-
-    public boolean delete(int id_client, int id_film) throws SQLException {
+    public boolean delete(int id_client) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("DELETE FROM review WHERE id_client = ? AND id_film = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("DELETE FROM review WHERE id_client = ?")) {
                 ps.setInt(1, id_client);
-                ps.setInt(2, id_film);
 
                 int rows = ps.executeUpdate();
                 return rows == 1;

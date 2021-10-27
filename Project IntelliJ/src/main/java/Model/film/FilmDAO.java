@@ -77,13 +77,14 @@ public class FilmDAO implements SqlMethods<Film> {
     @Override
     public boolean update(Film film) throws SQLException {
         try (Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("UPDATE film SET title = ?, duration = ?, date_publishing = ?, genre = ?, plot = ? WHERE id = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("UPDATE film SET title = ?, duration = ?, date_publishing = ?, genre = ?, plot = ?, cover = ? WHERE id = ?")) {
                 ps.setString(1, film.getTitle());
                 ps.setInt(2, film.getLength());
                 ps.setDate(3, java.sql.Date.valueOf(film.getDatePublishing()));
                 ps.setInt(4, film.getGenre());
                 ps.setString(5, film.getPlot());
-                ps.setInt(6, film.getId());
+                ps.setString(6, film.getCover());
+                ps.setInt(7, film.getId());
 
                 int rows = ps.executeUpdate();
                 return rows == 1;

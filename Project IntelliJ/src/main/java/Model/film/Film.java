@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Film {
     private int id, length, genre;
-    private String title, plot;
+    private String title, plot, cover;
     private LocalDate datePublishing;
 
     private List<Actor> actorList;
@@ -47,6 +47,14 @@ public class Film {
         this.title = title;
         this.plot = plot;
         this.datePublishing = datePublishing;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     public List<Actor> getActorList() {

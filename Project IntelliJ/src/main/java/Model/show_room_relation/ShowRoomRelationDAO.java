@@ -35,10 +35,10 @@ public class ShowRoomRelationDAO implements SqlMethods<ShowRoomRelation> {
     }
 
     @Override
-    public Optional<ShowRoomRelation> fetch(int id) throws SQLException {
+    public Optional<ShowRoomRelation> fetch(int id_room) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM show_room AS sr WHERE id = ?")) {
-                ps.setInt(1, id);
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM show_room AS sr WHERE id_room = ?")) {
+                ps.setInt(1, id_room);
 
                 ResultSet rs = ps.executeQuery();
                 ShowRoomRelation showRoomRelation = null;
@@ -83,15 +83,10 @@ public class ShowRoomRelationDAO implements SqlMethods<ShowRoomRelation> {
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
-        return false;
-    }
-
-    public boolean delete(int roomID, int showID) throws SQLException {
+    public boolean delete(int roomID) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("DELETE FROM show_room WHERE id_room = ? AND id_show = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("DELETE FROM show_room WHERE id_room = ?")) {
                 ps.setInt(1, roomID);
-                ps.setInt(2, showID);
 
                 int rows = ps.executeUpdate();
                 return rows == 1;
