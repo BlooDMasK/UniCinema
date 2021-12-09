@@ -8,6 +8,7 @@ import Model.review.Review;
 import Model.show.Show;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Film {
@@ -23,7 +24,12 @@ public class Film {
     private List<Review> reviewList;
     private List<Show> showList;
 
-    public Film() { }
+    public Film() {
+        actorList = new ArrayList<>();
+        directorList = new ArrayList<>();
+        houseProductionList = new ArrayList<>();
+        productionList = new ArrayList<>();
+    }
 
     public Film(int id, int length, int genre, String title, String plot, LocalDate datePublishing, List<Actor> actorList, List<Director> directorList, List<HouseProduction> houseProductionList, List<Production> productionList, List<Review> reviewList, List<Show> showList) {
         this.id = id;
@@ -147,5 +153,24 @@ public class Film {
 
     public void setDatePublishing(LocalDate datePublishing) {
         this.datePublishing = datePublishing;
+    }
+
+    @Override
+    public String toString() {
+        return "Film{" +
+                "id=" + id +
+                ", length=" + length +
+                ", genre=" + genre +
+                ", title='" + title + '\'' +
+                ", plot='" + plot + '\'' +
+                ", cover='" + cover + '\'' +
+                ", datePublishing=" + datePublishing +
+                ", actorList=" + actorList +
+                ", directorList=" + directorList +
+                ", houseProductionList=" + houseProductionList +
+                ", productionList=" + productionList +
+                ", reviewList=" + reviewList +
+                ", showList=" + showList +
+                '}';
     }
 }

@@ -11,7 +11,7 @@ public class HouseProductionExtractor implements ResultSetExtractor<HouseProduct
     public HouseProduction extract(ResultSet resultSet) throws SQLException {
         HouseProduction houseProduction = new HouseProduction();
 
-        houseProduction.setName(resultSet.getString("hp.name"));
+        houseProduction.setName(resultSet.getString("hp.name_house"));
         houseProduction.setId(resultSet.getInt("hp.id"));
 
         return houseProduction;

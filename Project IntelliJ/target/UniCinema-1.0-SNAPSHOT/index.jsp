@@ -2,11 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <jsp:include page="WEB-INF/views/partial/head.jsp">
-        <jsp:param name="styles" value="bootstrap"/>
-    </jsp:include>
+    <title>JSP - Hello World</title>
 </head>
 <body>
-<% response.sendRedirect(application.getContextPath()+"/pages"); %> <!--richiama la request di /pages -->
+<h1><%= "Hello World!" %>
+</h1>
+<br/>
+<a href="hello-servlet">Hello Servlet</a>
 </body>
 </html>

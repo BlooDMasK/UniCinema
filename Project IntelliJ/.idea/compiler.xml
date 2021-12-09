@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="UniCinema" target="1.8" />
+      <module name="UniCinema" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

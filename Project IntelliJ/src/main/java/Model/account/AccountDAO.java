@@ -16,7 +16,7 @@ public class AccountDAO implements SqlMethods<Account> {
     public List<Account> fetchAll(Paginator paginator) throws SQLException {
 
         try (Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM clients AS acc LIMIT ?, ?")) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM customer AS acc LIMIT ?, ?")) {
 
                 ps.setInt(1, paginator.getOffset());
                 ps.setInt(2, paginator.getLimit());
@@ -39,7 +39,7 @@ public class AccountDAO implements SqlMethods<Account> {
     @Override
     public boolean insert(Account account) throws SQLException {
         try (Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("INSERT INTO clients (email, pswrd, firstname, lastname, administrator) VALUES (?, ?, ?, ?, ?)")) {
+            try (PreparedStatement ps = con.prepareStatement("INSERT INTO customer (email, pswrd, firstname, lastname, administrator) VALUES (?, ?, ?, ?, ?)")) {
 
                 ps.setString(1, account.getEmail());
                 ps.setString(2, account.getPswrd());
@@ -57,7 +57,7 @@ public class AccountDAO implements SqlMethods<Account> {
     public Optional<Account> fetch(int id) throws SQLException {
         try (Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps =
-                         con.prepareStatement("SELECT * FROM clients AS acc WHERE id = ?")) {
+                         con.prepareStatement("SELECT * FROM customer AS acc WHERE id = ?")) {
                 ps.setInt(1, id);
 
                 ResultSet rs = ps.executeQuery();
@@ -76,7 +76,7 @@ public class AccountDAO implements SqlMethods<Account> {
     public boolean delete(int id) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try(PreparedStatement ps =
-                        con.prepareStatement("DELETE FROM clients WHERE id = ?")) {
+                        con.prepareStatement("DELETE FROM customer WHERE id = ?")) {
 
                 ps.setInt(1, id);
 
@@ -90,7 +90,7 @@ public class AccountDAO implements SqlMethods<Account> {
     public boolean update(Account account) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try(PreparedStatement ps =
-                        con.prepareStatement("UPDATE clients SET firstname = ?, lastname = ?, administrator = ? WHERE id = ?")) {
+                        con.prepareStatement("UPDATE customer SET firstname = ?, lastname = ?, administrator = ? WHERE id = ?")) {
 
                 ps.setString(1, account.getFirstname());
                 ps.setString(2, account.getLastname());
@@ -105,7 +105,7 @@ public class AccountDAO implements SqlMethods<Account> {
 
     public Optional<Account> find(String email, String password, boolean admin) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try(PreparedStatement ps = con.prepareStatement("SELECT * FROM clients AS acc WHERE (email = ? AND pswrd = ?" + (admin ? " AND administrator = ?)" : ")"))) {
+            try(PreparedStatement ps = con.prepareStatement("SELECT * FROM customer AS acc WHERE (email = ? AND pswrd = ?" + (admin ? " AND administrator = ?)" : ")"))) {
                 ps.setString(1, email);
                 ps.setString(2, password);
                 if(admin)
@@ -122,7 +122,7 @@ public class AccountDAO implements SqlMethods<Account> {
     @Override
     public int countAll() throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try(PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) AS ct FROM clients")) {
+            try(PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) AS ct FROM customer")) {
                 ResultSet rs = ps.executeQuery();
                 int ct = 0;
                 if(rs.next())

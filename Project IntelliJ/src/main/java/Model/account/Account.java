@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class Account {
-    private String email, firstname, lastname, psrwd;
+    private String email, firstname, lastname, pswrd;
     private int id;
     private boolean administrator;
 
@@ -20,7 +20,7 @@ public class Account {
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.psrwd = psrwd;
+        this.pswrd = psrwd;
         this.id = id;
         this.administrator = administrator;
         this.purchaseList = purchaseList;
@@ -31,20 +31,12 @@ public class Account {
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.psrwd = psrwd;
+        this.pswrd = psrwd;
         this.id = id;
         this.administrator = administrator;
     }
 
     public Account() { }
-
-    public String getPsrwd() {
-        return psrwd;
-    }
-
-    public void setPsrwd(String psrwd) {
-        this.psrwd = psrwd;
-    }
 
     public List<Purchase> getPurchaseList() {
         return purchaseList;
@@ -87,16 +79,16 @@ public class Account {
     }
 
     public String getPswrd() {
-        return psrwd;
+        return pswrd;
     }
 
-    public void setPswd(String pswd) throws NoSuchAlgorithmException {
+    public void setPswrd(String pswrd) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-512");
-        byte[] hashedPwd = digest.digest(pswd.getBytes(StandardCharsets.UTF_8));
+        byte[] hashedPwd = digest.digest(pswrd.getBytes(StandardCharsets.UTF_8));
         StringBuilder builder = new StringBuilder();
         for(byte bit : hashedPwd)
             builder.append(String.format("%02x", bit));
-        this.psrwd = builder.toString();
+        this.pswrd = builder.toString();
     }
 
     public int getId() {

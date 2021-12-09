@@ -1,10 +1,18 @@
 package Model.film;
 
+import Model.actors.Actor;
 import Model.actors.ActorDAO;
+import Model.actors.ActorExtractor;
 import Model.api.*;
+import Model.director.Director;
 import Model.director.DirectorDAO;
+import Model.director.DirectorExtractor;
+import Model.houseproduction.HouseProduction;
 import Model.houseproduction.HouseProductionDAO;
+import Model.houseproduction.HouseProductionExtractor;
+import Model.production.Production;
 import Model.production.ProductionDAO;
+import Model.production.ProductionExtractor;
 import Model.review.ReviewDAO;
 import Model.show.ShowDAO;
 
@@ -12,9 +20,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class FilmDAO implements SqlMethods<Film> {
     @Override
@@ -30,8 +36,6 @@ public class FilmDAO implements SqlMethods<Film> {
                 FilmExtractor filmExtractor = new FilmExtractor();
                 while(rs.next()) {
                     Film film = filmExtractor.extract(rs);
-                    film.setShowList(new ShowDAO().fetchAll(film));
-                    film.setReviewList(new ReviewDAO().fetchAll(film));
                     films.add(film);
                 }
                 rs.close();
@@ -54,6 +58,99 @@ public class FilmDAO implements SqlMethods<Film> {
                     rs.close();
                 }
                 return Optional.ofNullable(film);
+            }
+        }
+    }
+
+    public List<Film> fetchComingSoon(int n) throws SQLException {
+        try(Connection con = ConPool.getConnection()) {
+            try(PreparedStatement ps = con.prepareStatement("SELECT * FROM film JOIN production prod on film.id = prod.id_film JOIN house_production hp on film.id = hp.id_film JOIN director on film.id = director.id_film JOIN actor on film.id = actor.id_film WHERE DATE(date_publishing) > DATE(NOW())")) {
+                ResultSet rs = ps.executeQuery();
+
+                FilmExtractor filmExtractor = new FilmExtractor();
+                ActorExtractor actorExtractor = new ActorExtractor();
+                DirectorExtractor directorExtractor = new DirectorExtractor();
+                HouseProductionExtractor houseProductionExtractor = new HouseProductionExtractor();
+                ProductionExtractor productionExtractor = new ProductionExtractor();
+
+                Map<Integer, Film> filmMap = new LinkedHashMap<>();
+                int count = 0;
+                while(rs.next() && count < n) {
+                    int filmId = rs.getInt("film.id");
+                    if(!filmMap.containsKey(filmId)) {
+                        //Aggiungo l'oggetto film alla mappa se non esiste con quella chiave
+                        Film film = filmExtractor.extract(rs);
+
+                        film.setActorList(new ArrayList<>());
+                        film.setDirectorList(new ArrayList<>());
+                        film.setHouseProductionList(new ArrayList<>());
+                        film.setProductionList(new ArrayList<>());
+
+                        filmMap.put(filmId, film);
+                        count++;
+                    }
+
+                    Actor actor = actorExtractor.extract(rs);
+                    Director director = directorExtractor.extract(rs);
+                    HouseProduction houseProduction = houseProductionExtractor.extract(rs);
+                    Production production = productionExtractor.extract(rs);
+
+                    filmMap.get(filmId).getActorList().add(actor);
+                    filmMap.get(filmId).getDirectorList().add(director);
+                    filmMap.get(filmId).getHouseProductionList().add(houseProduction);
+                    filmMap.get(filmId).getProductionList().add(production);
+                }
+
+                rs.close();
+                return new ArrayList<>(filmMap.values());
+            }
+        }
+    }
+
+    /*
+    Restituisce gli ultimi N film.
+     */
+    public List<Film> fetchLastReleases(int n) throws SQLException{
+        try(Connection con = ConPool.getConnection()) {
+            try(PreparedStatement ps = con.prepareStatement("SELECT * FROM film JOIN production prod on film.id = prod.id_film JOIN house_production hp on film.id = hp.id_film JOIN director on film.id = director.id_film JOIN actor on film.id = actor.id_film WHERE DATE(date_publishing) <= DATE(NOW())")) {
+                ResultSet rs = ps.executeQuery();
+
+                FilmExtractor filmExtractor = new FilmExtractor();
+                ActorExtractor actorExtractor = new ActorExtractor();
+                DirectorExtractor directorExtractor = new DirectorExtractor();
+                HouseProductionExtractor houseProductionExtractor = new HouseProductionExtractor();
+                ProductionExtractor productionExtractor = new ProductionExtractor();
+
+                Map<Integer, Film> filmMap = new LinkedHashMap<>();
+                int count = 0;
+                while(rs.next() && count < n) {
+                    int filmId = rs.getInt("film.id");
+                    if(!filmMap.containsKey(filmId)) {
+                        //Aggiungo l'oggetto film alla mappa se non esiste con quella chiave
+                        Film film = filmExtractor.extract(rs);
+
+                        film.setActorList(new ArrayList<>());
+                        film.setDirectorList(new ArrayList<>());
+                        film.setHouseProductionList(new ArrayList<>());
+                        film.setProductionList(new ArrayList<>());
+
+                        filmMap.put(filmId, film);
+                        count++;
+                    }
+
+                    Actor actor = actorExtractor.extract(rs);
+                    Director director = directorExtractor.extract(rs);
+                    HouseProduction houseProduction = houseProductionExtractor.extract(rs);
+                    Production production = productionExtractor.extract(rs);
+
+                    filmMap.get(filmId).getActorList().add(actor);
+                    filmMap.get(filmId).getDirectorList().add(director);
+                    filmMap.get(filmId).getHouseProductionList().add(houseProduction);
+                    filmMap.get(filmId).getProductionList().add(production);
+                }
+
+                rs.close();
+                return new ArrayList<>(filmMap.values());
             }
         }
     }
@@ -122,7 +219,7 @@ public class FilmDAO implements SqlMethods<Film> {
 
     public List<Film> search(List<Condition> conditions) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            String query = "SELECT * FROM film WHERE " + Condition.searchConditions(conditions, "film");
+            String query = "SELECT * FROM film JOIN production prod on film.id = prod.id_film JOIN house_production hp on film.id = hp.id_film JOIN director on film.id = director.id_film JOIN actor on film.id = actor.id_film WHERE " + Condition.searchConditions(conditions, "film");
             try(PreparedStatement ps = con.prepareStatement(query)) {
                 for(int i = 0; i < conditions.size(); i++) {
                     if(conditions.get(i).getOperator() == Operator.MATCH)
@@ -134,21 +231,37 @@ public class FilmDAO implements SqlMethods<Film> {
                 ResultSet rs = ps.executeQuery();
 
                 FilmExtractor filmExtractor = new FilmExtractor();
+                ActorExtractor actorExtractor = new ActorExtractor();
+                DirectorExtractor directorExtractor = new DirectorExtractor();
+                HouseProductionExtractor houseProductionExtractor = new HouseProductionExtractor();
+                ProductionExtractor productionExtractor = new ProductionExtractor();
 
-                List<Film> filmList = new ArrayList<>();
+                Map<Integer, Film> filmMap = new LinkedHashMap<>();
                 while(rs.next()) {
-                    Film film = filmExtractor.extract(rs);
+                    int filmId = rs.getInt("film.id");
+                    if(!filmMap.containsKey(filmId)) {
+                        //Aggiungo l'oggetto film alla mappa se non esiste con quella chiave
+                        Film film = filmExtractor.extract(rs);
 
-                    film.setActorList(new ActorDAO().fetchAll(film));
-                    film.setDirectorList(new DirectorDAO().fetchAll(film));
-                    film.setHouseProductionList(new HouseProductionDAO().fetchAll(film));
-                    film.setProductionList(new ProductionDAO().fetchAll(film));
-                    film.setReviewList(new ReviewDAO().fetchAll(film));
-                    film.setShowList(new ShowDAO().fetchAll(film));
+                        film.setActorList(new ArrayList<>());
+                        film.setDirectorList(new ArrayList<>());
+                        film.setHouseProductionList(new ArrayList<>());
+                        film.setProductionList(new ArrayList<>());
 
-                    filmList.add(film);
+                        filmMap.put(filmId, film);
+                    }
+
+                    Actor actor = actorExtractor.extract(rs);
+                    Director director = directorExtractor.extract(rs);
+                    HouseProduction houseProduction = houseProductionExtractor.extract(rs);
+                    Production production = productionExtractor.extract(rs);
+
+                    filmMap.get(filmId).getActorList().add(actor);
+                    filmMap.get(filmId).getDirectorList().add(director);
+                    filmMap.get(filmId).getHouseProductionList().add(houseProduction);
+                    filmMap.get(filmId).getProductionList().add(production);
                 }
-                return filmList;
+                return new ArrayList<>(filmMap.values());
             }
         }
     }

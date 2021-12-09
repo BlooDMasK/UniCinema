@@ -1,0 +1,51 @@
+.logo-font {
+    font-family: 'Prague';
+    font-weight: normal;
+    font-style: normal;
+    src: url("../fonts/Prague.otf");
+}
+
+.bg-img {
+    background-image: url("../images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+#search-icon {
+    color: var(--bs-white);
+}
+
+#search-icon > svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+#search-icon > svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+#login-icon > svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+.flex-wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.fs-1-5 {
+    font-size: 1.5rem;
+}
+
+.form-text {
+    color: var(--bs-gray-500);
+}
+
+input:focus {
+    outline-width: 3rem;
+    outline-color: var(--bs-light);
+}

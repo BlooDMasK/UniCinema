@@ -17,7 +17,7 @@ public class ActorDAO implements SqlMethods<Actor> {
     @Override
     public List<Actor> fetchAll(Paginator paginator) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try(PreparedStatement ps = con.prepareStatement("SELECT * FROM actors LIMIT ?,?")){
+            try(PreparedStatement ps = con.prepareStatement("SELECT * FROM actor LIMIT ?,?")){
                 ps.setInt(1, paginator.getOffset());
                 ps.setInt(2, paginator.getLimit());
 
@@ -37,7 +37,7 @@ public class ActorDAO implements SqlMethods<Actor> {
 
     public List<Actor> fetchAll() throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try(PreparedStatement ps = con.prepareStatement("SELECT * FROM actors")){
+            try(PreparedStatement ps = con.prepareStatement("SELECT * FROM actor")){
 
                 List<Actor> actorList = new ArrayList<>();
 
@@ -55,7 +55,7 @@ public class ActorDAO implements SqlMethods<Actor> {
 
     public List<Actor> fetchAll(Film film) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try(PreparedStatement ps = con.prepareStatement("SELECT * FROM actors WHERE id_film = ?")){
+            try(PreparedStatement ps = con.prepareStatement("SELECT * FROM actor WHERE id_film = ?")){
                 ps.setInt(1, film.getId());
 
                 List<Actor> actorList = new ArrayList<>();
@@ -75,7 +75,7 @@ public class ActorDAO implements SqlMethods<Actor> {
     @Override
     public Optional<Actor> fetch(int id) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM actors WHERE id = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM actor WHERE id = ?")) {
                 ps.setInt(1,id);
 
                 ResultSet rs = ps.executeQuery();
@@ -93,7 +93,7 @@ public class ActorDAO implements SqlMethods<Actor> {
     @Override
     public boolean insert(Actor actor) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("INSERT INTO actors (firstname, lastname, id_film) VALUES(?,?,?)")) {
+            try (PreparedStatement ps = con.prepareStatement("INSERT INTO actor (firstname, lastname, id_film) VALUES(?,?,?)")) {
                 ps.setString(1, actor.getFirstname());
                 ps.setString(2, actor.getLastname());
                 ps.setInt(3, actor.getFilm().getId());
@@ -107,7 +107,7 @@ public class ActorDAO implements SqlMethods<Actor> {
     @Override
     public boolean update(Actor actor) throws SQLException {
         try (Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("UPDATE actors SET firstname=?, lastname=? WHERE id = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("UPDATE actor SET firstname=?, lastname=? WHERE id = ?")) {
                 ps.setString(1, actor.getFirstname());
                 ps.setString(2, actor.getLastname());
                 ps.setInt(3, actor.getId());
@@ -122,7 +122,7 @@ public class ActorDAO implements SqlMethods<Actor> {
     @Override
     public boolean delete(int id) throws SQLException {
         try (Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("DELETE FROM actors WHERE id = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("DELETE FROM actor WHERE id = ?")) {
                 ps.setInt(1, id);
 
                 int rows = ps.executeUpdate();
@@ -134,7 +134,7 @@ public class ActorDAO implements SqlMethods<Actor> {
     @Override
     public int countAll() throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) AS ct FROM actors")) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) AS ct FROM actor")) {
                 ResultSet rs = ps.executeQuery();
                 int ct = 0;
                 if(rs.next())
