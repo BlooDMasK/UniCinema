@@ -1,10 +1,14 @@
 package Model.api;
 
+import org.json.JSONObject;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+
+import static Controller.api.Controller.sendJson;
 
 public class InvalidRequestException extends Exception {
     private final List<String> errors;
@@ -17,17 +21,23 @@ public class InvalidRequestException extends Exception {
     }
 
     public void handle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        switch(errorCode) {
+        switch (errorCode) {
             case HttpServletResponse.SC_BAD_REQUEST:
                 request.setAttribute("alert", new Alert(errors, "danger"));
                 String backPath = (String) request.getAttribute("back");
-                System.out.println();
                 response.setStatus(errorCode);
                 request.getRequestDispatcher(backPath).forward(request, response);
                 break;
             default:
                 response.sendError(errorCode, errors.get(0));
         }
+    }
+
+    public void handleAjax(HttpServletResponse response) throws IOException, ServletException {
+        JSONObject alert = new JSONObject();
+
+        alert.put("alert", new Alert(errors, "danger").toJson());
+        sendJson(response, alert);
     }
 
     public List<String> getErrors() { return errors; }

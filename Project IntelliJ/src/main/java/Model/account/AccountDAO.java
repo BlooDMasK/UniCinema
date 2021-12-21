@@ -72,6 +72,26 @@ public class AccountDAO implements SqlMethods<Account> {
         }
     }
 
+    public Optional<Account> fetch(String email) throws SQLException {
+        try (Connection con = ConPool.getConnection()) {
+            try (PreparedStatement ps =
+                         con.prepareStatement("SELECT * FROM customer AS acc WHERE email = ?")) {
+                ps.setString(1, email);
+
+                System.out.println("email fetch: " + email);
+                ResultSet rs = ps.executeQuery();
+                AccountExtractor accountExtractor = new AccountExtractor();
+                Account account = null;
+                if(rs.next()) {
+                    account = accountExtractor.extract(rs);
+                    System.out.println("firstname fetch: " + account.getFirstname());
+                }
+                rs.close();
+                return Optional.ofNullable(account);
+            }
+        }
+    }
+
     @Override
     public boolean delete(int id) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
@@ -90,12 +110,14 @@ public class AccountDAO implements SqlMethods<Account> {
     public boolean update(Account account) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try(PreparedStatement ps =
-                        con.prepareStatement("UPDATE customer SET firstname = ?, lastname = ?, administrator = ? WHERE id = ?")) {
+                        con.prepareStatement("UPDATE customer SET firstname = ?, lastname = ?, administrator = ?, email = ?, pswrd = ? WHERE id = ?")) {
 
                 ps.setString(1, account.getFirstname());
                 ps.setString(2, account.getLastname());
                 ps.setBoolean(3, account.isAdministrator());
                 ps.setString(4, account.getEmail());
+                ps.setString(5, account.getPswrd());
+                ps.setInt(6, account.getId());
 
                 int rows = ps.executeUpdate();
                 return rows == 1;

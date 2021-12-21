@@ -36,6 +36,11 @@ public interface ErrorHandler {
                 HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
 
+    default void notFound(String msg) throws InvalidRequestException {
+        throw new InvalidRequestException("Errore interno", List.of(msg),
+                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    }
+
     default void notAllowed() throws InvalidRequestException {
         throw new InvalidRequestException("Operazione non consentita", List.of("Operazione non permessa"),
                 HttpServletResponse.SC_METHOD_NOT_ALLOWED);

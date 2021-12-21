@@ -63,11 +63,11 @@ public abstract class Controller extends HttpServlet implements ErrorHandler{
         return Integer.parseInt(request.getParameter("page"));
     }
 
-    protected boolean isAjax(HttpServletRequest request) {
+    public static boolean isAjax(HttpServletRequest request) {
         return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
     }
 
-    protected void sendJson(HttpServletResponse response, JSONObject object) throws IOException {
+    public static void sendJson(HttpServletResponse response, JSONObject object) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();

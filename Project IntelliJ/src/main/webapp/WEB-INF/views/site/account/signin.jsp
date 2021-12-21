@@ -1,5 +1,6 @@
 <!-- login -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="it">
 <head>
     <jsp:include page="../../partial/head.jsp">
@@ -13,14 +14,17 @@
             <div>
                 <p class="text-light fs-1 fw-light">Login</p>
                 <hr>
-                <form method="post" action="#">
+                <c:if test="${not empty alert}">
+                    <%@ include file="../../partial/site/alert.jsp"%>
+                </c:if>
+                <form method="post" action="${pageContext.request.contextPath}/account/signin" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label for="signinEmail" class="form-label text-light fs-1-5 fw-light">Email</label>
-                        <input type="email" class="form-control rounded-pill fs-1-5 fw-light" id="signinEmail" placeholder="Digita una email...">
+                        <input name="email" type="email" class="form-control rounded-pill fs-1-5 fw-light" id="signinEmail" placeholder="Digita una email...">
                     </div>
                     <div class="mb-3">
                         <label for="signinPassword" class="form-label text-light fs-1-5 fw-light">Password</label>
-                        <input type="password" class="form-control rounded-pill fs-1-5 fw-light" id="signinPassword" aria-describedby="passwordHelpSignin" placeholder="Digita una password...">
+                        <input name="password" type="password" class="form-control rounded-pill fs-1-5 fw-light" id="signinPassword" aria-describedby="passwordHelpSignin" placeholder="Digita una password...">
                         <div id="passwordHelpSignin" class="form-text text-light">
                             La password deve essere compresa tra 8-32 caratteri, deve contenere una maiuscola e un numero.
                         </div>

@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import static Controller.api.Controller.isAjax;
+
 public class RequestValidator {
 
     private final List<String> errors;
@@ -37,11 +39,21 @@ public class RequestValidator {
         return false;
     }
 
-    private boolean required(String value) { return value != null && !value.isBlank(); }
+    public static boolean isNull(String value) {
+        return value == null || value.isBlank();
+    }
 
     public boolean assertMatch(String value, Pattern regexp, String msg) {
         String param = request.getParameter(value);
-        boolean condition = required(param) && regexp.matcher(param).matches();
+        boolean condition;
+        if(isAjax(request)){
+            if(!isNull(param)) //non vuoto
+                condition = regexp.matcher(param).matches();
+            else //vuoto
+                condition = true; //non controllo la regex
+        } else
+            condition = !isNull(param) && regexp.matcher(param).matches();
+
         return gatherError(condition, msg);
     }
 
@@ -63,49 +75,15 @@ public class RequestValidator {
         return assertMatch(value, pattern, msg);
     }
 
-    /*public boolean assertExistingEmail(String value, String msg) throws SQLException {
+    public boolean assertExistingEmail(String value, String msg) throws SQLException {
         Optional<Account> account = new AccountDAO().fetch(request.getParameter(value));
 
         return gatherError(account.isEmpty(), msg);
-    }*/
-
-    public boolean assertPassword(String value, String msg) {
-        String password = request.getParameter(value);
-
-        int size = password.length();
-        boolean hasNumber = false;
-        boolean hasUpperCase = false;
-
-        char[] chars = password.toCharArray();
-        for(char c : chars) {
-            if (Character.isDigit(c))
-                hasNumber = true;
-            if (Character.isUpperCase(c))
-                hasUpperCase = true;
-
-            if(hasNumber && hasUpperCase)
-                break;
-        }
-
-        boolean condition = (size >= 8 && hasNumber && hasUpperCase);
-        return gatherError(condition, msg);
     }
 
-    public boolean assertPhone(String value, String msg) {
-        String phone = request.getParameter(value);
-
-        int size = phone.length();
-        boolean allNumbers = true;
-
-        char[] chars = phone.toCharArray();
-        for(char c : chars)
-            if(Character.isLetter(c)) {
-                allNumbers = false;
-                break;
-            }
-
-        boolean condition = (size >= 9 && size <= 11 && allNumbers);
-        return gatherError(condition, msg);
+    public boolean assertPassword(String value, String msg) {
+        Pattern pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z;:=_+^#$@!%*?&àèìòù\\d]{8,32}$");
+        return assertMatch(value, pattern, msg);
     }
 
     public boolean assertInts(String values, String msg) {

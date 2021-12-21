@@ -156,4 +156,19 @@ public class ReviewDAO implements SqlMethods<Review> {
             }
         }
     }
+
+    public int countByAccountId(int accountId) throws SQLException {
+        try(Connection con = ConPool.getConnection()) {
+            try(PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) AS ct FROM review WHERE id_client = ?")) {
+                ps.setInt(1, accountId);
+
+                ResultSet rs = ps.executeQuery();
+                int ct = 0;
+                if(rs.next())
+                    ct = rs.getInt("ct");
+                rs.close();
+                return ct;
+            }
+        }
+    }
 }
