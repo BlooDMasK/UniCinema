@@ -46,6 +46,8 @@ public class AccountServlet extends Controller implements ErrorHandler {
                         int reviewCount = new ReviewDAO().countByAccountId(account.get().getId());
                         request.setAttribute("reviewCount", reviewCount);
 
+                        //TODO storico ordini
+
                         request.getRequestDispatcher(view("site/account/profile")).forward(request, response);
                     } else
                         internalError();
@@ -125,8 +127,6 @@ public class AccountServlet extends Controller implements ErrorHandler {
                             AccountSession accountSession = (AccountSession) session.getAttribute("accountSession");
                             Optional<Account> tmpAccountEdit = accountDAO.fetch(accountSession.getEmail());
                             if(tmpAccountEdit.isPresent()) {
-
-                                System.out.println("value: " + tmpAccountEdit.get().getFirstname());
 
                                 if(!isNull(firstname))
                                     tmpAccountEdit.get().setFirstname(firstname);

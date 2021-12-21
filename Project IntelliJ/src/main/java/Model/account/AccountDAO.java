@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static Controller.api.RequestValidator.isNull;
+
 public class AccountDAO implements SqlMethods<Account> {
 
     @Override
@@ -108,16 +110,21 @@ public class AccountDAO implements SqlMethods<Account> {
 
     @Override
     public boolean update(Account account) throws SQLException {
+        boolean updatePswrd = !isNull(account.getPswrd());
+
         try(Connection con = ConPool.getConnection()) {
             try(PreparedStatement ps =
-                        con.prepareStatement("UPDATE customer SET firstname = ?, lastname = ?, administrator = ?, email = ?, pswrd = ? WHERE id = ?")) {
+                        con.prepareStatement("UPDATE customer SET firstname = ?, lastname = ?, administrator = ?, email = ? "+ (updatePswrd ? ", pswrd = ?" : "") +" WHERE id = ?")) {
 
                 ps.setString(1, account.getFirstname());
                 ps.setString(2, account.getLastname());
                 ps.setBoolean(3, account.isAdministrator());
                 ps.setString(4, account.getEmail());
-                ps.setString(5, account.getPswrd());
-                ps.setInt(6, account.getId());
+                if(updatePswrd) {
+                    ps.setString(5, account.getPswrd());
+                    ps.setInt(6, account.getId());
+                } else
+                    ps.setInt(5, account.getId());
 
                 int rows = ps.executeUpdate();
                 return rows == 1;
