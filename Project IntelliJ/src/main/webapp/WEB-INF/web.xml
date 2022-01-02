@@ -17,7 +17,7 @@
 
     <context-param>
         <param-name>basePath</param-name>
-        <param-value>/WEB-INF/views/</param-value>
+        <param-value>/views/</param-value>
     </context-param>
 
     <context-param>
@@ -27,21 +27,21 @@
 
     <error-page>
         <error-code>400</error-code>
-        <location>/WEB-INF/views/errors/unauthorized.jsp</location>
+        <location>/views/errors/unauthorized.jsp</location>
     </error-page>
 
     <error-page>
         <error-code>404</error-code>
-        <location>/WEB-INF/views/errors/not-found.jsp</location>
+        <location>/views/errors/not-found.jsp</location>
     </error-page>
 
     <error-page>
         <error-code>401</error-code>
-        <location>/WEB-INF/views/errors/unauthorized.jsp</location>
+        <location>/views/errors/unauthorized.jsp</location>
     </error-page>
 
     <error-page>
         <error-code>500</error-code>
-        <location>/WEB-INF/views/errors/internal-error.jsp</location>
+        <location>/views/errors/internal-error.jsp</location>
     </error-page>
 </web-app>
