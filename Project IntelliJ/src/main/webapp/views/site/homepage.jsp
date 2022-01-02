@@ -21,7 +21,7 @@
                 <c:set var="count" value="false"/> <!-- creo una variabile d'appoggio per settare il primo elemento del carosello ad active, altrimenti non funziona -->
                 <c:forEach items="${filmCarousel}" var="film"> <!-- prendo dal context della request l'attributo filmCarousel e scorro la lista con le variabili 'film' -->
                     <div class="carousel-item ${not count ? 'active' : ''}"> <!-- verifico, se è false, setto l'active -->
-                        <a href="#"><img class="d-block w-100 overlay-image" src="images/${film.cover}" alt="Slide"></a>
+                        <a href="${pageContext.request.contextPath}/film/details?filmId=${film.id}"><img class="d-block w-100 overlay-image" src="images/${film.cover}" alt="Slide"></a>
                         <div class="carousel-caption d-none d-md-block">
                             <h5>${film.title}</h5>
                             <p>${film.plot}</p>

@@ -4,7 +4,7 @@
 <div class="row row-cols-1 row-cols-md-3 p-5">
     <c:forEach items="${filmComingSoon}" var="film">
         <div class="col mb-4">
-            <a href="#" class="card shadow">
+            <a href="${pageContext.request.contextPath}/film/details?filmId=${film.id}" class="card shadow">
                 <div class="overflow-hidden">
                     <img class="card-img-top" src="images/${film.cover}" alt="Card image cap">
                     <div class="card-icon">
