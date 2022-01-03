@@ -39,3 +39,21 @@ $(function() {
         }
     })
 });
+
+function collapseDynamicContent(collapseTrigger){
+    /**
+     * Manually add collapse on click event.
+     *
+     * Because dynamically added Bootstrap collapse elements don't
+     * work automatically for me most of the time.
+     *
+     * 'data-target' is a selector for the collapsing element as per
+     * the Bootstrap documentation.
+     * https://getbootstrap.com/docs/4.3/components/collapse/#via-data-attributes
+     *
+     * @param {jQuery} collapseTrigger Trigger element for the collapse.
+     *
+     */
+    let target = collapseTrigger.attr("data-target")
+    $(target).collapse('toggle')
+}

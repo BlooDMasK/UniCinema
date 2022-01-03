@@ -78,4 +78,6 @@ public interface ReviewService {
      * @throws SQLException
      */
     boolean delete(int accountId) throws SQLException;
+
+    int countByAccountId(int id) throws SQLException;
 }

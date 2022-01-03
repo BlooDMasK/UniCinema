@@ -31,7 +31,7 @@ public class ReviewDAO implements SqlMethods<Review> {
     @Override
     public List<Review> fetchAll(Paginator paginator) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN film on rev.id_film = film.id JOIN customer acc on rev.id_client = acc.id ORDER BY rev.id DESC LIMIT ?,?")) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN film on rev.id_film = film.id JOIN customer acc on rev.id_customer = acc.id ORDER BY rev.id DESC LIMIT ?,?")) {
                 ps.setInt(1, paginator.getOffset());
                 ps.setInt(2, paginator.getLimit());
 
@@ -85,7 +85,7 @@ public class ReviewDAO implements SqlMethods<Review> {
      */
     public ArrayList<Review> fetchAll(int filmId) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN customer acc ON rev.id_client = acc.id WHERE id_film = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN customer acc ON rev.id_customer = acc.id WHERE id_film = ?")) {
                 ps.setInt(1, filmId);
 
                 ArrayList<Review> reviewList = new ArrayList<>();
@@ -115,7 +115,7 @@ public class ReviewDAO implements SqlMethods<Review> {
      */
     public ArrayList<Review> fetchAll(Film film, Paginator paginator) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN customer acc ON rev.id_client = acc.id WHERE id_film = ? ORDER BY cast(concat(rev.rev_date, ' ', rev.rev_time) as datetime) DESC LIMIT ?,?")) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN customer acc ON rev.id_customer = acc.id WHERE id_film = ? ORDER BY cast(concat(rev.rev_date, ' ', rev.rev_time) as datetime) DESC LIMIT ?,?")) {
                 ps.setInt(1, film.getId());
                 ps.setInt(2, paginator.getOffset());
                 ps.setInt(3, paginator.getLimit());
@@ -147,7 +147,7 @@ public class ReviewDAO implements SqlMethods<Review> {
     @Override
     public Optional<Review> fetch(int accountId) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN film on rev.id_film = film.id JOIN customer acc on rev.id_client = acc.id WHERE id_client = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN film on rev.id_film = film.id JOIN customer acc on rev.id_customer = acc.id WHERE id_customer = ?")) {
                 ps.setInt(1, accountId);
 
                 ResultSet rs = ps.executeQuery();
@@ -174,7 +174,7 @@ public class ReviewDAO implements SqlMethods<Review> {
      */
     public Optional<Review> fetch(int accountId, int filmId) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN film on rev.id_film = film.id JOIN customer acc on rev.id_client = acc.id WHERE id_client = ? AND id_film = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN film on rev.id_film = film.id JOIN customer acc on rev.id_customer = acc.id WHERE id_customer = ? AND id_film = ?")) {
                 ps.setInt(1, accountId);
                 ps.setInt(2, filmId);
 
@@ -203,7 +203,7 @@ public class ReviewDAO implements SqlMethods<Review> {
     @Override
     public boolean insert(Review review) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("INSERT INTO review (id_client, id_film, title, caption, stars, rev_date, rev_time) VALUES (?,?,?,?,?,?,?)")) {
+            try (PreparedStatement ps = con.prepareStatement("INSERT INTO review (id_customer, id_film, title, caption, stars, rev_date, rev_time) VALUES (?,?,?,?,?,?,?)")) {
                 ps.setInt(1, review.getAccount().getId());
                 ps.setInt(2, review.getFilm().getId());
                 ps.setString(3, review.getTitle());
@@ -227,7 +227,7 @@ public class ReviewDAO implements SqlMethods<Review> {
     @Override
     public boolean update(Review review) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("UPDATE review SET caption = ?, stars = ? WHERE id_client = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("UPDATE review SET caption = ?, stars = ? WHERE id_customer = ?")) {
                 ps.setString(1, review.getDescription());
                 ps.setInt(2, review.getStars());
                 ps.setInt(3, review.getAccount().getId());
@@ -247,7 +247,7 @@ public class ReviewDAO implements SqlMethods<Review> {
     @Override
     public boolean delete(int accountId) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("DELETE FROM review WHERE id_client = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("DELETE FROM review WHERE id_customer = ?")) {
                 ps.setInt(1, accountId);
 
                 int rows = ps.executeUpdate();
@@ -304,7 +304,7 @@ public class ReviewDAO implements SqlMethods<Review> {
      */
     public int countByAccountId(int accountId) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try(PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) AS ct FROM review WHERE id_client = ?")) {
+            try(PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) AS ct FROM review WHERE id_customer = ?")) {
                 ps.setInt(1, accountId);
 
                 ResultSet rs = ps.executeQuery();

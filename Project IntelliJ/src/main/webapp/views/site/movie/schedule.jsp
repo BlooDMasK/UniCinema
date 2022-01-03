@@ -58,8 +58,7 @@
                                             <div class="carousel-item ${not count ? 'active' : ''}">
                                                 <p class="card-title mt-2 mb-2"><%= ((LocalDate) pageContext.findAttribute("dateKey")).getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ITALIAN).substring(0, 3).toUpperCase() + " " + ((LocalDate) pageContext.findAttribute("dateKey")).getDayOfMonth() + " " + ((LocalDate) pageContext.findAttribute("dateKey")).getMonth().getDisplayName(TextStyle.FULL, Locale.ITALIAN).toUpperCase() %></p>
                                                 <c:forEach items="${date.value}" var="time">
-                                                    <!-- TODO: pagina prenotazione posto -->
-                                                    <a class="btn btn-outline-light rounded-3" href="${pageContext.request.contextPath}/film/seat-choice?showId=<%=film.getShowList().get(showCount++).getId()%>">
+                                                    <a class="btn btn-outline-light rounded-3" href="${pageContext.request.contextPath}/purchase/seat-choice?showId=<%=film.getShowList().get(showCount++).getId()%>">
                                                         <%= ((LocalTime) pageContext.findAttribute("time")).getHour() + ":" + ((((LocalTime) pageContext.findAttribute("time")).getMinute() < 10) ? (((LocalTime) pageContext.findAttribute("time")).getMinute() + "0") : ((LocalTime) pageContext.findAttribute("time")).getMinute()) %>
                                                     </a>
                                                 </c:forEach>

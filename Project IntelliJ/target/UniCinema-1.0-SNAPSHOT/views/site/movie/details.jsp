@@ -76,7 +76,7 @@
                                 <div class="d-flex mb-2">
                                     <c:forEach items="${date.value}" var="time">
                                         <% LocalTime localTime = (LocalTime) pageContext.findAttribute("time"); %>
-                                        <a class="btn btn-outline-light rounded-3 me-2" href="${pageContext.request.contextPath}/film/seat-choice?showId=<%=film.getShowList().get(showCount++).getId()%>" style="width: 10%">
+                                        <a class="btn btn-outline-light rounded-3 me-2" href="${pageContext.request.contextPath}/purchase/seat-choice?showId=<%=film.getShowList().get(showCount++).getId()%>" style="width: 10%">
                                             <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) %>
                                         </a>
                                     </c:forEach>

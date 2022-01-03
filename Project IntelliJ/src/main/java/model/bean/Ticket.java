@@ -1,12 +1,16 @@
 package model.bean;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.json.JSONObject;
+import utils.JsonSerializable;
 
 /**
  * Questa classe rappresenta il biglietto per lo spettacolo.
  */
 @Data
-public class Ticket {
+@NoArgsConstructor
+public class Ticket implements JsonSerializable {
     /**
      * Rappresenta il prezzo del biglietto
      */
@@ -25,7 +29,7 @@ public class Ticket {
     /**
      * Rappresenta l'identificativo alfabetico della fila in cui si trova il posto.
      */
-    private String rowLetter;
+    private char rowLetter;
 
     /**
      * Rappresenta l'acquisto effettuato.
@@ -36,4 +40,29 @@ public class Ticket {
      * Rappresenta lo spettacolo da vedere.
      */
     private Show show;
+
+    public Ticket(double price, int seat, char rowLetter, Show show, Purchase purchase) {
+        this.price = price;
+        this.seat = seat;
+        this.rowLetter = rowLetter;
+        this.show = show;
+        this.purchase = purchase;
+    }
+
+    public String generateUniqueCode() {
+        return "TK"+id+"-RW"+rowLetter+"-ST"+seat+"-SH"+show.getId();
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject root = new JSONObject();
+        root.put("price", price+"€");
+        System.out.println(price+"€");
+        root.put("id", id);
+        root.put("seat", seat);
+        root.put("rowLetter", Character.toString(rowLetter));
+        root.put("show", show.toJson());
+        root.put("uniqueCode", generateUniqueCode());
+        return root;
+    }
 }

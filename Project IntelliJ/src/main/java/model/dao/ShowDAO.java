@@ -3,6 +3,7 @@ package model.dao;
 import utils.ConPool;
 import utils.Paginator;
 import utils.SqlMethods;
+import utils.extractor.FilmExtractor;
 import utils.extractor.ShowExtractor;
 import model.bean.Film;
 import model.bean.Show;
@@ -106,14 +107,19 @@ public class ShowDAO implements SqlMethods<Show> {
     @Override
     public Optional<Show> fetch(int id) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM spectacle AS sp WHERE id = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM spectacle AS sp JOIN film on sp.id_film = film.id WHERE sp.id = ?")) {
                 ps.setInt(1, id);
 
                 Show show = null;
+                Film film = null;
                 ResultSet rs = ps.executeQuery();
                 if(rs.next()) {
                     ShowExtractor showExtractor = new ShowExtractor();
                     show = showExtractor.extract(rs);
+
+                    FilmExtractor filmExtractor = new FilmExtractor();
+                    film = filmExtractor.extract(rs);
+                    show.setFilm(film);
                 }
                 rs.close();
                 return Optional.ofNullable(show);

@@ -1,6 +1,8 @@
 package model.bean;
 
 import lombok.Data;
+import org.json.JSONObject;
+import utils.JsonSerializable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,7 +16,7 @@ import java.util.Map;
  * Questa classe rappresenta uno spettacolo.
  */
 @Data
-public class Show implements Comparable<Show>{
+public class Show implements Comparable<Show>, JsonSerializable {
     /**
      * Rappresenta il numero identificativo di uno spettacolo.
      */
@@ -71,5 +73,15 @@ public class Show implements Comparable<Show>{
     @Override
     public int compareTo(Show show) {
         return LocalDateTime.of(this.getDate(), this.getTime()).compareTo(LocalDateTime.of(show.getDate(), show.getTime()));
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject root = new JSONObject();
+        root.put("id", id);
+        root.put("date", date.toString());
+        root.put("time", time.getHour() + ":" + ((time.getMinute() < 10) ? (time.getMinute() + "0") : time.getMinute()));
+        root.put("filmTitle", film.getTitle());
+        return root;
     }
 }

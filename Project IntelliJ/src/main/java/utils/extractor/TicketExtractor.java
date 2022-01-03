@@ -23,7 +23,7 @@ public class TicketExtractor implements ResultSetExtractor<Ticket> {
         ticket.setId(resultSet.getInt("ticket.id"));
         ticket.setPrice(resultSet.getDouble("ticket.price"));
         ticket.setSeat(resultSet.getInt("ticket.seat"));
-        ticket.setRowLetter(resultSet.getString("ticket.rowletter"));
+        ticket.setRowLetter(resultSet.getString("ticket.rowletter").toCharArray()[0]);
 
         return ticket;
     }

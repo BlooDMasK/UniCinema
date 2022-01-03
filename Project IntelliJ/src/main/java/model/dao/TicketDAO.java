@@ -7,10 +7,7 @@ import utils.extractor.TicketExtractor;
 import model.bean.Purchase;
 import model.bean.Ticket;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,16 +45,16 @@ public class TicketDAO implements SqlMethods<Ticket> {
 
     /**
      * Implementa la funzionalità di prendere una lista di biglietti
-     * @param purchase dei biglietti
+     * @param showId rappresenta l'identificativo numerico dello spettacolo
      * @return la lista dei biglietti
      * @throws SQLException
      */
-    public List<Ticket> fetchAll(Purchase purchase) throws SQLException {
+    public ArrayList<Ticket> fetchAll(int showId) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM ticket WHERE id_purchase = ?")) {
-                ps.setInt(1, purchase.getId());
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM ticket WHERE id_spectacle = ?")) {
+                ps.setInt(1, showId);
 
-                List<Ticket> ticketList = new ArrayList<>();
+                ArrayList<Ticket> ticketList = new ArrayList<>();
 
                 ResultSet rs = ps.executeQuery();
                 TicketExtractor ticketExtractor = new TicketExtractor();
@@ -96,6 +93,22 @@ public class TicketDAO implements SqlMethods<Ticket> {
         }
     }
 
+    public boolean fetch(int showId, char row, int seat) throws SQLException {
+        try(Connection con = ConPool.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM ticket WHERE id_spectacle = ? AND rowletter = ? AND seat = ?")) {
+                ps.setInt(1, showId);
+                ps.setString(2, String.valueOf(row));
+                ps.setInt(3, seat);
+
+                ResultSet rs = ps.executeQuery();
+                boolean result = rs.next();
+
+                rs.close();
+                return result;
+            }
+        }
+    }
+
     /**
      * Implementa la funzionalità che permette di registrare un biglietto
      * @param ticket da registrare
@@ -104,17 +117,40 @@ public class TicketDAO implements SqlMethods<Ticket> {
      */
     @Override
     public boolean insert(Ticket ticket) throws SQLException {
-        try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("INSERT INTO ticket (price, seat, rowletter) VALUES (?,?,?)")) {
-                ps.setDouble(1, ticket.getPrice());
-                ps.setInt(2, ticket.getSeat());
-                ps.setString(3, ticket.getRowLetter());
+        return false;
+    }
 
+    /**
+     * Implementa la funzionalità che permette di registrare uno o più biglietti
+     * @param ticketList da registrare
+     * @return true se la registrazione va a buon fine, false altrimenti
+     * @throws SQLException
+     */
+    public boolean insert(ArrayList<Ticket> ticketList) throws SQLException {
+        try(Connection con = ConPool.getConnection()) {
+            String query = "INSERT INTO ticket(price, seat, rowletter, id_spectacle, id_purchase) VALUES ";
+            for(Ticket ticket : ticketList)
+                query += "("+ticket.getPrice()+","+ticket.getSeat()+",'"+ticket.getRowLetter()+"',"+ticket.getShow().getId()+","+ticket.getPurchase().getId()+"),";
+
+            query = query.substring(0, query.length()-1);
+
+            System.out.println(query);
+
+            try (PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
                 int rows = ps.executeUpdate();
-                return rows == 1;
+                if(rows >= 1 && rows <= 4) {
+                    ResultSet rs = ps.getGeneratedKeys();
+                    for(int i = 0; i < rows && rs.next(); i++)
+                        ticketList.get(i).setId(rs.getInt(1));
+
+                    return true;
+                } else
+                    return false;
             }
         }
     }
+
+
 
     /**
      * Implementa la funzionalità che permette di aggiornare i dati di un biglietto
@@ -124,17 +160,7 @@ public class TicketDAO implements SqlMethods<Ticket> {
      */
     @Override
     public boolean update(Ticket ticket) throws SQLException {
-        try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("UPDATE ticket SET price = ?, seat = ?, rowletter = ? WHERE id = ?")) {
-                ps.setDouble(1, ticket.getPrice());
-                ps.setInt(2, ticket.getSeat());
-                ps.setString(3, ticket.getRowLetter());
-                ps.setInt(4, ticket.getId());
-
-                int rows = ps.executeUpdate();
-                return rows == 1;
-            }
-        }
+        return false;
     }
 
     /**

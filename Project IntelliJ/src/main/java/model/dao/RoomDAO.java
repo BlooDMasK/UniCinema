@@ -71,61 +71,37 @@ public class RoomDAO implements SqlMethods<Room> {
         }
     }
 
-    /**
-     * Implementa la funzionalità di registrare una sala nel database.
-     * @param room da registrare
-     * @return true se la registrazione va a buon fine, false altrimenti
-     * @throws SQLException
-     */
+    public Optional<Room> fetchFromShowId(int showId) throws SQLException {
+        try(Connection con = ConPool.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM room JOIN show_room sr on room.id = sr.id_room WHERE sr.id_show = ?")) {
+                ps.setInt(1, showId);
+
+                ResultSet rs = ps.executeQuery();
+                Room room = null;
+
+                if(rs.next()) {
+                    RoomExtractor roomExtractor = new RoomExtractor();
+                    room = roomExtractor.extract(rs);
+                }
+                rs.close();
+                return Optional.ofNullable(room);
+            }
+        }
+    }
+
     @Override
     public boolean insert(Room room) throws SQLException {
-        try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("INSERT INTO room (n_rows, n_seats) VALUES (?,?)")) {
-                ps.setInt(1, room.getN_rows());
-                ps.setInt(2, room.getN_seats());
-
-                int rows = ps.executeUpdate();
-                return rows == 1;
-            }
-        }
+        return false;
     }
 
-    /**
-     * Implementa la funzionalità di aggiornare una sala.
-     * @param room da aggiornare
-     * @return true se l'aggiornamento va a buon fine, false altrimenti
-     * @throws SQLException
-     */
     @Override
     public boolean update(Room room) throws SQLException {
-        try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("UPDATE room SET n_rows = ?, n_seats = ? WHERE id = ?")) {
-                ps.setInt(1, room.getN_rows());
-                ps.setInt(2, room.getN_seats());
-                ps.setInt(3, room.getId());
-
-                int rows = ps.executeUpdate();
-                return rows == 1;
-            }
-        }
+        return false;
     }
 
-    /**
-     * Implementa la funzionalità di rimuovere una sala nel database.
-     * @param id rappresenta l'identificativo numerico della sala
-     * @return true se la rimozione va a buon fine, false altrimenti
-     * @throws SQLException
-     */
     @Override
     public boolean delete(int id) throws SQLException {
-        try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("DELETE FROM room WHERE id = ?")) {
-                ps.setInt(1, id);
-
-                int rows = ps.executeUpdate();
-                return rows == 1;
-            }
-        }
+        return false;
     }
 
     /**

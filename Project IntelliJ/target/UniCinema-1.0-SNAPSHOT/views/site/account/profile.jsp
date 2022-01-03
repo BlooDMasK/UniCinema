@@ -5,12 +5,15 @@
 <head>
     <jsp:include page="../../partial/head.jsp">
         <jsp:param name="styles" value="bootstrap,profile"/>
-        <jsp:param name="scripts" value="profile,alert"/>
+        <jsp:param name="scripts" value="paginator,profile,alert"/>
     </jsp:include>
 </head>
 <body class="bg-img">
 <jsp:include page="../../partial/site/header.jsp"/> <!-- importo la navbar -->
 <div class="d-flex flex-column justify-content-center" style="min-height: 100vh;">
+    <script>
+        let accountId = ${account.id};
+    </script>
     <div class="container profile-bg-div bg-dark">
         <p class="text-light fs-1 fw-light profile-bg-div-title">Profilo</p>
         <div class="emp-profile">
@@ -110,7 +113,10 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="list-purchases" role="tabpanel" aria-labelledby="list-purchases-list">
-                                <p>Prova</p>
+                                <div id="accordion" class="mb-2">
+
+                                </div>
+                                <jsp:include page="../../partial/site/paginator/paginator.jsp"/>
                             </div>
                         </div>
                     </div>

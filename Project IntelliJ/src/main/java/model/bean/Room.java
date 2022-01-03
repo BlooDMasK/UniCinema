@@ -13,7 +13,7 @@ public class Room {
     private int n_rows;
 
     /**
-     * Rappresenta il numero di posti presenti in sala. TODO: per fila o per sala?
+     * Rappresenta il numero di posti per fila presenti in sala.
      */
     private int n_seats;
 
@@ -26,4 +26,10 @@ public class Room {
      * Rappresenta la relazione tra la Sala e lo Spettacolo.
      */
     private ShowRoomRelation showRoomRelation;
+
+    /**
+     * Il totale dei posti sarà calcolato facendo n_rows * n_seats.
+     * La fila A sta in basso, la fila finale sta in alto.
+     * Lo schermo in una sala sta in basso (quindi la fila A è quella più vicina).
+     */
 }

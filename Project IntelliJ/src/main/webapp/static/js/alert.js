@@ -1,6 +1,4 @@
 function triggerAlert(response) {
-    console.log(response["alert"].type);
-
     let alert = response["alert"];
 
     $(".alert").removeClass("alert-danger alert-success alert-");

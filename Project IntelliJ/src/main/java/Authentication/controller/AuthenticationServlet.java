@@ -2,13 +2,11 @@ package Authentication.controller;
 
 import Authentication.service.AuthenticationService;
 import Authentication.service.AuthenticationServiceMethods;
+import ReviewManager.service.ReviewService;
+import ReviewManager.service.ReviewServiceMethods;
 import model.bean.Account;
-import model.dao.ReviewDAO;
 import org.json.JSONObject;
-import utils.Alert;
-import utils.Controller;
-import utils.ErrorHandler;
-import utils.InvalidRequestException;
+import utils.*;
 import utils.validator.AccountValidator;
 
 import javax.servlet.*;
@@ -26,6 +24,7 @@ import static utils.validator.RequestValidator.isNull;
 public class AuthenticationServlet extends Controller implements ErrorHandler {
 
     AuthenticationService authenticationService = new AuthenticationServiceMethods();
+    ReviewService reviewService = new ReviewServiceMethods();
 
     /**
      * Implementa le funzionalità svolte durante una chiamata di tipo GET
@@ -65,10 +64,8 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
                     if(account.isPresent()) {
                         request.setAttribute("account", account.get());
 
-                        int reviewCount = new ReviewDAO().countByAccountId(account.get().getId());
+                        int reviewCount = reviewService.countByAccountId(account.get().getId());
                         request.setAttribute("reviewCount", reviewCount);
-
-                        //TODO storico ordini
 
                         request.getRequestDispatcher(view("site/account/profile")).forward(request, response);
                     } else

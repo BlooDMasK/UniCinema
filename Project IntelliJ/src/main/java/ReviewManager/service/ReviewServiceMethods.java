@@ -122,4 +122,9 @@ public class ReviewServiceMethods implements ReviewService{
     public boolean delete(int accountId) throws SQLException {
         return reviewDAO.delete(accountId);
     }
+
+    @Override
+    public int countByAccountId(int id) throws SQLException {
+        return reviewDAO.countByAccountId(id);
+    }
 }
