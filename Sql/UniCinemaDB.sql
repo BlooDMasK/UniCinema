@@ -172,9 +172,8 @@ INSERT INTO director VALUES
 
 INSERT INTO customer VALUES
 ("01","gleone2000@gmail.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Gerardo","Leone",false,true),
-("02","mlezzi@gvkd.com",null,"Mario","Lezzi",false,false),
-("03","suosso@gvkd.com",null,"Antonio","Santosuosso",false,false);
-
+("02","mlezzi@gvkd.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Mario","Lezzi",false,false),
+("03","suosso@gvkd.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Antonio","Santosuosso",false,false);
 
 INSERT INTO spectacle VALUES
 ("01","16:00:00","2022-10-17","01"),
@@ -190,29 +189,27 @@ INSERT INTO spectacle VALUES
 ("12","23:30:00","2022-11-11","01"),
 ("13","20:30:00","2022-11-11","01");
 
-INSERT INTO purchase VALUES 
-("01","2021-10-17","01"),
-("02","2021-10-01","02"),
-("03","2021-10-10","03");
-
-INSERT INTO ticket VALUES 
-("01","5.00","20","F","01","01"),
-("02","5.00","15","G","04","02"),
-("03","7.00","24","D","08","03"),
-("04","6.00","16","G","04","02");
-
 INSERT INTO room VALUES
-("01","10","200"),
-("2","13","260"),
-("3","9","180");
+("01","10","12"),
+("2","13","13"),
+("3","9","15"),
+("4","10", "15"),
+("5","11","10");
 
+/* room show */
 INSERT INTO show_room VALUES
 ("01","01"),
-("02","08"),
-("03","05"),
+("02","02"),
+("03","03"),
+("04", "4"),
+("05", "5"),
+("01", "6"),
+("03", "8"),
+("04", "9"),
+("05", "10"),
 ("01", "11"),
-("01", "12"),
-("01", "13");
+("02", "12"),
+("03", "13");
 
 INSERT INTO review VALUES 
 ("01","02","Film Eccellente","Un film davvero con i fiocchi, ben prodotto e registrato","5","2021-12-27","01:36:00");
