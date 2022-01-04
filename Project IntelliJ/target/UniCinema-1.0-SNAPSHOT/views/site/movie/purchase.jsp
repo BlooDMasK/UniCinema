@@ -14,7 +14,7 @@
     </jsp:include>
 </head>
 <body class="bg-img">
-    <script>let showId = ${show.id}</script>
+    <script>let showId =${show.id}</script>
     <jsp:include page="../../partial/site/header.jsp"/> <!-- importo la navbar -->
     <div class="d-flex flex-column align-items-center mt-5 mb-5">
         <div class="d-flex flex-column bg-dark text-center text-light justify-content-center pb-3" style="border-radius: 1rem;width: 90%">

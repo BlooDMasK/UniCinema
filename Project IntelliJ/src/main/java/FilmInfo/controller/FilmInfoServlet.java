@@ -98,7 +98,6 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
         } catch (SQLException ex) {
             log(ex.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-            System.out.println(ex.getMessage());
         } catch (InvalidRequestException e) {
             log(e.getMessage());
             e.handle(request, response);

@@ -60,16 +60,16 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
                  * Implementa la funzionalità di visualizzazione del profilo.
                  */
                 case "/profile":
-                    Optional<Account> account = authenticationService.fetch((getSessionAccount(session)).getEmail());
-                    if(account.isPresent()) {
-                        request.setAttribute("account", account.get());
+                    authenticate(session);
 
-                        int reviewCount = reviewService.countByAccountId(account.get().getId());
-                        request.setAttribute("reviewCount", reviewCount);
+                    Account account = getSessionAccount(session);
 
-                        request.getRequestDispatcher(view("site/account/profile")).forward(request, response);
-                    } else
-                        internalError();
+                    request.setAttribute("account", account);
+
+                    int reviewCount = reviewService.countByAccountId(account.getId());
+                    request.setAttribute("reviewCount", reviewCount);
+
+                    request.getRequestDispatcher(view("site/account/profile")).forward(request, response);
                     break;
 
                 /**

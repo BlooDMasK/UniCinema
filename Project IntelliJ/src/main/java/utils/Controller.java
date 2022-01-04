@@ -64,8 +64,6 @@ public abstract class Controller extends HttpServlet implements ErrorHandler{
      */
     protected void validate(RequestValidator validator) throws InvalidRequestException {
         if(validator.hasErrors()) {
-            for(String msg : validator.getErrors())
-                System.out.println(msg);
 
             throw new InvalidRequestException("Validation Error", validator.getErrors(),
                     HttpServletResponse.SC_BAD_REQUEST);

@@ -57,7 +57,6 @@ public class Ticket implements JsonSerializable {
     public JSONObject toJson() {
         JSONObject root = new JSONObject();
         root.put("price", price+"€");
-        System.out.println(price+"€");
         root.put("id", id);
         root.put("seat", seat);
         root.put("rowLetter", Character.toString(rowLetter));

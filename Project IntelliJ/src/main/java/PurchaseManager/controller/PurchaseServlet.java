@@ -30,8 +30,10 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String path = getPath(request);
+            HttpSession session = request.getSession();
             switch (path) {
                 case "/seat-choice":
+                    authenticate(session);
                     int showId = Integer.parseInt(request.getParameter("showId"));
                     Optional<Show> show = showService.fetch(showId);
                     Optional<Room> room = showService.fetchRoom(showId);
@@ -55,7 +57,9 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
         } catch (SQLException ex) {
             log(ex.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-            System.out.println(ex.getMessage());
+        } catch (InvalidRequestException e) {
+            log(e.getMessage());
+            e.handle(request, response);
         }
     }
 
@@ -83,6 +87,7 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
                     break;
 
                 case "/get-ticket":
+                    authenticate(session);
                     Purchase purchase = new Purchase(getSessionAccount(session));
 
                     int purchaseId = purchaseService.insert(purchase);
@@ -91,7 +96,7 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
                         ArrayList<Ticket> ticketList = new ArrayList<>();
 
                         Optional<Show> show = showService.fetch(Integer.parseInt(request.getParameter("showId")));
-                        if(!show.isPresent())
+                        if(show.isEmpty())
                             internalError("Errore nella ricerca dello spettacolo");
 
                         for(int i = 1; i < 5; i++) {
@@ -101,7 +106,7 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
                                 char row = key[0].toCharArray()[0];
                                 int seat = Integer.parseInt(key[1]);
 
-                                Ticket ticket = new Ticket(TICKET_PRICE, seat, row, show.get(), purchase); //TODO prezzi? come gestiamo?
+                                Ticket ticket = new Ticket(TICKET_PRICE, seat, row, show.get(), purchase);
                                 ticketList.add(ticket);
                             }
                         }
@@ -129,7 +134,7 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
                 case "/list":
                     if(isAjax(request)) {
                         int accountId = getSessionAccount(session).getId();
-                        Paginator paginator = new Paginator(Integer.parseInt(request.getParameter("page")), 5);
+                        Paginator paginator = new Paginator(parsePage(request), 5);
                         int size = purchaseService.countAll(accountId);
 
                         ArrayList<Purchase> purchaseList = purchaseService.fetchAll(accountId, paginator);
@@ -150,7 +155,6 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
         } catch (SQLException ex) {
             log(ex.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-            System.out.println(ex.getMessage());
         } catch (InvalidRequestException e) {
             log(e.getMessage());
             e.handle(request, response);

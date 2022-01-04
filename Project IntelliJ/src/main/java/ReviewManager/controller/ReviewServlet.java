@@ -57,7 +57,7 @@ public class ReviewServlet extends Controller implements ErrorHandler {
                     int filmId = Integer.parseInt(request.getParameter("filmId"));
                     Optional<Film> film = filmService.fetch(filmId);
                     if (film.isPresent()) {
-                        Paginator paginator = new Paginator(Integer.parseInt(request.getParameter("page")), 5);
+                        Paginator paginator = new Paginator(parsePage(request), 5);
                         int size = reviewService.countAll(film.get());
 
                         ArrayList<Review> reviewList = reviewService.fetchAll(film.get(), paginator);
@@ -140,7 +140,6 @@ public class ReviewServlet extends Controller implements ErrorHandler {
         } catch (SQLException ex) {
             log(ex.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-            System.out.println(ex.getMessage());
         } catch (InvalidRequestException e) {
             log(e.getMessage());
             if(isAjax(request))

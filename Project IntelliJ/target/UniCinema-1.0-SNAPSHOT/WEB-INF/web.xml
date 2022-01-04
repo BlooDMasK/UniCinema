@@ -27,21 +27,21 @@
 
     <error-page>
         <error-code>400</error-code>
-        <location>/views/errors/unauthorized.jsp</location>
+        <location>/views/site/error/unauthorized.jsp</location>
     </error-page>
 
     <error-page>
         <error-code>404</error-code>
-        <location>/views/errors/not-found.jsp</location>
+        <location>/views/site/error/not-found.jsp</location>
     </error-page>
 
     <error-page>
         <error-code>401</error-code>
-        <location>/views/errors/unauthorized.jsp</location>
+        <location>/views/site/error/unauthorized.jsp</location>
     </error-page>
 
     <error-page>
         <error-code>500</error-code>
-        <location>/views/errors/internal-error.jsp</location>
+        <location>/views/error/internal-error.jsp</location>
     </error-page>
 </web-app>

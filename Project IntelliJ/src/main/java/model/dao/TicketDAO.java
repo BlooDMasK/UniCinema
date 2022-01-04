@@ -134,8 +134,6 @@ public class TicketDAO implements SqlMethods<Ticket> {
 
             query = query.substring(0, query.length()-1);
 
-            System.out.println(query);
-
             try (PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
                 int rows = ps.executeUpdate();
                 if(rows >= 1 && rows <= 4) {

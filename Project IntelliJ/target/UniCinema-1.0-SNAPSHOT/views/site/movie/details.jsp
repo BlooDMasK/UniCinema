@@ -76,9 +76,18 @@
                                 <div class="d-flex mb-2">
                                     <c:forEach items="${date.value}" var="time">
                                         <% LocalTime localTime = (LocalTime) pageContext.findAttribute("time"); %>
-                                        <a class="btn btn-outline-light rounded-3 me-2" href="${pageContext.request.contextPath}/purchase/seat-choice?showId=<%=film.getShowList().get(showCount++).getId()%>" style="width: 10%">
-                                            <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) %>
-                                        </a>
+                                        <c:choose>
+                                            <c:when test="${empty accountSession}">
+                                                <a class="btn btn-outline-light rounded-3 me-2" href="${pageContext.request.contextPath}/account/signin" style="width: 10%">
+                                                    <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) %>
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a class="btn btn-outline-light rounded-3 me-2" href="${pageContext.request.contextPath}/purchase/seat-choice?showId=<%=film.getShowList().get(showCount++).getId()%>" style="width: 10%">
+                                                    <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) %>
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:forEach>
                                 </div>
                             </c:forEach>
