@@ -1,5 +1,5 @@
 let starNumber;
-
+let onLoadPage = false;
 /*
     Eventi
  */
@@ -7,6 +7,7 @@ $(document).ready(function () {
     resetNumberStar();
     generateReviews(1);
     $(".alert").hide();
+    onLoadPage = true;
 })
 
 $('#collapseReviewBox').on('hidden.bs.collapse', function () { //Chiudi
@@ -213,8 +214,11 @@ function generateReviews(page) {
                 generatePaginator(pages, "generateReviews");
             }
 
-            let top = document.getElementById("reviewTitle").offsetTop;
-            window.scrollTo(0, top);
+            if(!onLoadPage) {
+                let top = document.getElementById("reviewTitle").offsetTop;
+                window.scrollTo(0, top);
+            } else
+                onLoadPage = false;
         }
     })
 }
