@@ -43,13 +43,9 @@ $("#purchaseTicket").click(function () {
                 return;
             }
 
-        console.log(Array.from(seatMap.keys()));
-
         let ct = 1;
-        for(let key of seatMap.keys()) {
-            console.log($("#ticket"+ct).val() + " | " + ("#ticket"+ct));
+        for(let key of seatMap.keys())
             $("#ticket" + (ct++)).val(key);
-        }
 
         seatMap.clear();
         $("#purchaseForm").submit();
@@ -91,16 +87,19 @@ function resetColorClass(button) {
 }
 
 function isSeatOccupied(key) {
-    let dataString = "key="+key+"&showId="+showId;
+    let dataString = "key="+key+"&showId="+showId,
+        occupied = false;
 
     $.ajax({
         type: "Post",
         url: contextPath + "/purchase/seat-check",
-        async: true,
+        async: false,
         data: dataString,
         dataType: 'json',
         success: function (response) {
-            return response["occupied"]; //Se il posto è occupato
+            occupied = response["occupied"]; //Se il posto è occupato
         }
     })
+
+    return occupied;
 }

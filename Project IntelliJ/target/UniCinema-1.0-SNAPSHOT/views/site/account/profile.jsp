@@ -14,7 +14,7 @@
     <script>
         let accountId = ${account.id};
     </script>
-    <div class="container profile-bg-div bg-dark">
+    <div class="container profile-bg-div bg-dark mt-5 mb-5">
         <p class="text-light fs-1 fw-light profile-bg-div-title">Profilo</p>
         <div class="emp-profile">
             <form id="profile-edit-form" novalidate>

@@ -43,13 +43,9 @@ $("#purchaseTicket").click(function () {
                 return;
             }
 
-        console.log(Array.from(seatMap.keys()));
-
         let ct = 1;
-        for(let key of seatMap.keys()) {
-            console.log($("#ticket"+ct).val() + " | " + ("#ticket"+ct));
+        for(let key of seatMap.keys())
             $("#ticket" + (ct++)).val(key);
-        }
 
         seatMap.clear();
         $("#purchaseForm").submit();
@@ -96,7 +92,7 @@ function isSeatOccupied(key) {
     $.ajax({
         type: "Post",
         url: contextPath + "/purchase/seat-check",
-        async: true,
+        async: false,
         data: dataString,
         dataType: 'json',
         success: function (response) {
