@@ -26,7 +26,7 @@
     height: 2rem;
 }
 
-#search-icon > svg {
+#search-icon > img {
     width: 2rem;
     height: 2rem;
 }
@@ -103,4 +103,11 @@
 
 .border-none {
     border: none;
+}
+
+#search-dropdown {
+    left: 0!important;
+    max-height: 8rem;
+    max-width: 100%;
+    overflow: auto;
 }

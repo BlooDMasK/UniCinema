@@ -28,6 +28,11 @@ public class FilmServiceMethods implements FilmService {
         return filmDAO.fetch(filmId);
     }
 
+    @Override
+    public ArrayList<Film> search(String title) throws SQLException {
+        return filmDAO.searchFromTitle(title);
+    }
+
     /*@Override
     public Map<Integer, Film> doRetrieveOrderedFilmList(List<Show> showList) throws SQLException {
         Map<Integer, Film> filmMap = new LinkedHashMap<>();

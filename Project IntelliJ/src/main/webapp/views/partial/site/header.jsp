@@ -24,10 +24,15 @@
                     <a class="nav-link" href="#">FAQs</a>
                 </li>
                 <li class="nav-item">
-                    <form class="d-flex my-auto">
-                        <input class="form-control me-2 rounded-pill border-0" type="search" placeholder="Cerca un film..." aria-label="Cerca">
-                        <a id="search-icon" class="align-self-center" href="#"><%@include file="../../../static/icons/search.svg"%></a>
-                    </form>
+                    <div class="d-flex my-auto">
+                        <div class="dropdown" id="search-dropdiv">
+                            <input id="search-bar" class="form-control me-2 rounded-pill border-0 dropdown-toggle" placeholder="Cerca un film..." aria-label="Cerca" autocomplete="off">
+                            <ul id="search-dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+
+                            </ul>
+                        </div>
+                        <div id="search-icon" class="align-self-center ms-1"><%@include file="../../../static/icons/search.svg"%></div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <c:choose>

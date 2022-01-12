@@ -87,7 +87,8 @@ function resetColorClass(button) {
 }
 
 function isSeatOccupied(key) {
-    let dataString = "key="+key+"&showId="+showId;
+    let dataString = "key="+key+"&showId="+showId,
+        occupied = false;
 
     $.ajax({
         type: "Post",
@@ -96,7 +97,9 @@ function isSeatOccupied(key) {
         data: dataString,
         dataType: 'json',
         success: function (response) {
-            return response["occupied"]; //Se il posto è occupato
+            occupied = response["occupied"]; //Se il posto è occupato
         }
     })
+
+    return occupied;
 }

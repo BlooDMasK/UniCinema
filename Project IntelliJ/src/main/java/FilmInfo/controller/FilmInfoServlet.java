@@ -9,6 +9,8 @@ import ShowManager.service.ShowServiceMethods;
 import model.bean.Film;
 import model.bean.Review;
 import model.bean.Show;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import utils.Controller;
 import utils.ErrorHandler;
 import utils.InvalidRequestException;
@@ -106,6 +108,30 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            String path = getPath(request);
 
+            switch(path) {
+                case "/search":
+                    if(isAjax(request)) {
+                        String title = request.getParameter("title");
+                        ArrayList<Film> filmList = filmService.search(title);
+
+                        JSONArray list = new JSONArray();
+                        if(filmList != null)
+                            for(Film film : filmList)
+                                list.put(film.toJson());
+
+                        JSONObject root = new JSONObject();
+                        root.put("filmList", list);
+
+                        sendJson(response, root);
+                    }
+                    break;
+            }
+        } catch (SQLException ex) {
+            log(ex.getMessage());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+        }
     }
 }

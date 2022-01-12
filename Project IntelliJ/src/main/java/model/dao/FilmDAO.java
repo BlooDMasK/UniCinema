@@ -220,6 +220,33 @@ public class FilmDAO implements SqlMethods<Film> {
     }
 
     /**
+     * Implementa la funzionalità di prendere una lista di film che contengono il carattere immesso nella searchbar.
+     * @param title del film
+     * @return la lista dei film
+     * @throws SQLException
+     */
+    public ArrayList<Film> searchFromTitle(String title) throws SQLException{
+        if(!title.isEmpty() && !title.isBlank() && title != null) {
+            try (Connection con = ConPool.getConnection()) {
+                String query = "SELECT * FROM film WHERE title LIKE '%%" + title + "%%'";
+                try (PreparedStatement ps = con.prepareStatement(query)) {
+                    ArrayList<Film> filmList = new ArrayList<>();
+
+                    ResultSet rs = ps.executeQuery();
+                    FilmExtractor filmExtractor = new FilmExtractor();
+                    while (rs.next()) {
+                        Film film = filmExtractor.extract(rs);
+                        filmList.add(film);
+                    }
+                    rs.close();
+                    return filmList;
+                }
+            }
+        } else
+            return null;
+    }
+
+    /**
      * Implementa la funzionalità di registrare un film nel database.
      * @param film da registrare
      * @return true se la registrazione va a buon fine, false altrimenti
@@ -301,61 +328,6 @@ public class FilmDAO implements SqlMethods<Film> {
                     ct = rs.getInt("ct");
                 rs.close();
                 return ct;
-            }
-        }
-    }
-
-    /**
-     * Implementa la funzionalità di ricerca di un film all'interno del database.
-     * @param conditions l'insieme delle {@link Condition} che permettono di effettuare la ricerca
-     * @return la lista dei film
-     * @throws SQLException
-     */
-    public List<Film> search(List<Condition> conditions) throws SQLException {
-        try(Connection con = ConPool.getConnection()) {
-            String query = "SELECT * FROM film JOIN production prod on film.id = prod.id_film JOIN house_production hp on film.id = hp.id_film JOIN director on film.id = director.id_film JOIN actor on film.id = actor.id_film WHERE " + Condition.searchConditions(conditions, "film");
-            try(PreparedStatement ps = con.prepareStatement(query)) {
-                for(int i = 0; i < conditions.size(); i++) {
-                    if(conditions.get(i).getOperator() == Operator.MATCH)
-                        ps.setObject(i+1, "%" + conditions.get(i).getValue() + "%");
-                    else
-                        ps.setObject(i+1, conditions.get(i).getValue());
-                }
-
-                ResultSet rs = ps.executeQuery();
-
-                FilmExtractor filmExtractor = new FilmExtractor();
-                ActorExtractor actorExtractor = new ActorExtractor();
-                DirectorExtractor directorExtractor = new DirectorExtractor();
-                HouseProductionExtractor houseProductionExtractor = new HouseProductionExtractor();
-                ProductionExtractor productionExtractor = new ProductionExtractor();
-
-                Map<Integer, Film> filmMap = new LinkedHashMap<>();
-                while(rs.next()) {
-                    int filmId = rs.getInt("film.id");
-                    if(!filmMap.containsKey(filmId)) {
-                        //Aggiungo l'oggetto film alla mappa se non esiste con quella chiave
-                        Film film = filmExtractor.extract(rs);
-
-                        film.setActorList(new ArrayList<>());
-                        film.setDirectorList(new ArrayList<>());
-                        film.setHouseProductionList(new ArrayList<>());
-                        film.setProductionList(new ArrayList<>());
-
-                        filmMap.put(filmId, film);
-                    }
-
-                    Actor actor = actorExtractor.extract(rs);
-                    Director director = directorExtractor.extract(rs);
-                    HouseProduction houseProduction = houseProductionExtractor.extract(rs);
-                    Production production = productionExtractor.extract(rs);
-
-                    filmMap.get(filmId).getActorList().add(actor);
-                    filmMap.get(filmId).getDirectorList().add(director);
-                    filmMap.get(filmId).getHouseProductionList().add(houseProduction);
-                    filmMap.get(filmId).getProductionList().add(production);
-                }
-                return new ArrayList<>(filmMap.values());
             }
         }
     }

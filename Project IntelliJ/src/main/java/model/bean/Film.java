@@ -1,6 +1,8 @@
 package model.bean;
 
 import lombok.Data;
+import org.json.JSONObject;
+import utils.JsonSerializable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import java.util.List;
  * Questa classe rappresenta un film.
  */
 @Data
-public class Film {
+public class Film implements JsonSerializable {
 
     /**
      * Rappresenta l'identificativo numerico del film.
@@ -137,5 +139,14 @@ public class Film {
             case 3: return "Dramma";
         }
         return null;
+    }
+
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject root = new JSONObject();
+        root.put("id", id);
+        root.put("title", title);
+        return root;
     }
 }

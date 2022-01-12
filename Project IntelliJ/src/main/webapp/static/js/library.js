@@ -57,3 +57,60 @@ function collapseDynamicContent(collapseTrigger){
     let target = collapseTrigger.attr("data-target")
     $(target).collapse('toggle')
 }
+
+let searchBar = $("#search-bar");
+let searchDropdown = $("#search-dropdown");
+
+if(elementExists(searchBar)) {
+
+    searchBar.keyup(function(event) {
+        let title = event.target.value,
+            dataString = "title="+title;
+
+        $.ajax({
+            type: "Post",
+            url: contextPath + "/film/search",
+            async: true,
+            data: dataString,
+            dataType: 'json',
+            success: function (response) {
+                let filmList = response["filmList"],
+                    string = "";
+
+                if(title.length == 0) {
+                    if(searchError == true)
+                        setSearchIconError(false);
+
+                    searchDropdown.hide();
+                }
+                else {
+
+                    if (filmList.length == 0) {
+                        if(searchError == false)
+                            setSearchIconError(true);
+                        searchDropdown.hide();
+                    } else {
+                        if(searchError == true)
+                            setSearchIconError(false);
+
+                        for (let i in filmList)
+                            string += "<li><a class='dropdown-item' href='" + contextPath + "/film/details?filmId=" + filmList[i]["id"] + "'>" + filmList[i]["title"] + "</a></li>";
+
+                        searchDropdown.html(string);
+                        searchDropdown.show();
+                    }
+                }
+            }
+        });
+    });
+}
+
+let searchError = false;
+function setSearchIconError(error) {
+    searchError = error;
+    let searchIcon = $("#search-icon");
+    if(error)
+        searchIcon.html("<img src='"+contextPath+"/static/icons/x-circle.svg'>")
+    else
+        searchIcon.html("<img src='"+contextPath+"/static/icons/search.svg'>")
+}
