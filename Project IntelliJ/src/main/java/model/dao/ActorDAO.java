@@ -139,6 +139,21 @@ public class ActorDAO implements SqlMethods<Actor> {
         }
     }
 
+    public boolean insert(ArrayList<Actor> actorList) throws SQLException {
+        try(Connection con = ConPool.getConnection()) {
+            String query = "INSERT INTO actor (firstname, lastname, id_film) VALUE ";
+            for(Actor actor : actorList)
+                query += "('"+actor.getFirstname()+"','"+actor.getLastname()+"',"+actor.getFilm().getId()+"),";
+
+            query = query.substring(0, query.length()-1);
+
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                int rows = ps.executeUpdate();
+                return rows == actorList.size();
+            }
+        }
+    }
+
     /**
      * Implementa la funzionalità che permette di aggiornare i dati di un attore.
      * @param actor da aggiornare
@@ -157,6 +172,73 @@ public class ActorDAO implements SqlMethods<Actor> {
                 int rows = ps.executeUpdate();
                 return rows == 1;
             }
+        }
+    }
+
+    /*
+    1 3 5 7 attori
+    1 3 5 7 - - id
+
+     */
+    public boolean update(ArrayList<Actor> actorList, int filmId) throws SQLException {
+        try(Connection con = ConPool.getConnection()) {
+            int deleteCount = 0,
+                updateCount = 0,
+                insertCount = 0;
+
+            String deleteQuery;
+            ArrayList<String> updateQueryList = new ArrayList<>();
+            String insertQuery = "INSERT INTO actor(firstname, lastname, id_film) VALUES ";
+
+
+            if(actorList.isEmpty()) {
+                deleteQuery = "DELETE FROM actor WHERE id_film = " + filmId;
+            } else {
+                //Elimino tutte le righe non presenti nella nuova lista di attori
+                deleteQuery = "DELETE FROM actor WHERE id_film = "+filmId+" AND id NOT IN (";
+                for (Actor actor : actorList)
+                    if (actor.getId() != 0) {
+                        deleteQuery += actor.getId() + ",";
+                        deleteCount++;
+                    }
+
+                deleteQuery = deleteQuery.substring(0, deleteQuery.length() - 1);
+                deleteQuery += ")";
+
+                //Aggiorno tutte le righe che sono nella lista
+                for (Actor actor : actorList)
+                    if (actor.getId() != 0) {
+                        updateQueryList.add("UPDATE actor SET firstname = '" + actor.getFirstname() + "', lastname = '" + actor.getLastname() + "' WHERE id=" + actor.getId());
+                        updateCount++;
+                    }
+
+                //Inserisco tutte le entità che non hanno id (non avendo id significa che sono state appena inserite nella lista)
+                for (Actor actor : actorList)
+                    if (actor.getId() == 0) {
+                        insertQuery += "('" + actor.getFirstname() + "','" + actor.getLastname() + "'," + filmId + "),";
+                        insertCount++;
+                    }
+
+                insertQuery = insertQuery.substring(0, insertQuery.length() - 1);
+            }
+
+            try (PreparedStatement deletePS = con.prepareStatement(deleteQuery)) {
+                deletePS.executeUpdate();
+            }
+
+            if (updateCount > 0) {
+                for (String updateQuery : updateQueryList)
+                    try (PreparedStatement updatePS = con.prepareStatement(updateQuery)) {
+                        updatePS.executeUpdate();
+                    }
+            }
+
+            if (insertCount > 0) {
+                try (PreparedStatement insertPS = con.prepareStatement(insertQuery)) {
+                    insertPS.executeUpdate();
+                }
+            }
+            return true;
         }
     }
 

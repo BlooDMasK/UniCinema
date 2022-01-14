@@ -6,6 +6,7 @@ import model.dao.AccountDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -97,6 +98,20 @@ public class RequestValidator {
             else //vuoto
                 condition = true; //non controllo la regex
         }
+
+        return gatherError(condition, msg);
+    }
+
+    public boolean assertMatchArray(String value, Pattern regexp, String msg) {
+        String[] array = request.getParameterValues(value);
+
+        boolean condition = true;
+
+        if(array.length == 0)
+            condition = false;
+        else
+            for(String param : array)
+                condition = condition && (!isNull(param) && regexp.matcher(param).matches());
 
         return gatherError(condition, msg);
     }

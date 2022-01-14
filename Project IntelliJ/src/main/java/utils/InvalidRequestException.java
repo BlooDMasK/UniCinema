@@ -50,12 +50,19 @@ public class InvalidRequestException extends Exception {
         switch (errorCode) {
             case HttpServletResponse.SC_BAD_REQUEST:
                 request.setAttribute("alert", new Alert(errors, "danger"));
-                String backPath = (String) request.getAttribute("back");
+                String reloadPath = (String) request.getAttribute("reload");
                 response.setStatus(errorCode);
-                request.getRequestDispatcher(backPath).forward(request, response);
+                if(reloadPath != null && !reloadPath.isEmpty() && !reloadPath.isBlank()) {
+                    response.sendRedirect(reloadPath);
+                }else {
+                    String backPath = (String) request.getAttribute("back");
+                    request.getRequestDispatcher(backPath).forward(request, response);
+                }
                 break;
-            default:
+            default: {
+                System.out.println("default");
                 response.sendError(errorCode, errors.get(0));
+            }
         }
     }
 

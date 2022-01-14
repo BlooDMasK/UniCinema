@@ -72,8 +72,8 @@ public interface ErrorHandler {
      * @throws InvalidRequestException
      */
     default void notFound() throws InvalidRequestException {
-        throw new InvalidRequestException("Errore interno", List.of("Risorsa non trovata"),
-                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        throw new InvalidRequestException("Risorsa non trovata", List.of("Risorsa non trovata"),
+                HttpServletResponse.SC_NOT_FOUND);
     }
 
     /**
@@ -82,8 +82,8 @@ public interface ErrorHandler {
      * @throws InvalidRequestException
      */
     default void notFound(String msg) throws InvalidRequestException {
-        throw new InvalidRequestException("Errore interno", List.of(msg),
-                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        throw new InvalidRequestException(msg, List.of(msg),
+                HttpServletResponse.SC_NOT_FOUND);
     }
 
     /**

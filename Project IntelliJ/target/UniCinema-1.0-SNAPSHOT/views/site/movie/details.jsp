@@ -9,8 +9,8 @@
 <html lang="it">
 <head>
     <jsp:include page="../../partial/head.jsp">
-        <jsp:param name="styles" value="bootstrap,review"/>
-        <jsp:param name="scripts" value="review,paginator,alert"/>
+        <jsp:param name="styles" value="bootstrap,review,details-film"/>
+        <jsp:param name="scripts" value="review,paginator,alert,details-film"/>
     </jsp:include>
 </head>
 <body class="bg-img">
@@ -22,12 +22,13 @@
             accountId = ${accountSession.id};
             accountIsAdministrator = ${accountSession.administrator};
         </c:if>
+        console.log("admin: " + accountIsAdministrator)
     </script>
     <jsp:include page="../../partial/site/header.jsp"/> <!-- importo la navbar -->
     <div class="d-flex flex-column justify-content-center mt-5 mb-5">
         <div class="container bg-dark" style="border-radius: 1rem">
             <div class="row">
-                <div class="col-md-3" style="margin-top: .7rem">
+                <div class="col-md-3" style="text-align: center;margin-top: .7rem">
                     <img src="${pageContext.request.contextPath}/images/${film.poster}" class="img-fluid" alt="...">
                     <hr class="text-light">
                     <div class="d-flex flex-column align-items-end text-light">
@@ -55,7 +56,7 @@
                     </div>
                 </div>
                 <div class="col text-light" style="border-left-width: 1px;border-left-style: inset;margin-top: .7rem;">
-                    <p class="text-light fs-1 fw-light">${film.title}</p>
+                    <p class="film-title text-light fs-1 fw-light">${film.title}</p>
                     <p class="fs-5" style="color: var(--bs-gray-500)"><%= film.toStringGenre() %></p>
                     <p>${film.plot}</p>
                     <%
@@ -67,30 +68,37 @@
                         <hr>
                         <h5>Spettacoli</h5>
                         <div>
-                            <c:forEach items="${dateMap}" var="date">
-                                <c:set var="dateKey" value="${date.key}" />
-                                <% LocalDate localDate = (LocalDate) pageContext.findAttribute("dateKey"); %>
-                                <div class="mb-2">
-                                    <span class="fw-bold"><%= localDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ITALY).substring(0, 3).toUpperCase() %> </span> <span><%= localDate.getDayOfMonth() + " " + localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.ITALIAN).toUpperCase() %></span>
-                                </div>
-                                <div class="d-flex mb-2">
-                                    <c:forEach items="${date.value}" var="time">
-                                        <% LocalTime localTime = (LocalTime) pageContext.findAttribute("time"); %>
-                                        <c:choose>
-                                            <c:when test="${empty accountSession}">
-                                                <a class="btn btn-outline-light rounded-3 me-2" href="${pageContext.request.contextPath}/account/signin" style="width: 10%">
-                                                    <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) %>
-                                                </a>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <a class="btn btn-outline-light rounded-3 me-2" href="${pageContext.request.contextPath}/purchase/seat-choice?showId=<%=film.getShowList().get(showCount++).getId()%>" style="width: 10%">
-                                                    <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) %>
-                                                </a>
-                                            </c:otherwise>
-                                        </c:choose>
+                            <c:choose>
+                                <c:when test="${empty dateMap}">
+                                    <h5>Nessuno spettacolo disponibile.</h5>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach items="${dateMap}" var="date">
+                                        <c:set var="dateKey" value="${date.key}" />
+                                        <% LocalDate localDate = (LocalDate) pageContext.findAttribute("dateKey"); %>
+                                        <div class="mb-2">
+                                            <span class="fw-bold"><%= localDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ITALY).substring(0, 3).toUpperCase() %> </span> <span><%= localDate.getDayOfMonth() + " " + localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.ITALIAN).toUpperCase() %></span>
+                                        </div>
+                                        <div class="d-flex mb-2">
+                                            <c:forEach items="${date.value}" var="time">
+                                                <% LocalTime localTime = (LocalTime) pageContext.findAttribute("time"); %>
+                                                <c:choose>
+                                                    <c:when test="${empty accountSession}">
+                                                        <a class="btn btn-outline-light rounded-3 me-2" href="${pageContext.request.contextPath}/account/signin" style="width: 10%">
+                                                            <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) %>
+                                                        </a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <a class="btn btn-outline-light rounded-3 me-2" href="${pageContext.request.contextPath}/purchase/seat-choice?showId=<%=film.getShowList().get(showCount++).getId()%>" style="width: 10%">
+                                                            <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) %>
+                                                        </a>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </div>
                                     </c:forEach>
-                                </div>
-                            </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                     <!--------->

@@ -111,3 +111,7 @@
     max-width: 100%;
     overflow: auto;
 }
+
+.height-2-4 {
+    height: 2.4rem;
+}

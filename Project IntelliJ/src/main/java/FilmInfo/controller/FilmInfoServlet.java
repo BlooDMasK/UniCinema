@@ -45,6 +45,8 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
 
+            HttpSession session = request.getSession();
+
             /**
              * Rappresenta il path che permette di smistare le funzionalità.
              */

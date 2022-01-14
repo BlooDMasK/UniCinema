@@ -1,11 +1,11 @@
 package model.dao;
 
+import model.bean.HouseProduction;
 import utils.ConPool;
 import utils.Paginator;
 import utils.SqlMethods;
 import utils.extractor.HouseProductionExtractor;
 import model.bean.Film;
-import model.bean.HouseProduction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -137,6 +137,21 @@ public class HouseProductionDAO implements SqlMethods<HouseProduction> {
         }
     }
 
+    public boolean insert(ArrayList<HouseProduction> houseProductionList) throws SQLException {
+        try(Connection con = ConPool.getConnection()) {
+            String query = "INSERT INTO house_production (name_house, id_film) VALUE ";
+            for(HouseProduction houseProduction : houseProductionList)
+                query += "('"+houseProduction.getName()+"',"+houseProduction.getFilm().getId()+"),";
+
+            query = query.substring(0, query.length()-1);
+
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                int rows = ps.executeUpdate();
+                return rows == houseProductionList.size();
+            }
+        }
+    }
+
     /**
      *Implementa la funzionalità che permette di aggiornare i dati di una casa produttrice
      * @param houseProduction da aggiornare
@@ -153,6 +168,68 @@ public class HouseProductionDAO implements SqlMethods<HouseProduction> {
                 int rows = ps.executeUpdate();
                 return rows == 1;
             }
+        }
+    }
+
+    public boolean update(ArrayList<HouseProduction> houseProductionList, int filmId) throws SQLException {
+        try(Connection con = ConPool.getConnection()) {
+            int deleteCount = 0,
+                    updateCount = 0,
+                    insertCount = 0;
+
+            String deleteQuery;
+            ArrayList<String> updateQueryList = new ArrayList<>();
+            String insertQuery = "INSERT INTO house_production(name_house, id_film) VALUES ";
+
+
+            if (houseProductionList.isEmpty()) {
+                deleteQuery = "DELETE FROM house_production WHERE id_film = " + filmId;
+            } else {
+                //Elimino tutte le righe non presenti nella nuova lista di attori
+                deleteQuery = "DELETE FROM house_production WHERE id_film = " + filmId + " AND id NOT IN (";
+                for (HouseProduction houseProduction : houseProductionList)
+                    if (houseProduction.getId() != 0) {
+                        deleteQuery += houseProduction.getId() + ",";
+                        deleteCount++;
+                    }
+
+                deleteQuery = deleteQuery.substring(0, deleteQuery.length() - 1);
+                deleteQuery += ")";
+
+                //Aggiorno tutte le righe che sono nella lista
+                for (HouseProduction houseProduction : houseProductionList)
+                    if (houseProduction.getId() != 0) {
+                        updateQueryList.add("UPDATE house_production SET name_house = '" + houseProduction.getName() + "' WHERE id=" + houseProduction.getId());
+                        updateCount++;
+                    }
+
+                //Inserisco tutte le entità che non hanno id (non avendo id significa che sono state appena inserite nella lista)
+                for (HouseProduction houseProduction : houseProductionList)
+                    if (houseProduction.getId() == 0) {
+                        insertQuery += "('" + houseProduction.getName() + "'," + filmId + "),";
+                        insertCount++;
+                    }
+
+                insertQuery = insertQuery.substring(0, insertQuery.length() - 1);
+            }
+
+            try (PreparedStatement deletePS = con.prepareStatement(deleteQuery)) {
+                deletePS.executeUpdate();
+            }
+
+            if (updateCount > 0) {
+                for (String updateQuery : updateQueryList)
+                    try (PreparedStatement updatePS = con.prepareStatement(updateQuery)) {
+                        updatePS.executeUpdate();
+                    }
+            }
+
+            if (insertCount > 0) {
+                try (PreparedStatement insertPS = con.prepareStatement(insertQuery)) {
+                    insertPS.executeUpdate();
+                }
+            }
+            return true;
         }
     }
 

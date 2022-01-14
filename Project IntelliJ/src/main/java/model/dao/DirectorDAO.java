@@ -1,11 +1,11 @@
 package model.dao;
 
+import model.bean.Director;
 import utils.ConPool;
 import utils.Paginator;
 import utils.SqlMethods;
 import utils.extractor.DirectorExtractor;
 import model.bean.Film;
-import model.bean.Director;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -139,6 +139,23 @@ public class DirectorDAO implements SqlMethods<Director> {
         }
     }
 
+    public boolean insert(ArrayList<Director> directorList) throws SQLException {
+        try(Connection con = ConPool.getConnection()) {
+            String query = "INSERT INTO director (firstname, lastname, id_film) VALUE ";
+            for(Director director : directorList)
+                query += "('"+director.getFirstname()+"','"+director.getLastname()+"',"+director.getFilm().getId()+"),";
+
+            query = query.substring(0, query.length()-1);
+
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                int rows = ps.executeUpdate();
+                return rows == directorList.size();
+            }
+        }
+    }
+
+
+
     /**
      * Implementa la funzionalità che aggiorna un regista nel database.
      * @param director da aggiornare
@@ -157,6 +174,68 @@ public class DirectorDAO implements SqlMethods<Director> {
                 int rows = ps.executeUpdate();
                 return rows == 1;
             }
+        }
+    }
+
+    public boolean update(ArrayList<Director> directorList, int filmId) throws SQLException {
+        try(Connection con = ConPool.getConnection()) {
+            int deleteCount = 0,
+                    updateCount = 0,
+                    insertCount = 0;
+
+            String deleteQuery;
+            ArrayList<String> updateQueryList = new ArrayList<>();
+            String insertQuery = "INSERT INTO director(firstname, lastname, id_film) VALUES ";
+
+
+            if (directorList.isEmpty()) {
+                deleteQuery = "DELETE FROM director WHERE id_film = " + filmId;
+            } else {
+                //Elimino tutte le righe non presenti nella nuova lista di attori
+                deleteQuery = "DELETE FROM director WHERE id_film = " + filmId + " AND id NOT IN (";
+                for (Director director : directorList)
+                    if (director.getId() != 0) {
+                        deleteQuery += director.getId() + ",";
+                        deleteCount++;
+                    }
+
+                deleteQuery = deleteQuery.substring(0, deleteQuery.length() - 1);
+                deleteQuery += ")";
+
+                //Aggiorno tutte le righe che sono nella lista
+                for (Director director : directorList)
+                    if (director.getId() != 0) {
+                        updateQueryList.add("UPDATE director SET firstname = '" + director.getFirstname() + "', lastname = '" + director.getLastname() + "' WHERE id=" + director.getId());
+                        updateCount++;
+                    }
+
+                //Inserisco tutte le entità che non hanno id (non avendo id significa che sono state appena inserite nella lista)
+                for (Director director : directorList)
+                    if (director.getId() == 0) {
+                        insertQuery += "('" + director.getFirstname() + "','" + director.getLastname() + "'," + filmId + "),";
+                        insertCount++;
+                    }
+
+                insertQuery = insertQuery.substring(0, insertQuery.length() - 1);
+            }
+
+            try (PreparedStatement deletePS = con.prepareStatement(deleteQuery)) {
+                deletePS.executeUpdate();
+            }
+
+            if (updateCount > 0) {
+                for (String updateQuery : updateQueryList)
+                    try (PreparedStatement updatePS = con.prepareStatement(updateQuery)) {
+                        updatePS.executeUpdate();
+                    }
+            }
+
+            if (insertCount > 0) {
+                try (PreparedStatement insertPS = con.prepareStatement(insertQuery)) {
+                    insertPS.executeUpdate();
+                }
+            }
+            return true;
         }
     }
 

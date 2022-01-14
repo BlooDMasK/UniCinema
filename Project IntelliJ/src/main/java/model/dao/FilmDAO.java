@@ -12,10 +12,7 @@ import model.bean.Production;
 import utils.extractor.ProductionExtractor;
 import model.bean.Film;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 /**
@@ -87,28 +84,28 @@ public class FilmDAO implements SqlMethods<Film> {
                     rs = productionStatement.executeQuery();
                     while(rs.next()) {
                         Production production = productionExtractor.extract(rs);
-                        film.getProductionList().add(production);
+                        film.addProduction(production);
                     }
 
                     rs.close();
                     rs = houseProductionStatement.executeQuery();
                     while(rs.next()) {
                         HouseProduction houseProduction = houseProductionExtractor.extract(rs);
-                        film.getHouseProductionList().add(houseProduction);
+                        film.addHouseProduction(houseProduction);
                     }
 
                     rs.close();
                     rs = directorStatement.executeQuery();
                     while(rs.next()) {
                         Director director = directorExtractor.extract(rs);
-                        film.getDirectorList().add(director);
+                        film.addDirector(director);
                     }
 
                     rs.close();
                     rs = actorStatement.executeQuery();
                     while(rs.next()) {
                         Actor actor = actorExtractor.extract(rs);
-                        film.getActorList().add(actor);
+                        film.addActor(actor);
                     }
                 }
                 rs.close();
@@ -156,10 +153,10 @@ public class FilmDAO implements SqlMethods<Film> {
                     HouseProduction houseProduction = houseProductionExtractor.extract(rs);
                     Production production = productionExtractor.extract(rs);
 
-                    filmMap.get(filmId).getActorList().add(actor);
-                    filmMap.get(filmId).getDirectorList().add(director);
-                    filmMap.get(filmId).getHouseProductionList().add(houseProduction);
-                    filmMap.get(filmId).getProductionList().add(production);
+                    filmMap.get(filmId).addActor(actor);
+                    filmMap.get(filmId).addDirector(director);
+                    filmMap.get(filmId).addHouseProduction(houseProduction);
+                    filmMap.get(filmId).addProduction(production);
                 }
 
                 rs.close();
@@ -207,10 +204,10 @@ public class FilmDAO implements SqlMethods<Film> {
                     HouseProduction houseProduction = houseProductionExtractor.extract(rs);
                     Production production = productionExtractor.extract(rs);
 
-                    filmMap.get(filmId).getActorList().add(actor);
-                    filmMap.get(filmId).getDirectorList().add(director);
-                    filmMap.get(filmId).getHouseProductionList().add(houseProduction);
-                    filmMap.get(filmId).getProductionList().add(production);
+                    filmMap.get(filmId).addActor(actor);
+                    filmMap.get(filmId).addDirector(director);
+                    filmMap.get(filmId).addHouseProduction(houseProduction);
+                    filmMap.get(filmId).addProduction(production);
                 }
 
                 rs.close();
@@ -253,17 +250,29 @@ public class FilmDAO implements SqlMethods<Film> {
      * @throws SQLException
      */
     @Override
-    public boolean insert(Film film) throws SQLException {
+    public boolean insert(Film film) {
+        return false;
+    }
+
+    public int insertAndReturnID(Film film) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("INSERT INTO film (title, duration, date_publishing, genre, plot) VALUES(?,?,?,?,?)")) {
+            try (PreparedStatement ps = con.prepareStatement("INSERT INTO film (title, duration, date_publishing, genre, plot, cover, poster) VALUES(?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, film.getTitle());
                 ps.setInt(2, film.getLength());
                 ps.setDate(3, java.sql.Date.valueOf(film.getDatePublishing()));
                 ps.setInt(4, film.getGenre());
                 ps.setString(5, film.getPlot());
+                ps.setString(6, film.getCover());
+                ps.setString(7, film.getPoster());
 
-                int rows = ps.executeUpdate();
-                return rows == 1;
+                ps.executeUpdate();
+                ResultSet rs = ps.getGeneratedKeys();
+                if(rs.next()) {
+                    int filmId = rs.getInt(1);
+                    film.setId(filmId);
+                    return filmId;
+                } else
+                    return 0;
             }
         }
     }

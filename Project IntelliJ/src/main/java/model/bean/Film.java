@@ -1,12 +1,18 @@
 package model.bean;
 
 import lombok.Data;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.JsonSerializable;
 
+import javax.servlet.http.Part;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Questa classe rappresenta un film.
@@ -57,32 +63,32 @@ public class Film implements JsonSerializable {
     /**
      * Rappresenta gli attori facenti parte del cast del film.
      */
-    private List<Actor> actorList;
+    private ArrayList<Actor> actorList;
 
     /**
      * Rappresenta i registi che hanno preso parte al film.
      */
-    private List<Director> directorList;
+    private ArrayList<Director> directorList;
 
     /**
      * Rappresenta le case produttrici che hanno preso parte al film.
      */
-    private List<HouseProduction> houseProductionList;
+    private ArrayList<HouseProduction> houseProductionList;
 
     /**
      * Rappresenta la produzione del film.
      */
-    private List<Production> productionList;
+    private ArrayList<Production> productionList;
 
     /**
      * Rappresenta le recensioni fatte al film.
      */
-    private List<Review> reviewList;
+    private ArrayList<Review> reviewList;
 
     /**
      * Rappresenta gli spettacoli in cui viene proiettato il film.
      */
-    private List<Show> showList;
+    private ArrayList<Show> showList;
 
     /**
      * Nel costruttore vuoto vengono istanziate le liste.
@@ -97,6 +103,26 @@ public class Film implements JsonSerializable {
 
     public Film(int filmId) {
         id = filmId;
+    }
+
+    public void addActor(Actor actor) {
+        actorList.add(actor);
+    }
+
+    public void addDirector(Director director) {
+        directorList.add(director);
+    }
+
+    public void addHouseProduction(HouseProduction houseProduction) {
+        houseProductionList.add(houseProduction);
+    }
+
+    public void addProduction(Production production) {
+        productionList.add(production);
+    }
+
+    public void addShow(Show show) {
+        showList.add(show);
     }
 
     /**
@@ -133,10 +159,21 @@ public class Film implements JsonSerializable {
      */
     public String toStringGenre() {
         switch(this.genre) {
-            case 0: return "Azione";
-            case 1: return "Commedia";
-            case 2: return "Romantico";
-            case 3: return "Dramma";
+            case 1: return "Animazione";
+            case 2: return "Avventura";
+            case 3: return "Azione";
+            case 4: return "Biografico";
+            case 5: return "Commedia";
+            case 6: return "Documentario";
+            case 7: return "Drammatico";
+            case 8: return "Fantascienza";
+            case 9: return "Fantasy/Fantastico";
+            case 10: return "Guerra";
+            case 11: return "Horror";
+            case 12: return "Musica";
+            case 13: return "Storico";
+            case 14: return "Thriller";
+            case 15: return "Western";
         }
         return null;
     }
@@ -147,6 +184,49 @@ public class Film implements JsonSerializable {
         JSONObject root = new JSONObject();
         root.put("id", id);
         root.put("title", title);
+
+        JSONArray actorListJSON = new JSONArray();
+        for(Actor actor : actorList)
+            actorListJSON.put(actor.toJson());
+
+        root.put("actorList", actorListJSON);
+
+        JSONArray directorListJSON = new JSONArray();
+        for(Director director : directorList)
+            directorListJSON.put(director.toJson());
+
+        root.put("directorList", directorListJSON);
+
+        JSONArray productionListJSON = new JSONArray();
+        for(Production production : productionList)
+            productionListJSON.put(production.toJson());
+
+        root.put("productionList", productionListJSON);
+
+        JSONArray houseProductionListJSON = new JSONArray();
+        for(HouseProduction houseProduction : houseProductionList)
+            houseProductionListJSON.put(houseProduction.toJson());
+
+        root.put("houseProductionList", houseProductionListJSON);
+
         return root;
+    }
+
+    public void writeCover(String uploadPath, Part stream) {
+        try(InputStream fileStream = stream.getInputStream()) {
+            File file = new File(uploadPath + cover);
+            Files.copy(fileStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ignored) {
+
+        }
+    }
+
+    public void writePoster(String uploadPath, Part stream) {
+        try(InputStream fileStream = stream.getInputStream()) {
+            File file = new File(uploadPath + poster);
+            Files.copy(fileStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ignored) {
+
+        }
     }
 }

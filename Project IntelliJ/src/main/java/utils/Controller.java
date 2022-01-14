@@ -13,6 +13,11 @@ import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Questa classe offre funzionalità di utilità per le Servlet.
@@ -75,7 +80,7 @@ public abstract class Controller extends HttpServlet implements ErrorHandler{
      * @return
      */
     protected String getUploadPath() {
-        return System.getenv("CATALINA_HOME") + File.separator + "uploads" + File.separator;
+        return System.getenv("CATALINA_IMAGES");
     }
 
     /**
@@ -117,5 +122,18 @@ public abstract class Controller extends HttpServlet implements ErrorHandler{
         PrintWriter writer = response.getWriter();
         writer.print(object.toString());
         writer.flush();
+    }
+
+    public static ArrayList<String> getParamsArrayList(HttpServletRequest request, String params) {
+        String[] paramsArray = request.getParameterValues(params);
+        return new ArrayList<>(List.of(paramsArray));
+    }
+
+    public static LocalDate getLocalDateFromString(HttpServletRequest request, String param) {
+        String datePublishingString = request.getParameter(param);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        dateTimeFormatter = dateTimeFormatter.withLocale(Locale.ITALIAN);
+
+        return LocalDate.parse(datePublishingString, dateTimeFormatter);
     }
 }

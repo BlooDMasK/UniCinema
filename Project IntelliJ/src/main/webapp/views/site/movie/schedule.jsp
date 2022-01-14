@@ -9,21 +9,32 @@
 <head>
     <jsp:include page="../../partial/head.jsp">
         <jsp:param name="styles" value="bootstrap,schedule"/>
+        <jsp:param name="scripts" value="schedule"/>
     </jsp:include>
 </head>
 <body class="bg-img">
+<script>
+    let accountIsAdministrator = accountId = 0;
+    <c:if test="${not empty accountSession}">
+        accountId = ${accountSession.id};
+        accountIsAdministrator = ${accountSession.administrator};
+    </c:if>
+</script>
 <div class="d-flex flex-column">
     <jsp:include page="../../partial/site/header.jsp"/>
-    <div class="align-self-center" style="max-width: 95%">
+    <div id="schedule-container" class="align-self-center mt-2" style="max-width: 95%">
+        <c:if test="${not empty alert}">
+            <%@ include file="../../../views/partial/site/alert.jsp" %>
+        </c:if>
         <c:forEach items="${filmList}" var="film">
             <div class="card mb-3 bg-dark mt-2" style="border-radius: 0rem 1rem 1rem 0rem">
                 <div class="row g-0 bg-dark" style="border-radius: 0rem 1rem 1rem 0rem">
-                    <div class="col-md-2" style="align-self: center">
+                    <div class="col-md-2" style="text-align:center; align-self: center">
                         <img src="${pageContext.request.contextPath}/images/${film.poster}" class="img-fluid rounded-start" alt="...">
                     </div>
                     <div class="col-md-10">
                         <div class="card-body" style="color: var(--bs-light)">
-                            <h5 class="card-title">${film.title}</h5>
+                            <h5 class="card-title film-title" id="${film.id}">${film.title}</h5>
                             <hr>
                             <p class="card-text">
                                 <small>

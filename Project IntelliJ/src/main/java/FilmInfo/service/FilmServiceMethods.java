@@ -32,25 +32,4 @@ public class FilmServiceMethods implements FilmService {
     public ArrayList<Film> search(String title) throws SQLException {
         return filmDAO.searchFromTitle(title);
     }
-
-    /*@Override
-    public Map<Integer, Film> doRetrieveOrderedFilmList(List<Show> showList) throws SQLException {
-        Map<Integer, Film> filmMap = new LinkedHashMap<>();
-        Optional<Film> filmOptional;
-        int filmId;
-        for (Show show : showList) {
-            filmId = show.getFilm().getId();
-            if (!filmMap.containsKey(filmId)) {
-                filmOptional = filmDAO.fetch(filmId);
-                if (filmOptional.isPresent()) {
-                    filmOptional.get().getShowList().add(show);
-                    filmMap.put(filmId, filmOptional.get());
-                }
-            } else
-                filmMap.get(filmId).getShowList().add(show);
-
-            Collections.sort(filmMap.get(filmId).getShowList());
-        }
-        return filmMap;
-    }*/
 }

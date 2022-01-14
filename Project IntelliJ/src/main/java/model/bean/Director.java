@@ -1,36 +1,43 @@
 package model.bean;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.json.JSONObject;
+import utils.JsonSerializable;
 
 /**
  * Questa classe rappresenta il regista di un film.
  */
 @Data
-public class Director {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Director implements JsonSerializable {
 
     /**
      * Rappresenta l'identificativo numerico del regista.
      */
-    @Getter @Setter
     int id;
-
-    /**
-     * Rappresenta il film a cui ha preso parte il regista.
-     */
-    @Getter @Setter
-    private Film film;
 
     /**
      * Rappresenta il nome del regista.
      */
-    @Getter @Setter
     private String firstname;
 
     /**
      * Rappresenta il cognome del regista.
      */
-    @Getter @Setter
     private String lastname;
+
+    /**
+     * Rappresenta il film a cui ha preso parte il regista.
+     */
+    private Film film;
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject root = new JSONObject();
+        root.put("id", id);
+        root.put("firstname", firstname);
+        root.put("lastname", lastname);
+        return root;
+    }
 }

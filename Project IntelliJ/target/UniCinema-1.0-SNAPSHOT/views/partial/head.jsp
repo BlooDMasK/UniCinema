@@ -11,7 +11,6 @@
 <!------------------------------------------------------------------------------->
 <meta name = "description" content="Sito vendita biglietti cinema">
 <link rel="icon" type="image/png" href="../../../static/images/logo.png">
-<link href="${context}/static/css/reset.css" rel="stylesheet">
 <link href="${context}/static/css/library.css" rel="stylesheet">
 <c:if test="${not empty param.styles}">
     <c:forTokens items="${param.styles}" delims="," var="style">

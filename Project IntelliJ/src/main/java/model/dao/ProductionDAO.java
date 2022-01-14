@@ -1,11 +1,11 @@
 package model.dao;
 
+import model.bean.Production;
 import utils.ConPool;
 import utils.Paginator;
 import utils.SqlMethods;
 import utils.extractor.ProductionExtractor;
 import model.bean.Film;
-import model.bean.Production;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -140,6 +140,21 @@ public class ProductionDAO implements SqlMethods<Production> {
         }
     }
 
+    public boolean insert(ArrayList<Production> productionList) throws SQLException {
+        try(Connection con = ConPool.getConnection()) {
+            String query = "INSERT INTO production (firstname, lastname, id_film) VALUE ";
+            for(Production production : productionList)
+                query += "('"+production.getFirstname()+"','"+production.getLastname()+"',"+production.getFilm().getId()+"),";
+
+            query = query.substring(0, query.length()-1);
+
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                int rows = ps.executeUpdate();
+                return rows == productionList.size();
+            }
+        }
+    }
+
     /**
      * Implementa la funzionalità di aggiornamento della produzione.
      * @param production da aggiornare
@@ -157,6 +172,68 @@ public class ProductionDAO implements SqlMethods<Production> {
                 int rows = ps.executeUpdate();
                 return rows == 1;
             }
+        }
+    }
+
+    public boolean update(ArrayList<Production> productionList, int filmId) throws SQLException {
+        try(Connection con = ConPool.getConnection()) {
+            int deleteCount = 0,
+                    updateCount = 0,
+                    insertCount = 0;
+
+            String deleteQuery;
+            ArrayList<String> updateQueryList = new ArrayList<>();
+            String insertQuery = "INSERT INTO production(firstname, lastname, id_film) VALUES ";
+
+
+            if (productionList.isEmpty()) {
+                deleteQuery = "DELETE FROM production WHERE id_film = " + filmId;
+            } else {
+                //Elimino tutte le righe non presenti nella nuova lista di attori
+                deleteQuery = "DELETE FROM production WHERE id_film = " + filmId + " AND id NOT IN (";
+                for (Production production : productionList)
+                    if (production.getId() != 0) {
+                        deleteQuery += production.getId() + ",";
+                        deleteCount++;
+                    }
+
+                deleteQuery = deleteQuery.substring(0, deleteQuery.length() - 1);
+                deleteQuery += ")";
+
+                //Aggiorno tutte le righe che sono nella lista
+                for (Production production : productionList)
+                    if (production.getId() != 0) {
+                        updateQueryList.add("UPDATE production SET firstname = '" + production.getFirstname() + "', lastname = '" + production.getLastname() + "' WHERE id=" + production.getId());
+                        updateCount++;
+                    }
+
+                //Inserisco tutte le entità che non hanno id (non avendo id significa che sono state appena inserite nella lista)
+                for (Production production : productionList)
+                    if (production.getId() == 0) {
+                        insertQuery += "('" + production.getFirstname() + "','" + production.getLastname() + "'," + filmId + "),";
+                        insertCount++;
+                    }
+
+                insertQuery = insertQuery.substring(0, insertQuery.length() - 1);
+            }
+
+            try (PreparedStatement deletePS = con.prepareStatement(deleteQuery)) {
+                deletePS.executeUpdate();
+            }
+
+            if (updateCount > 0) {
+                for (String updateQuery : updateQueryList)
+                    try (PreparedStatement updatePS = con.prepareStatement(updateQuery)) {
+                        updatePS.executeUpdate();
+                    }
+            }
+
+            if (insertCount > 0) {
+                try (PreparedStatement insertPS = con.prepareStatement(insertQuery)) {
+                    insertPS.executeUpdate();
+                }
+            }
+            return true;
         }
     }
 

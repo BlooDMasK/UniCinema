@@ -60,7 +60,6 @@ $("#collapseReviewBox").submit(function(e) {
 //oggetto.click non va bene se il contenuto è creato dinamicamente. Bisogna usare on("click"...
 $(document).on ("click", ".button-remove-review", function () {
     const dataString = "accountId="+$(this).val();
-    console.log(dataString);
 
     $.ajax({
         type: "Post",

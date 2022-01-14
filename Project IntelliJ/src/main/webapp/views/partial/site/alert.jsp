@@ -7,3 +7,4 @@
     </ol>
     <button type="button" id="alert-close" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
+<% session.removeAttribute("alert"); %>
