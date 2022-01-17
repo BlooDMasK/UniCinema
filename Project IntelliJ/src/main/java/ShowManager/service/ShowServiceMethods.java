@@ -7,9 +7,9 @@ import model.dao.RoomDAO;
 import model.dao.ShowDAO;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -46,8 +46,18 @@ public class ShowServiceMethods implements ShowService{
      * @throws SQLException
      */
     @Override
-    public List<Show> fetchAll() throws SQLException {
+    public ArrayList<Show> fetchAll() throws SQLException {
         return showDAO.fetchAll();
+    }
+
+    @Override
+    public ArrayList<Show> fetchDaily(int roomId, LocalDate date) throws SQLException {
+        return showDAO.fetchDaily(roomId, date);
+    }
+
+    @Override
+    public ArrayList<Show> fetchDaily(int roomId, LocalDate date, Show show) throws SQLException {
+        return showDAO.fetchDaily(roomId, date, show);
     }
 
     /**
@@ -71,5 +81,21 @@ public class ShowServiceMethods implements ShowService{
     public Optional<Room> fetchRoom(int showId) throws SQLException {
         return roomDAO.fetchFromShowId(showId);
     }
+
+    @Override
+    public boolean remove(int showId) throws SQLException {
+        return showDAO.delete(showId);
+    }
+
+    @Override
+    public boolean insert(Show show) throws SQLException {
+        return showDAO.insert(show);
+    }
+
+    @Override
+    public boolean update(Show show) throws SQLException {
+        return showDAO.update(show);
+    }
+
 
 }

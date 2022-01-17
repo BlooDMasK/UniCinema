@@ -32,7 +32,6 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
      */
     private FilmService filmService = new FilmServiceMethods();
     private ShowService showService = new ShowServiceMethods();
-    private ReviewService reviewService = new ReviewServiceMethods();
 
     /**
      * Implementa le funzionalità svolte durante una chiamata di tipo GET
@@ -75,7 +74,7 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
                  * Implementa la funzionalità di visualizzazione programmazione film.
                  */
                 case "/schedule": { //Palinsesto, Programmazione
-                    List<Show> showList = showService.fetchAll();
+                    ArrayList<Show> showList = showService.fetchAll();
 
                     Map<Integer, Film> filmMap = new LinkedHashMap<>();
                     Optional<Film> filmOptional;

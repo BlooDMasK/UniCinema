@@ -1,6 +1,9 @@
 package model.bean;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import utils.JsonSerializable;
 
@@ -16,6 +19,8 @@ import java.util.Map;
  * Questa classe rappresenta uno spettacolo.
  */
 @Data
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Show implements Comparable<Show>, JsonSerializable {
     /**
      * Rappresenta il numero identificativo di uno spettacolo.
@@ -25,11 +30,13 @@ public class Show implements Comparable<Show>, JsonSerializable {
     /**
      * Rappresenta la data in cui si svolge lo spettacolo.
      */
+    @NonNull
     private LocalDate date;
 
     /**
      * Rappresenta l'orario in cui si svolge lo spettacolo.
      */
+    @NonNull
     private LocalTime time;
 
     /**
@@ -38,28 +45,19 @@ public class Show implements Comparable<Show>, JsonSerializable {
     private List<Ticket> ticketList;
 
     /**
-     * Rappresenta la relazione tra la Sala e lo Spettacolo
-     */
-    private List<ShowRoomRelation> showRoomRelationList;
-
-    /**
      * Rappresenta il film trasmesso durante lo spettacolo.
      */
     private Film film;
 
-    /**
-     * Implementa la funzionalità che permette di convertire la lista degli spettacoli in una HashMap, in cui la chiave è la Data e i valori saranno gli orari.
-     * In questo modo per ogni data, ci saranno N orari associati da mostrare nella programmazione del film.
-     * @param showList rappresenta la lista degli spettacoli
-     * @return Map in cui LocalDate è la chiave e LocalTime è l'insieme dei valori.
-     */
-    public static Map<LocalDate, ArrayList<LocalTime>> toHashMapDateTime(List<Show> showList) {
-        Map<LocalDate, ArrayList<LocalTime>> dateMap = new LinkedHashMap<>(); //Chiave: data, Valore: orari
+    private Room room;
+
+    public static Map<LocalDate, ArrayList<Show>> toHashMapDateTime(List<Show> showList) {
+        Map<LocalDate, ArrayList<Show>> dateMap = new LinkedHashMap<>(); //Chiave: data, Valore: orari
         for(Show show : showList) {
             if(!dateMap.containsKey(show.getDate()))
                 dateMap.put(show.getDate(), new ArrayList<>());
 
-            dateMap.get(show.getDate()).add(show.getTime());
+            dateMap.get(show.getDate()).add(show);
         }
 
         return dateMap;

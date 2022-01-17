@@ -4,6 +4,7 @@
 <%@ page import="model.bean.Show" %>
 <%@ page import="java.time.format.TextStyle" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="model.bean.Room" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html lang="it">
@@ -14,13 +15,20 @@
     </jsp:include>
 </head>
 <body class="bg-img">
-    <%Film film = ((Film) request.getAttribute("film"));%>
+    <%
+        Film film = ((Film) request.getAttribute("film"));
+        pageContext.setAttribute("dateMap", Show.toHashMapDateTime(film.getShowList()));
+        int showCount = 0;
+    %>
     <script>
         const filmId = '${film.id}';
         let accountIsAdministrator = accountId = 0;
+        let modifyShow = false;
+
         <c:if test="${not empty accountSession}">
             accountId = ${accountSession.id};
             accountIsAdministrator = ${accountSession.administrator};
+            modifyShow = ${empty dateMap ? false : true};
         </c:if>
     </script>
     <jsp:include page="../../partial/site/header.jsp"/> <!-- importo la navbar -->
@@ -58,15 +66,10 @@
                     <p class="film-title text-light fs-1 fw-light">${film.title}</p>
                     <p class="fs-5" style="color: var(--bs-gray-500)"><%= film.toStringGenre() %></p>
                     <p>${film.plot}</p>
-                    <%
-                        pageContext.setAttribute("dateMap", Show.toHashMapDateTime(film.getShowList()));
-                        int showCount = 0;
-                    %>
-                    <!--------->
                     <div class="text-light">
                         <hr>
                         <h5 class="film-spectacle">Spettacoli</h5>
-                        <div>
+                        <div class="show-div">
                             <c:choose>
                                 <c:when test="${empty dateMap}">
                                     <h5>Nessuno spettacolo disponibile.</h5>
@@ -78,18 +81,24 @@
                                         <div class="mb-2">
                                             <span class="fw-bold"><%= localDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ITALY).substring(0, 3).toUpperCase() %> </span> <span><%= localDate.getDayOfMonth() + " " + localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.ITALIAN).toUpperCase() %></span>
                                         </div>
-                                        <div class="d-flex mb-2">
-                                            <c:forEach items="${date.value}" var="time">
-                                                <% LocalTime localTime = (LocalTime) pageContext.findAttribute("time"); %>
+                                        <div class="d-flex mb-2 show-list-div">
+                                            <c:forEach items="${date.value}" var="show">
+                                                <%
+                                                    Show show = (Show) pageContext.findAttribute("show");
+                                                    LocalTime localTime = show.getTime();
+                                                    Room room = show.getRoom();
+                                                %>
                                                 <c:choose>
                                                     <c:when test="${empty accountSession}">
                                                         <a class="btn btn-outline-light rounded-3 me-2" href="${pageContext.request.contextPath}/account/signin" style="width: 10%">
-                                                            <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) %>
+                                                            <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) + " Sala " + room.getId() %>
                                                         </a>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <a class="btn btn-outline-light rounded-3 me-2" href="${pageContext.request.contextPath}/purchase/seat-choice?showId=<%=film.getShowList().get(showCount++).getId()%>" style="width: 10%">
-                                                            <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) %>
+                                                        <% int showId = film.getShowList().get(showCount++).getId(); %>
+                                                        <a class="btn btn-outline-light btn-show rounded-3 me-2" href="${pageContext.request.contextPath}/purchase/seat-choice?showId=<%=showId%>" style="width: 10%">
+                                                            <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) + " Sala " + room.getId() %>
+                                                            <input type="hidden" name="showId" value="<%=showId%>">
                                                         </a>
                                                     </c:otherwise>
                                                 </c:choose>
@@ -100,7 +109,14 @@
                             </c:choose>
                         </div>
                     </div>
-                    <!--------->
+                    <script>
+                        let filmLength = '${film.length}';
+                        let dateNow = <%=LocalDate.now()%>;
+
+                    </script>
+                    <form id="showForm" method="post" action="${pageContext.request.contextPath}/show-manager/add" class="collapse needs-validation" novalidate>
+
+                    </form>
                 </div>
                 <div style="text-align: -webkit-center">
                     <hr class="text-light">

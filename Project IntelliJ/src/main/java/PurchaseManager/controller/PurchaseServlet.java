@@ -17,7 +17,6 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.*;
 
 @WebServlet(name = "PurchaseServlet", value = "/purchase/*")

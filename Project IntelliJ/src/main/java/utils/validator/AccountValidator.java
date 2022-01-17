@@ -5,8 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
 
-import static utils.Controller.isAjax;
-
 /**
  * Questa classe implementa funzionalità di validazione dei parametri di un form riguardanti l'Account.
  */

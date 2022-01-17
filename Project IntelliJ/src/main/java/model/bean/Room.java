@@ -23,11 +23,6 @@ public class Room {
     private int id;
 
     /**
-     * Rappresenta la relazione tra la Sala e lo Spettacolo.
-     */
-    private ShowRoomRelation showRoomRelation;
-
-    /**
      * Il totale dei posti sarà calcolato facendo n_rows * n_seats.
      * La fila A sta in basso, la fila finale sta in alto.
      * Lo schermo in una sala sta in basso (quindi la fila A è quella più vicina).

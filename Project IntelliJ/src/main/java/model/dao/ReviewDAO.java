@@ -10,10 +10,7 @@ import model.bean.Film;
 import utils.extractor.FilmExtractor;
 import model.bean.Review;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -209,8 +206,8 @@ public class ReviewDAO implements SqlMethods<Review> {
                 ps.setString(3, review.getTitle());
                 ps.setString(4, review.getDescription());
                 ps.setInt(5, review.getStars());
-                ps.setDate(6, java.sql.Date.valueOf(review.getDate()));
-                ps.setTime(7, java.sql.Time.valueOf(review.getTime()));
+                ps.setDate(6, Date.valueOf(review.getDate()));
+                ps.setTime(7, Time.valueOf(review.getTime()));
 
                 int rows = ps.executeUpdate();
                 return rows == 1;

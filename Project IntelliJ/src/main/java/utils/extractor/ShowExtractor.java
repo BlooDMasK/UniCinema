@@ -1,7 +1,8 @@
 package utils.extractor;
 
-import utils.ResultSetExtractor;
 import model.bean.Film;
+import model.bean.Room;
+import utils.ResultSetExtractor;
 import model.bean.Show;
 
 import java.sql.ResultSet;
@@ -25,6 +26,10 @@ public class ShowExtractor implements ResultSetExtractor<Show> {
         show.setId(resultSet.getInt("sp.id"));
         show.setTime(resultSet.getTime("sp.show_hour").toLocalTime());
         show.setDate(resultSet.getDate("sp.show_date").toLocalDate());
+
+        Room room = new Room();
+        room.setId(resultSet.getInt("sp.id_room"));
+        show.setRoom(room);
 
         Film film = new Film();
         film.setId(resultSet.getInt("sp.id_film"));

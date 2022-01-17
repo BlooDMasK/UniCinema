@@ -67,7 +67,6 @@ function generatePurchases(page) {
                 show = null,
                 pages = response['pages'];
 
-            console.log(purchaseList);
 
             if(purchaseList.length == 0)
                 string = "Nessun acquisto effettuato.";
@@ -135,7 +134,6 @@ $("#list-info-list").click(function() {
 
 $("#profile-edit-form").submit(function(e) {
     let dataString = $(this).serialize();
-    console.log(contextPath);
 
     $.ajax({
         type: "Post",

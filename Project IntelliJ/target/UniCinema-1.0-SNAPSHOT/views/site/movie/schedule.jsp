@@ -4,6 +4,7 @@
 <%@ page import="model.bean.Show" %>
 <%@ page import="java.time.LocalTime" %>
 <%@ page import="java.util.*" %>
+<%@ page import="model.bean.Room" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="it">
 <head>
@@ -68,16 +69,21 @@
                                             <c:set var="dateKey" value="${date.key}"/>
                                             <div class="carousel-item ${not count ? 'active' : ''}">
                                                 <p class="card-title mt-2 mb-2"><%= ((LocalDate) pageContext.findAttribute("dateKey")).getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ITALIAN).substring(0, 3).toUpperCase() + " " + ((LocalDate) pageContext.findAttribute("dateKey")).getDayOfMonth() + " " + ((LocalDate) pageContext.findAttribute("dateKey")).getMonth().getDisplayName(TextStyle.FULL, Locale.ITALIAN).toUpperCase() %></p>
-                                                <c:forEach items="${date.value}" var="time">
+                                                <c:forEach items="${date.value}" var="show">
+                                                    <%
+                                                        Show show = (Show) pageContext.findAttribute("show");
+                                                        LocalTime localTime = show.getTime();
+                                                        Room room = show.getRoom();
+                                                    %>
                                                     <c:choose>
                                                         <c:when test="${empty accountSession}">
                                                             <a class="btn btn-outline-light rounded-3" href="${pageContext.request.contextPath}/account/signin">
-                                                                <%= ((LocalTime) pageContext.findAttribute("time")).getHour() + ":" + ((((LocalTime) pageContext.findAttribute("time")).getMinute() < 10) ? (((LocalTime) pageContext.findAttribute("time")).getMinute() + "0") : ((LocalTime) pageContext.findAttribute("time")).getMinute()) %>
+                                                                <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) + " | Sala " + room.getId() %>
                                                             </a>
                                                         </c:when>
                                                         <c:otherwise>
                                                             <a class="btn btn-outline-light rounded-3" href="${pageContext.request.contextPath}/purchase/seat-choice?showId=<%=film.getShowList().get(showCount++).getId()%>">
-                                                                <%= ((LocalTime) pageContext.findAttribute("time")).getHour() + ":" + ((((LocalTime) pageContext.findAttribute("time")).getMinute() < 10) ? (((LocalTime) pageContext.findAttribute("time")).getMinute() + "0") : ((LocalTime) pageContext.findAttribute("time")).getMinute()) %>
+                                                                <%= localTime.getHour() + ":" + ((localTime.getMinute() < 10) ? (localTime.getMinute() + "0") : localTime.getMinute()) + " | Sala " + room.getId() %>
                                                             </a>
                                                         </c:otherwise>
                                                     </c:choose>

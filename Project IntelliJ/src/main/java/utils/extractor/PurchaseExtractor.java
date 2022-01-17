@@ -1,13 +1,10 @@
 package utils.extractor;
 
-import model.bean.Account;
-import model.dao.AccountDAO;
 import utils.ResultSetExtractor;
 import model.bean.Purchase;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
 
 /**
  * Questa classe permette di estrarre i dati di un Acquisto da una {@link ResultSet}.

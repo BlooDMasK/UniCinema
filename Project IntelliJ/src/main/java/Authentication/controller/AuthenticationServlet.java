@@ -175,8 +175,6 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
                     Optional<Account> optAccountSignin = authenticationService.signin(tmpAccountSignin);
                     if(optAccountSignin.isPresent()) {
                         session.setAttribute("accountSession", optAccountSignin.get());
-
-                        //TODO redirect page di N secondi prima di andare in homepage
                         response.sendRedirect(getServletContext().getContextPath()+"/pages");
                     } else {
                         request.setAttribute("alert", new Alert(List.of("Credenziali non valide"), "danger"));

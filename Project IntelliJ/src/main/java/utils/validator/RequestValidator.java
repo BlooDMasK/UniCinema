@@ -6,7 +6,6 @@ import model.dao.AccountDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -204,14 +203,12 @@ public class RequestValidator {
         return assertMatch(value, pattern, msg, required);
     }
 
-    //TODO: da fare javadoc
     public boolean assertInts(String values, String msg) {
         String[] params = request.getParameterValues(values);
         boolean allInt = Arrays.stream(params).allMatch(param -> INT_PATTERN.matcher(param).matches());
         return gatherError(allInt, msg);
     }
 
-    //TODO: da fare il javadoc
     public boolean assertSize(String first, String second, String msg) {
         String[] firstList = request.getParameterValues(first);
         String[] secondList = request.getParameterValues(second);

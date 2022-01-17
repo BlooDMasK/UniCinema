@@ -60,8 +60,6 @@ public class SignupServlet extends Controller implements ErrorHandler {
             tmpAccountSignup.setAdministrator(false);
             if(signupService.signup(tmpAccountSignup)) {
                 session.setAttribute("accountSession", tmpAccountSignup);
-
-                //TODO redirect page di N secondi prima di andare in homepage
                 response.sendRedirect(getServletContext().getContextPath()+"/pages");
             } else {
                 request.setAttribute("alert", new Alert(List.of("Errore nell'inserimento dei dati"), "danger"));

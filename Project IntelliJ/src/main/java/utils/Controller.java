@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,10 +75,6 @@ public abstract class Controller extends HttpServlet implements ErrorHandler{
         }
     }
 
-    /**
-     * TODO
-     * @return
-     */
     protected String getUploadPath() {
         return System.getenv("CATALINA_IMAGES");
     }
@@ -130,10 +126,17 @@ public abstract class Controller extends HttpServlet implements ErrorHandler{
     }
 
     public static LocalDate getLocalDateFromString(HttpServletRequest request, String param) {
-        String datePublishingString = request.getParameter(param);
+        String dateString = request.getParameter(param);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         dateTimeFormatter = dateTimeFormatter.withLocale(Locale.ITALIAN);
 
-        return LocalDate.parse(datePublishingString, dateTimeFormatter);
+        return LocalDate.parse(dateString, dateTimeFormatter);
+    }
+
+    public static LocalTime getLocalTimeFromString(HttpServletRequest request, String param) {
+        String timeString = request.getParameter(param);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("H:mm");
+
+        return LocalTime.parse(timeString, dateTimeFormatter);
     }
 }

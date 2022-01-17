@@ -14,7 +14,6 @@ $(document).ready(function() {
         }
         case "update":
         {
-            console.log(film);
             let actorList = film["actorList"],
                 directorList = film["directorList"],
                 productionList = film["productionList"],

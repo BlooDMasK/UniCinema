@@ -13,6 +13,7 @@ import utils.extractor.ProductionExtractor;
 import model.bean.Film;
 
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 /**
@@ -259,7 +260,7 @@ public class FilmDAO implements SqlMethods<Film> {
             try (PreparedStatement ps = con.prepareStatement("INSERT INTO film (title, duration, date_publishing, genre, plot, cover, poster) VALUES(?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, film.getTitle());
                 ps.setInt(2, film.getLength());
-                ps.setDate(3, java.sql.Date.valueOf(film.getDatePublishing()));
+                ps.setDate(3, Date.valueOf(film.getDatePublishing()));
                 ps.setInt(4, film.getGenre());
                 ps.setString(5, film.getPlot());
                 ps.setString(6, film.getCover());
@@ -289,7 +290,7 @@ public class FilmDAO implements SqlMethods<Film> {
             try (PreparedStatement ps = con.prepareStatement("UPDATE film SET title = ?, duration = ?, date_publishing = ?, genre = ?, plot = ?, cover = ?, poster = ? WHERE id = ?")) {
                 ps.setString(1, film.getTitle());
                 ps.setInt(2, film.getLength());
-                ps.setDate(3, java.sql.Date.valueOf(film.getDatePublishing()));
+                ps.setDate(3, Date.valueOf(film.getDatePublishing()));
                 ps.setInt(4, film.getGenre());
                 ps.setString(5, film.getPlot());
                 ps.setString(6, film.getCover());

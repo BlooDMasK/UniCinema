@@ -5,8 +5,8 @@ import model.bean.Room;
 import model.bean.Show;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -27,7 +27,19 @@ public interface ShowService {
      * @return lista di tutti gli spettacoli.
      * @throws SQLException
      */
-    List<Show> fetchAll() throws SQLException;
+    ArrayList<Show> fetchAll() throws SQLException;
+
+    ArrayList<Show> fetchDaily(int roomId, LocalDate date) throws SQLException;
+
+    /**
+     * Quando devo aggiornare, devo escludere dalla ricerca l'oggetto show
+     * @param roomId
+     * @param date
+     * @param show
+     * @return
+     * @throws SQLException
+     */
+    ArrayList<Show> fetchDaily(int roomId, LocalDate date, Show show) throws SQLException;
 
     /**
      * Firma del metodo che implementa la funzionalità che restituisce uno spettacolo.
@@ -44,4 +56,10 @@ public interface ShowService {
      * @throws SQLException
      */
     Optional<Room> fetchRoom(int showId) throws SQLException;
+
+    boolean remove(int showId) throws SQLException;
+
+    boolean insert(Show show) throws SQLException;
+
+    boolean update(Show show) throws SQLException;
 }

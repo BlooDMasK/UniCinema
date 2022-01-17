@@ -5,7 +5,6 @@ import model.bean.Ticket;
 import utils.SqlMethods;
 import utils.extractor.FilmExtractor;
 import utils.extractor.PurchaseExtractor;
-import model.bean.Account;
 import utils.ConPool;
 import utils.Paginator;
 import model.bean.Purchase;
@@ -13,9 +12,9 @@ import utils.extractor.ShowExtractor;
 import utils.extractor.TicketExtractor;
 
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
-//TODO: da completare il javadoc
 /**
  * Questa classe rappresenta il DAO di un Acquisto.
  */
@@ -112,7 +111,7 @@ public class PurchaseDAO implements SqlMethods<Purchase> {
     public int insertAndReturnID(Purchase purchase) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps = con.prepareStatement("INSERT INTO purchase(date_purchase, id_customer) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS)) {
-                ps.setDate(1, java.sql.Date.valueOf(purchase.getDatePurchase()));
+                ps.setDate(1, Date.valueOf(purchase.getDatePurchase()));
                 ps.setInt(2, purchase.getAccount().getId());
 
                 ps.executeUpdate();

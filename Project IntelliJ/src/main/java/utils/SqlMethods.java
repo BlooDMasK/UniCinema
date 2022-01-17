@@ -16,7 +16,7 @@ public interface SqlMethods <T> {
      * @return la lista degli oggetti registrati nel Database.
      * @throws SQLException
      */
-    public List<T> fetchAll(Paginator paginator) throws SQLException;
+    List<T> fetchAll(Paginator paginator) throws SQLException;
 
     /**
      * Implementa la funzionalità di prendere un Oggetto.
@@ -24,7 +24,7 @@ public interface SqlMethods <T> {
      * @return l'Oggetto.
      * @throws SQLException
      */
-    public Optional<T> fetch(int id) throws SQLException;
+    Optional<T> fetch(int id) throws SQLException;
 
     /**
      * Implementa la funzionalità di registrare un Oggetto nel database.
@@ -32,7 +32,7 @@ public interface SqlMethods <T> {
      * @return true se la registrazione va a buon fine, false altrimenti.
      * @throws SQLException
      */
-    public boolean insert(T object) throws SQLException;
+    boolean insert(T object) throws SQLException;
 
     /**
      * Implementa la funzionalità di aggiornamento dati di un Oggetto.
@@ -40,7 +40,7 @@ public interface SqlMethods <T> {
      * @return true se l'aggiornamento va a buon fine, false altrimenti.
      * @throws SQLException
      */
-    public boolean update(T object) throws SQLException;
+    boolean update(T object) throws SQLException;
 
     /**
      * Implementa la funzionalità di rimuovere un Oggetto.
@@ -48,12 +48,12 @@ public interface SqlMethods <T> {
      * @return true se la rimozione va a buon fine, false altrimenti.
      * @throws SQLException
      */
-    public boolean delete(int id) throws SQLException;
+    boolean delete(int id) throws SQLException;
 
     /**
      * Implementa la funzionalità di conteggio degli Oggetti.
      * @return un intero che rappresenta il numero di Oggetti registrati nel database
      * @throws SQLException
      */
-    public int countAll() throws SQLException;
+    int countAll() throws SQLException;
 }

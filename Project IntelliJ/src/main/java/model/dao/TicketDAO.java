@@ -4,7 +4,6 @@ import utils.ConPool;
 import utils.Paginator;
 import utils.SqlMethods;
 import utils.extractor.TicketExtractor;
-import model.bean.Purchase;
 import model.bean.Ticket;
 
 import java.sql.*;

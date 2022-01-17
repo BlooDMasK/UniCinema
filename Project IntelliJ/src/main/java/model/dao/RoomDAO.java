@@ -73,7 +73,7 @@ public class RoomDAO implements SqlMethods<Room> {
 
     public Optional<Room> fetchFromShowId(int showId) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
-            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM room JOIN show_room sr on room.id = sr.id_room WHERE sr.id_show = ?")) {
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM room JOIN spectacle sp on room.id = sp.id_room WHERE sp.id = ?")) {
                 ps.setInt(1, showId);
 
                 ResultSet rs = ps.executeQuery();
