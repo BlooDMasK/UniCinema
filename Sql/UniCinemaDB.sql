@@ -41,7 +41,9 @@ id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 show_hour time,
 show_date date,
 id_film int,
-FOREIGN KEY(id_film) REFERENCES film(id) ON DELETE CASCADE
+id_room int,
+FOREIGN KEY(id_film) REFERENCES film(id) ON DELETE CASCADE,
+FOREIGN KEY(id_room) REFERENCES room(id) ON DELETE CASCADE
 );
 
 CREATE TABLE ticket(
@@ -53,14 +55,6 @@ id_spectacle int,
 id_purchase int,
 FOREIGN KEY (id_spectacle) REFERENCES spectacle(id) ON DELETE CASCADE,
 FOREIGN KEY (id_purchase) REFERENCES purchase(id) ON DELETE CASCADE
-);
-
-CREATE TABLE show_room (
-id_room int,
-id_show int,
-Primary Key(id_room, id_show),
-FOREIGN KEY (id_show) REFERENCES spectacle(id) ON DELETE CASCADE,
-FOREIGN KEY (id_room) REFERENCES room(id) ON DELETE CASCADE
 );
 
 CREATE TABLE director (
@@ -175,20 +169,6 @@ INSERT INTO customer VALUES
 ("02","mlezzi@gvkd.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Mario","Lezzi",false,false),
 ("03","suosso@gvkd.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Antonio","Santosuosso",false,false);
 
-INSERT INTO spectacle VALUES
-("01","16:00:00","2022-10-17","01"),
-("02","18:00:00","2022-10-17","01"),
-("03","20:00:00","2022-10-17","01"),
-("04","18:00:00","2022-10-01","02"),
-("05","20:30:00","2022-10-01","02"),
-("06","17:00:00","2022-10-10","03"),
-("08","19:30:00","2022-10-10","03"),
-("09","19:30:00","2022-11-11","05"),
-("10","21:30:00","2022-11-11","05"),
-("11","22:30:00","2022-11-11","01"),
-("12","23:30:00","2022-11-11","01"),
-("13","20:30:00","2022-11-11","01");
-
 INSERT INTO room VALUES
 ("01","10","12"),
 ("2","13","13"),
@@ -196,20 +176,19 @@ INSERT INTO room VALUES
 ("4","10", "15"),
 ("5","11","10");
 
-/* room show */
-INSERT INTO show_room VALUES
-("01","01"),
-("02","02"),
-("03","03"),
-("04", "4"),
-("05", "5"),
-("01", "6"),
-("03", "8"),
-("04", "9"),
-("05", "10"),
-("01", "11"),
-("02", "12"),
-("03", "13");
+INSERT INTO spectacle VALUES
+("01","16:00:00","2022-10-17","01","01"),
+("02","18:00:00","2022-10-17","01","02"),
+("03","20:00:00","2022-10-17","01","03"),
+("04","18:00:00","2022-10-01","02","04"),
+("05","20:00:00","2022-10-01","02","05"),
+("06","17:00:00","2022-10-10","03","01"),
+("08","19:00:00","2022-10-10","03","02"),
+("09","19:00:00","2022-11-11","05","03"),
+("10","21:00:00","2022-11-11","05","04"),
+("11","22:00:00","2022-11-11","01","05"),
+("12","23:00:00","2022-11-11","01","01"),
+("13","20:00:00","2022-11-11","01","02");
 
 INSERT INTO review VALUES 
 ("01","02","Film Eccellente","Un film davvero con i fiocchi, ben prodotto e registrato","5","2021-12-27","01:36:00");
