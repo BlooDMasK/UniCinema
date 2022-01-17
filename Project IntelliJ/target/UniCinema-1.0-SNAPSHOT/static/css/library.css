@@ -1,0 +1,117 @@
+.logo-font {
+    font-family: 'Prague';
+    font-weight: normal;
+    font-style: normal;
+    src: url("../fonts/Prague.otf");
+}
+
+.bg-img {
+    background-image: url("../images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.bg-error {
+    background-image: url("../images/error_background.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+#search-icon {
+    color: var(--bs-white);
+}
+
+#search-icon > svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+#search-icon > img {
+    width: 2rem;
+    height: 2rem;
+}
+
+.login-icon svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+.flex-wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.fs-1-5 {
+    font-size: 1.5rem;
+}
+
+.form-text {
+    color: var(--bs-gray-500);
+}
+
+.dropdown-menu {
+    padding: 0;
+    left: -3rem!important;
+    top: 2.5rem!important;
+    border: 0;
+}
+
+.dropdown-menu a {
+    text-decoration: none;
+}
+
+.dropdown-row {
+    transition: background-color .1s linear;
+}
+
+.dropdown-row:hover {
+    background-color: var(--bs-gray-400);
+}
+
+.dropdown-text {
+    color: var(--bs-dark);
+    font-size: 1.2rem;
+    margin-left: .3rem;
+}
+
+.dropdown-icon svg {
+    color: var(--bs-light);
+    width: 2rem;
+    height: 2rem;
+    padding: .2rem;
+}
+
+.dropdown-icon {
+    background-color: var(--bs-gray-dark);
+}
+
+.page-item.active .page-link {
+    background-color: var(--bs-warning);
+    border-color: var(--bs-warning);
+    color: black;
+}
+
+.page-link {
+    color: black;
+}
+
+.bg-none {
+    background: none;
+}
+
+.border-none {
+    border: none;
+}
+
+#search-dropdown {
+    left: 0!important;
+    max-height: 8rem;
+    max-width: 100%;
+    overflow: auto;
+}
+
+.height-2-4 {
+    height: 2.4rem;
+}
