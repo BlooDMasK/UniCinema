@@ -2,7 +2,6 @@ package model.dao;
 
 import utils.SqlMethods;
 import utils.extractor.ReviewExtractor;
-import model.bean.Account;
 import utils.extractor.AccountExtractor;
 import utils.ConPool;
 import utils.Paginator;
