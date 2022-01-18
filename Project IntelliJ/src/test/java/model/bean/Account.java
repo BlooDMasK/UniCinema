@@ -1,4 +1,4 @@
-package Model.bean;
+package model.bean;
 
 import lombok.*;
 
