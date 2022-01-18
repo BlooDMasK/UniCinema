@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-01-18T11:11:47.304Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36" etag="MhAZsc_Sm1dBXu8XYAHp" version="16.2.7" type="github" pages="13">
+<mxfile host="app.diagrams.net" modified="2022-01-18T11:14:30.520Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36" etag="RqWbEzr32saaCB_KiNuB" version="16.2.7" type="github" pages="13">
   <diagram id="1BzAciXBedrWRL4gVZTX" name="Page-1">
     <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
       <root>
@@ -1928,7 +1928,7 @@
         <mxCell id="D8PO_hAO92h4Vin6ICK6-4" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="D8PO_hAO92h4Vin6ICK6-2" vertex="1">
           <mxGeometry y="120" width="170" as="geometry" />
         </mxCell>
-        <mxCell id="D8PO_hAO92h4Vin6ICK6-5" value="Cliente" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#d5e8d4;strokeColor=#000000;fontSize=13;" parent="D8PO_hAO92h4Vin6ICK6-1" vertex="1">
+        <mxCell id="D8PO_hAO92h4Vin6ICK6-5" value="Utente Registrato" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#d5e8d4;strokeColor=#000000;fontSize=13;" parent="D8PO_hAO92h4Vin6ICK6-1" vertex="1">
           <mxGeometry x="720" y="480" width="150" height="120" as="geometry" />
         </mxCell>
         <mxCell id="D8PO_hAO92h4Vin6ICK6-6" value="-email: String&#xa;-nome: String&#xa;-cognome: String&#xa;-password: String&#xa;-administrator: boolean" style="text;strokeColor=#000000;fillColor=#d5e8d4;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" parent="D8PO_hAO92h4Vin6ICK6-5" vertex="1">
@@ -2188,7 +2188,7 @@
           <mxGeometry x="800" y="680" width="20" height="20" as="geometry" />
         </mxCell>
         <mxCell id="D8PO_hAO92h4Vin6ICK6-76" value="Scrive" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="D8PO_hAO92h4Vin6ICK6-1" vertex="1">
-          <mxGeometry x="1059" y="660" width="60" height="20" as="geometry" />
+          <mxGeometry x="1040" y="570" width="60" height="20" as="geometry" />
         </mxCell>
         <mxCell id="D8PO_hAO92h4Vin6ICK6-77" value="Effettua" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="D8PO_hAO92h4Vin6ICK6-1" vertex="1">
           <mxGeometry x="1175" y="510" width="60" height="20" as="geometry" />
@@ -2249,6 +2249,12 @@
         </mxCell>
         <mxCell id="D8PO_hAO92h4Vin6ICK6-91" value="0..*" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="D8PO_hAO92h4Vin6ICK6-1" vertex="1">
           <mxGeometry x="700" y="752.5" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="txx5D6TEqqSc8eEAoSVd-0" value="Admin" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="D8PO_hAO92h4Vin6ICK6-1">
+          <mxGeometry x="740" y="600" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="txx5D6TEqqSc8eEAoSVd-1" value="Cliente" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="D8PO_hAO92h4Vin6ICK6-1">
+          <mxGeometry x="870" y="570" width="60" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
