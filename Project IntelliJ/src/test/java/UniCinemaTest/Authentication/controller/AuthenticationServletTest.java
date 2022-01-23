@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import static org.junit.Assert.assertNotEquals;
@@ -144,7 +145,7 @@ public class AuthenticationServletTest {
     }
 
     @Test
-    public void doPostValueSignin() throws SQLException, ServletException, IOException {
+    public void doPostValueSignin() throws SQLException, ServletException, IOException, NoSuchAlgorithmException {
         when(authenticationServlet.getPath(request)).thenReturn("/signin");
 
         authenticationServlet.setAccountValidator(accountValidator);
@@ -154,7 +155,7 @@ public class AuthenticationServletTest {
         when(request.getParameter("email")).thenReturn(email);
         when(request.getParameter("password")).thenReturn(password);
         authenticationServlet.setAuthenticationService(authenticationServiceMethods);
-        when(authenticationServiceMethods.signin(email, password)).thenReturn(account);
+        when(authenticationServiceMethods.signin(email, authenticationServlet.getCryptedPassword(password))).thenReturn(account);
         authenticationServlet.doPost(request, response);
 
         verify(session).setAttribute("accountSession", account);
