@@ -42,13 +42,13 @@ $(document).ready(function() {
     $("#collapseActors .accordion-body, #collapseDirectors .accordion-body, #collapseProduction .accordion-body").each(function () {
         $(this).append("<div class='d-flex'>\
             <button type='button' class='btn btn-success btn-first-last-name'><img src='" + contextPath + "/static/icons/plus.svg' alt='...'></button>\
-            <p class='text-muted ms-1 mt-2 mb-2'>Il nome e il cognome devono essere di 3-30 caratteri.</p>\
+            <p class='text-muted ms-1 mt-2 mb-2'>Il nome e il cognome devono essere di 2-30 caratteri.</p>\
             </div>");
     });
 
     $("#collapseHouseProduction .accordion-body").append("<div class='d-flex'>\
             <button type='button' class='btn btn-success btn-name'><img src='" + contextPath + "/static/icons/plus.svg' alt='...'></button>\
-            <p class='text-muted ms-1 mt-2 mb-2'>Il nome deve essere di 3-50 caratteri.</p>\
+            <p class='text-muted ms-1 mt-2 mb-2'>Il nome deve essere di 5-50 caratteri.</p>\
             </div>");
 })
 
@@ -109,8 +109,8 @@ function specifyInputNameArray(inputName) {
 function generateFirstLastNameForm(firstname = "", lastname = "", id="") {
     return "<div class='first-last-name-div d-flex height-2-4 mb-2'>\
              <button type='button' class='btn btn-danger me-1'><img src='"+contextPath+"/static/icons/minus.svg' alt='...'></button>\
-              <input name='Firstname' type='text' class='input-firstname form-control rounded-pill fs-1-5 fw-light me-1' value='"+firstname+"' placeholder='Nome...' required minlength='3' maxlength='30' pattern='^[A-Za-zàèìòù0-9 -.,]{3,30}$'>\
-              <input name='Lastname' type='text' class='input-lastname form-control rounded-pill fs-1-5 fw-light' value='"+lastname+"' placeholder='Cognome...' required minlength='3' maxlength='30' pattern='^[A-Za-zàèìòù0-9 -.,]{3,30}$'>\
+              <input name='Firstname' type='text' class='input-firstname form-control rounded-pill fs-1-5 fw-light me-1' value='"+firstname+"' placeholder='Nome...' required minlength='2' maxlength='30' pattern='^[A-Za-z\W]{2,30}$'>\
+              <input name='Lastname' type='text' class='input-lastname form-control rounded-pill fs-1-5 fw-light' value='"+lastname+"' placeholder='Cognome...' required minlength='2' maxlength='30' pattern='^[A-Za-z\W]{2,30}$'>\
               <input type='hidden' class='input-id-first' name='Id' value='"+id+"'>\
             </div>";
 }
@@ -118,7 +118,7 @@ function generateFirstLastNameForm(firstname = "", lastname = "", id="") {
 function generateNameForm(name = "", id = "") {
     return "<div class='name-div d-flex height-2-4 mb-2'>\
               <button type='button' class='btn btn-danger me-1'><img src='"+contextPath+"/static/icons/minus.svg' alt='...'></button>\
-              <input name='Name' type='text' class='input-name form-control rounded-pill fs-1-5 fw-light' value='"+name+"' placeholder='Nome...' required minlength='3' maxlength='50' pattern='^[A-Za-zàèìòù0-9 -.,]{3,30}$'>\
+              <input name='Name' type='text' class='input-name form-control rounded-pill fs-1-5 fw-light' value='"+name+"' placeholder='Nome...' required minlength='5' maxlength='50' pattern='^[A-Za-z0-9\W]{5,50}$'>\
               <input type='hidden' class='input-id-second' name='Id' value='"+id+"'>\
             </div>";
 }

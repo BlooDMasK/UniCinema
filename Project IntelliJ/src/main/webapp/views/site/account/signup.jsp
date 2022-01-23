@@ -28,14 +28,14 @@
         </div>
         <div class="mb-3">
           <label for="signupLastname" class="form-label text-light fs-1-5 fw-light">Cognome</label>
-          <input name="lastname" type="text" class="form-control rounded-pill fs-1-5 fw-light" id="signupLastname" placeholder="Digita un cognome..." required minlength="3" maxlength="25" pattern="^[A-Za-zàèìòù]{3,25}$">
+          <input name="lastname" type="text" class="form-control rounded-pill fs-1-5 fw-light" id="signupLastname" placeholder="Digita un cognome..." required minlength="3" maxlength="25" pattern="^[A-Za-zàèìòù' ]{3,25}$">
           <div class="invalid-feedback">
             Il cognome deve essere di 3-25 caratteri.
           </div>
         </div>
         <div class="mb-3">
           <label for="signupEmail" class="form-label text-light fs-1-5 fw-light">Email</label>
-          <input name="email" type="email" class="form-control rounded-pill fs-1-5 fw-light" id="signupEmail" placeholder="Digita una email..." required minlength="6" maxlength="30" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
+          <input name="email" type="email" class="form-control rounded-pill fs-1-5 fw-light" id="signupEmail" placeholder="Digita una email..." required minlength="6" maxlength="30" pattern="^[A-Za-z0-9. _]@[A-Za-z].[A-Za-z]{6,30}$">
           <div class="invalid-feedback">
             L'email deve essere di 6-30 caratteri.
           </div>

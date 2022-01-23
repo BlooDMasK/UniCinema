@@ -17,7 +17,7 @@ public class AccountValidator {
      */
     public static RequestValidator validateSignin(HttpServletRequest request) {
         RequestValidator validator = new RequestValidator(request);
-        validator.assertEmail("email", "L'email deve essere in un formato valido", true);
+        validator.assertEmail("email", "L'email non è valida", true);
         return validator;
     }
 
@@ -28,11 +28,16 @@ public class AccountValidator {
      */
     public static RequestValidator validateSignup(HttpServletRequest request, boolean requiredParams) throws SQLException {
         RequestValidator validator = new RequestValidator(request);
-        validator.assertMatch("firstname", Pattern.compile("^[\\w\\s]{3,25}$"), "Il nome deve avere lunghezza tra 3 e 25 caratteri", requiredParams);
-        validator.assertMatch("lastname", Pattern.compile("^[\\w\\s]{3,25}$"), "Il cognome deve avere lunghezza tra 3 e 25 caratteri", requiredParams);
-        validator.assertPassword("password", "La password deve essere in un formato valido", requiredParams);
-        validator.assertEmail("email", "L'email deve essere in un formato valido", requiredParams);
+
+        validator.assertMatch("firstname", Pattern.compile("^[A-Za-zàèìòù]{3,25}$"), "Il nome non è valido", requiredParams);
+
+        validator.assertMatch("lastname", Pattern.compile("^[A-Za-zàèìòù' ]{3,25}$"), "Il cognome non è valido", requiredParams);
+
+        validator.assertPassword("password", "La password non è valida", requiredParams);
+
+        validator.assertEmail("email", "L'email non è valida", requiredParams);
         validator.assertExistingEmail("email", "L'email è già associata ad un altro account");
+
         return validator;
     }
 }

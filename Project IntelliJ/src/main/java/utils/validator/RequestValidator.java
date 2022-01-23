@@ -101,6 +101,17 @@ public class RequestValidator {
         return gatherError(condition, msg);
     }
 
+    public boolean assertEmpty(String value, String msg, boolean required) {
+        String param = request.getParameter(value);
+        boolean condition;
+        if(required)
+            condition = !isNull(param);
+        else
+            condition = true;
+
+        return gatherError(condition, msg);
+    }
+
     public boolean assertMatchArray(String value, Pattern regexp, String msg) {
         String[] array = request.getParameterValues(value);
 
@@ -174,7 +185,7 @@ public class RequestValidator {
      * @return true se la stringa segue il pattern, false altrimenti
      */
     public boolean assertEmail(String value, String msg, boolean required) {
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
         return assertMatch(value, pattern, msg, required);
     }
 

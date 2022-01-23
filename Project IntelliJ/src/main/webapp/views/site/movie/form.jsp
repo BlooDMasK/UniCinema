@@ -1,3 +1,4 @@
+<%@ page import="java.time.LocalDate" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="it">
 <head>
@@ -36,26 +37,23 @@
 
                     <div class="mb-3">
                         <label for="title" class="form-label text-light fs-1-5 fw-light">Titolo</label>
-                        <input name="title" type="text" class="form-control rounded-3 fs-1-5 fw-light" id="title" value="${not empty film ? film.title : ""}" placeholder="Digita un titolo..." required minlength="3" maxlength="50" pattern="^[A-Za-zàèìòù0-9 -.,]{3,50}$">
+                        <input name="title" type="text" class="form-control rounded-3 fs-1-5 fw-light" id="title" value="${not empty film ? film.title : ""}" placeholder="Digita un titolo..." required minlength="6" maxlength="50" pattern="^[A-Za-z0-9\W]{6,50}$">
                         <div class="invalid-feedback">
-                            Il titolo deve essere di 3-50 caratteri.
+                            Il titolo deve essere di 6-50 caratteri.
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="length" class="form-label text-light fs-1-5 fw-light">Durata</label>
-                        <div class="d-flex">
-                            <input name="length" type="number" class="form-control rounded-3 fs-1-5 fw-light" id="length" value="${not empty film ? film.length : ""}" placeholder="Durata..." required min="1" max="600">
-                            <span class="input-group-text">min.</span>
-                        </div>
+                        <input name="length" type="number" class="form-control rounded-3 fs-1-5 fw-light" id="length" value="${not empty film ? film.length : ""}" placeholder="Durata..." required min="10" max="999" pattern="^[0-9]{2,3}$">
                         <div class="invalid-feedback">
-                            La durata deve essere di minimo 1 minuto, massimo 600 minuti.
+                            La durata deve essere di minimo 10, massimo 999 minuti.
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="date-publishing" class="form-label text-light fs-1-5 fw-light">Data di pubblicazione</label>
-                        <input name="date-publishing" type="date" class="form-control rounded-3 fs-1-5 fw-light" value="${datePublishing}" id="date-publishing" required>
+                        <input name="date-publishing" type="date" class="form-control rounded-3 fs-1-5 fw-light" value="${datePublishing}" id="date-publishing" required min="<%=LocalDate.now()%>" max="31/12/2050">
                         <div class="invalid-feedback">
                             Devi inserire una data.
                         </div>
