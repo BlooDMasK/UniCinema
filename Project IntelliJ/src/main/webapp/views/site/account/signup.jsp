@@ -35,7 +35,7 @@
         </div>
         <div class="mb-3">
           <label for="signupEmail" class="form-label text-light fs-1-5 fw-light">Email</label>
-          <input name="email" type="email" class="form-control rounded-pill fs-1-5 fw-light" id="signupEmail" placeholder="Digita una email..." required minlength="6" maxlength="30" pattern="^[A-Za-z0-9. _]@[A-Za-z].[A-Za-z]{6,30}$">
+          <input name="email" type="email" class="form-control rounded-pill fs-1-5 fw-light" id="signupEmail" placeholder="Digita una email..." required minlength="6" maxlength="30" pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
           <div class="invalid-feedback">
             L'email deve essere di 6-30 caratteri.
           </div>
