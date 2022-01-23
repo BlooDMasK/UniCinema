@@ -12,6 +12,9 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -138,5 +141,14 @@ public abstract class Controller extends HttpServlet implements ErrorHandler{
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("H:mm");
 
         return LocalTime.parse(timeString, dateTimeFormatter);
+    }
+
+    public String getCryptedPassword(String pswrd) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-512");
+        byte[] hashedPwd = digest.digest(pswrd.getBytes(StandardCharsets.UTF_8));
+        StringBuilder builder = new StringBuilder();
+        for(byte bit : hashedPwd)
+            builder.append(String.format("%02x", bit));
+        return builder.toString();
     }
 }

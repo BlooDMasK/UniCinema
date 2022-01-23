@@ -189,7 +189,7 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
                     validate(accountValidator.validateSignin(request));
                     String email = request.getParameter("email"),
                            pswrd = request.getParameter("password");
-                    Account optAccountSignin = authenticationService.signin(email, pswrd);
+                    Account optAccountSignin = authenticationService.signin(email, getCryptedPassword(pswrd));
                     if(optAccountSignin != null) {
                         session.setAttribute("accountSession", optAccountSignin);
                         response.sendRedirect(getServletContext().getContextPath()+"/pages");
