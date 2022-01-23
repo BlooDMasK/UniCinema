@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Questa classe rappresenta il DAO di un Regista.
@@ -102,7 +101,7 @@ public class DirectorDAO implements SqlMethods<Director> {
      * @throws SQLException
      */
     @Override
-    public Optional<Director> fetch(int id) throws SQLException {
+    public Director fetch(int id) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps = con.prepareStatement("SELECT * FROM director WHERE id = ?")) {
                 ps.setInt(1,id);
@@ -114,7 +113,7 @@ public class DirectorDAO implements SqlMethods<Director> {
                     director = directorExtractor.extract(rs);
                 }
                 rs.close();
-                return Optional.ofNullable(director);
+                return director;
             }
         }
     }

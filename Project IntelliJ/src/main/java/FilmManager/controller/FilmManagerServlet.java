@@ -1,6 +1,5 @@
 package FilmManager.controller;
 
-import FilmInfo.controller.FilmInfoServlet;
 import FilmInfo.service.FilmService;
 import FilmInfo.service.FilmServiceMethods;
 import FilmManager.service.FilmManagerService;
@@ -20,7 +19,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @WebServlet(name = "FilmManagerServlet", value = "/film-manager/*")
 @MultipartConfig
@@ -63,12 +61,12 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
                 case "/update": {
                     authorize(session);
                     int filmId = Integer.parseInt(request.getParameter("filmId"));
-                    Optional<Film> film = filmInfoService.fetch(filmId);
-                    if (film.isPresent()) {
-                        session.setAttribute("film", film.get());
+                    Film film = filmInfoService.fetch(filmId);
+                    if (film != null) {
+                        session.setAttribute("film", film);
                         session.setAttribute("formType", "update");
-                        session.setAttribute("datePublishing", film.get().getDatePublishing());
-                        session.setAttribute("filmToJson", film.get().toJson());
+                        session.setAttribute("datePublishing", film.getDatePublishing());
+                        session.setAttribute("filmToJson", film.toJson());
 
                         request.getRequestDispatcher(view("site/movie/form")).forward(request, response);
                         session.removeAttribute("alert");

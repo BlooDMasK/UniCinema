@@ -24,7 +24,7 @@ public class FilmServiceMethods implements FilmService {
      * @throws SQLException
      */
     @Override
-    public Optional<Film> fetch(int filmId) throws SQLException {
+    public Film fetch(int filmId) throws SQLException {
         return filmDAO.fetch(filmId);
     }
 

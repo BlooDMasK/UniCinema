@@ -55,7 +55,7 @@ public class FilmDAO implements SqlMethods<Film> {
      * @throws SQLException
      */
     @Override
-    public Optional<Film> fetch(int id) throws SQLException {
+    public Film fetch(int id) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try(PreparedStatement filmStatement = con.prepareStatement("SELECT * FROM film WHERE id = ?");
                 PreparedStatement productionStatement = con.prepareStatement("SELECT * FROM production prod WHERE prod.id_film = ?");
@@ -110,7 +110,7 @@ public class FilmDAO implements SqlMethods<Film> {
                     }
                 }
                 rs.close();
-                return Optional.ofNullable(film);
+                return film;
             }
         }
     }

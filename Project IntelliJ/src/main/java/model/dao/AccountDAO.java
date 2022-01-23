@@ -9,7 +9,6 @@ import model.bean.Account;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static utils.validator.RequestValidator.isNull;
 
@@ -84,7 +83,7 @@ public class AccountDAO implements SqlMethods<Account> {
      * @throws SQLException
      */
     @Override
-    public Optional<Account> fetch(int id) throws SQLException {
+    public Account fetch(int id) throws SQLException {
         try (Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps =
                          con.prepareStatement("SELECT * FROM customer AS acc WHERE id = ?")) {
@@ -97,7 +96,7 @@ public class AccountDAO implements SqlMethods<Account> {
                     account = accountExtractor.extract(rs);
 
                 rs.close();
-                return Optional.ofNullable(account);
+                return account;
             }
         }
     }
@@ -108,7 +107,7 @@ public class AccountDAO implements SqlMethods<Account> {
      * @return l'account.
      * @throws SQLException
      */
-    public Optional<Account> fetch(String email) throws SQLException {
+    public Account fetch(String email) throws SQLException {
         try (Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps =
                          con.prepareStatement("SELECT * FROM customer AS acc WHERE email = ?")) {
@@ -121,7 +120,7 @@ public class AccountDAO implements SqlMethods<Account> {
                     account = accountExtractor.extract(rs);
 
                 rs.close();
-                return Optional.ofNullable(account);
+                return account;
             }
         }
     }
@@ -184,7 +183,7 @@ public class AccountDAO implements SqlMethods<Account> {
      * @return
      * @throws SQLException
      */
-    public Optional<Account> find(String email, String password, boolean admin) throws SQLException {
+    public Account find(String email, String password, boolean admin) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try(PreparedStatement ps = con.prepareStatement("SELECT * FROM customer AS acc WHERE (email = ? AND pswrd = ?" + (admin ? " AND administrator = ?)" : ")"))) {
                 ps.setString(1, email);
@@ -195,7 +194,7 @@ public class AccountDAO implements SqlMethods<Account> {
                 Account account = null;
                 if(rs.next())
                     account = new AccountExtractor().extract(rs);
-                return Optional.ofNullable(account);
+                return account;
             }
         }
     }

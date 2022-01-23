@@ -34,9 +34,9 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
                 case "/seat-choice":
                     authenticate(session);
                     int showId = Integer.parseInt(request.getParameter("showId"));
-                    Optional<Show> show = showService.fetch(showId);
-                    Optional<Room> room = showService.fetchRoom(showId);
-                    if(show.isPresent() && room.isPresent()) {
+                    Show show = showService.fetch(showId);
+                    Room room = showService.fetchRoom(showId);
+                    if(show != null && room != null) {
                         ArrayList<Ticket> ticketList = purchaseService.fetchTickets(showId);
 
                         HashMap<String, Ticket> ticketMap = new LinkedHashMap<>();
@@ -44,9 +44,9 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
                         for(Ticket ticket : ticketList)
                             ticketMap.put(ticket.getRowLetter()+"-"+ticket.getSeat(), ticket);
 
-                        request.setAttribute("show", show.get());
-                        request.setAttribute("film", show.get().getFilm());
-                        request.setAttribute("room", room.get());
+                        request.setAttribute("show", show);
+                        request.setAttribute("film", show.getFilm());
+                        request.setAttribute("room", room);
                         request.setAttribute("ticketMap", ticketMap);
 
                         request.getRequestDispatcher(view("site/movie/purchase")).forward(request, response);
@@ -94,8 +94,8 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
 
                         ArrayList<Ticket> ticketList = new ArrayList<>();
 
-                        Optional<Show> show = showService.fetch(Integer.parseInt(request.getParameter("showId")));
-                        if(show.isEmpty())
+                        Show show = showService.fetch(Integer.parseInt(request.getParameter("showId")));
+                        if(show == null)
                             internalError("Errore nella ricerca dello spettacolo");
 
                         for(int i = 1; i < 5; i++) {
@@ -105,7 +105,7 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
                                 char row = key[0].toCharArray()[0];
                                 int seat = Integer.parseInt(key[1]);
 
-                                Ticket ticket = new Ticket(TICKET_PRICE, seat, row, show.get(), purchase);
+                                Ticket ticket = new Ticket(TICKET_PRICE, seat, row, show, purchase);
                                 ticketList.add(ticket);
                             }
                         }
@@ -114,11 +114,11 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
 
                             request.setAttribute("ticketList", ticketList);
                             request.setAttribute("purchase", purchase);
-                            request.setAttribute("show", show.get());
-                            request.setAttribute("film", show.get().getFilm());
-                            Optional<Room> room = showService.fetchRoom(show.get().getId());
-                            if(room.isPresent())
-                                request.setAttribute("room", room.get());
+                            request.setAttribute("show", show);
+                            request.setAttribute("film", show.getFilm());
+                            Room room = showService.fetchRoom(show.getId());
+                            if(room != null)
+                                request.setAttribute("room", room);
                             else
                                 internalError("Errore nella ricerca della sala");
 

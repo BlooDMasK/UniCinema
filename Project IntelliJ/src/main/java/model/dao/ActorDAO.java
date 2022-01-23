@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Questa classe rappresenta il DAO di un Attore.
@@ -102,7 +101,7 @@ public class ActorDAO implements SqlMethods<Actor> {
      * @throws SQLException
      */
     @Override
-    public Optional<Actor> fetch(int id) throws SQLException {
+    public Actor fetch(int id) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps = con.prepareStatement("SELECT * FROM actor WHERE id = ?")) {
                 ps.setInt(1,id);
@@ -114,7 +113,7 @@ public class ActorDAO implements SqlMethods<Actor> {
                     actor = actorExtractor.extract(rs);
                 }
                 rs.close();
-                return Optional.ofNullable(actor);
+                return actor;
             }
         }
     }

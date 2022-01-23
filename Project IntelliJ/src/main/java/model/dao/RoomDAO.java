@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Questa classe rappresenta il DAO di una Sala.
@@ -53,7 +52,7 @@ public class RoomDAO implements SqlMethods<Room> {
      * @throws SQLException
      */
     @Override
-    public Optional<Room> fetch(int id) throws SQLException {
+    public Room fetch(int id) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps = con.prepareStatement("SELECT * FROM room WHERE id = ?")) {
                 ps.setInt(1, id);
@@ -66,12 +65,12 @@ public class RoomDAO implements SqlMethods<Room> {
                     room = roomExtractor.extract(rs);
                 }
                 rs.close();
-                return Optional.ofNullable(room);
+                return room;
             }
         }
     }
 
-    public Optional<Room> fetchFromShowId(int showId) throws SQLException {
+    public Room fetchFromShowId(int showId) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps = con.prepareStatement("SELECT * FROM room JOIN spectacle sp on room.id = sp.id_room WHERE sp.id = ?")) {
                 ps.setInt(1, showId);
@@ -84,7 +83,7 @@ public class RoomDAO implements SqlMethods<Room> {
                     room = roomExtractor.extract(rs);
                 }
                 rs.close();
-                return Optional.ofNullable(room);
+                return room;
             }
         }
     }

@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 /**
  * Questa classe rappresenta il DAO di una Casa di produzione.
  */
@@ -100,7 +99,7 @@ public class HouseProductionDAO implements SqlMethods<HouseProduction> {
      * @throws SQLException
      */
     @Override
-    public Optional<HouseProduction> fetch(int id) throws SQLException {
+    public HouseProduction fetch(int id) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try(PreparedStatement ps = con.prepareStatement("SELECT * FROM house_production AS hp WHERE id = ?")) {
                 ps.setInt(1, id);
@@ -113,7 +112,7 @@ public class HouseProductionDAO implements SqlMethods<HouseProduction> {
                 }
                 rs.close();
 
-                return Optional.ofNullable(houseProduction);
+                return houseProduction;
             }
         }
     }

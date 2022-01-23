@@ -12,7 +12,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Questa classe rappresenta il DAO di uno Spettacolo.
@@ -156,7 +155,7 @@ public class ShowDAO implements SqlMethods<Show> {
      * @throws SQLException
      */
     @Override
-    public Optional<Show> fetch(int id) throws SQLException {
+    public Show fetch(int id) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps = con.prepareStatement("SELECT * FROM spectacle AS sp JOIN film on sp.id_film = film.id WHERE sp.id = ?")) {
                 ps.setInt(1, id);
@@ -174,7 +173,7 @@ public class ShowDAO implements SqlMethods<Show> {
                     show.setFilm(film);
                 }
                 rs.close();
-                return Optional.ofNullable(show);
+                return show;
             }
         }
     }

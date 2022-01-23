@@ -60,7 +60,6 @@ public class InvalidRequestException extends Exception {
                 }
                 break;
             default: {
-                System.out.println("default");
                 response.sendError(errorCode, errors.get(0));
             }
         }

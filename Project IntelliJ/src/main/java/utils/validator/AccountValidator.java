@@ -15,7 +15,7 @@ public class AccountValidator {
      * @param request è l'oggetto contenente i parametri
      * @return il validator
      */
-    public static RequestValidator validateSignin(HttpServletRequest request) {
+    public RequestValidator validateSignin(HttpServletRequest request) {
         RequestValidator validator = new RequestValidator(request);
         validator.assertEmail("email", "L'email deve essere in un formato valido", true);
         return validator;
@@ -26,7 +26,7 @@ public class AccountValidator {
      * @param request è l'oggetto contenente i parametri
      * @return il validator
      */
-    public static RequestValidator validateSignup(HttpServletRequest request, boolean requiredParams) throws SQLException {
+    public RequestValidator validateSignup(HttpServletRequest request, boolean requiredParams) throws SQLException {
         RequestValidator validator = new RequestValidator(request);
         validator.assertMatch("firstname", Pattern.compile("^[\\w\\s]{3,25}$"), "Il nome deve avere lunghezza tra 3 e 25 caratteri", requiredParams);
         validator.assertMatch("lastname", Pattern.compile("^[\\w\\s]{3,25}$"), "Il cognome deve avere lunghezza tra 3 e 25 caratteri", requiredParams);

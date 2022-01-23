@@ -3,7 +3,6 @@ package Authentication.service;
 import model.bean.Account;
 
 import java.sql.SQLException;
-import java.util.Optional;
 
 public interface AuthenticationService {
     /**
@@ -12,7 +11,7 @@ public interface AuthenticationService {
      * @return dell'utente da loggato.
      * @throws SQLException
      */
-    Optional<Account> signin(Account account) throws SQLException;
+    Account signin(String email, String pswrd) throws SQLException;
 
     /**
      * Firma del metodo che implementa la funzionalità che permette di restituire un account, preso dal database, a partire dalla sua email.
@@ -20,7 +19,7 @@ public interface AuthenticationService {
      * @return l'account da restituire.
      * @throws SQLException
      */
-    Optional<Account> fetch(String email) throws SQLException;
+    Account fetch(String email) throws SQLException;
 
     /**
      * Firma del metodo che implementa la funzionalità di modifica dell'account.

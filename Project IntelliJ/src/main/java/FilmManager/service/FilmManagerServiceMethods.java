@@ -1,6 +1,6 @@
 package FilmManager.service;
 
-import model.bean.Film;
+import model.bean.*;
 import model.dao.*;
 
 import java.sql.SQLException;

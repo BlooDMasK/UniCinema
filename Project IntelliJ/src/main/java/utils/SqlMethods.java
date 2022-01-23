@@ -2,7 +2,6 @@ package utils;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Questa interfaccia permette di generalizzare i metodi dei DAO.
@@ -24,7 +23,7 @@ public interface SqlMethods <T> {
      * @return l'Oggetto.
      * @throws SQLException
      */
-    Optional<T> fetch(int id) throws SQLException;
+    T fetch(int id) throws SQLException;
 
     /**
      * Implementa la funzionalità di registrare un Oggetto nel database.

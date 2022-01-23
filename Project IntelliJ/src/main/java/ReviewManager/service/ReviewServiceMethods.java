@@ -7,7 +7,6 @@ import utils.Paginator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Optional;
 
 /**
  * Classe che implementa i metodi definiti nell'interfaccia service del sottosistema Review (Gestione Recensioni)
@@ -108,7 +107,7 @@ public class ReviewServiceMethods implements ReviewService{
      * @throws SQLException
      */
     @Override
-    public Optional<Review> fetch(int accountId, int filmId) throws SQLException {
+    public Review fetch(int accountId, int filmId) throws SQLException {
         return reviewDAO.fetch(accountId, filmId);
     }
 

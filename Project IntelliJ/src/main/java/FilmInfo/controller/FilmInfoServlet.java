@@ -2,19 +2,15 @@ package FilmInfo.controller;
 
 import FilmInfo.service.FilmService;
 import FilmInfo.service.FilmServiceMethods;
-import ReviewManager.service.ReviewService;
-import ReviewManager.service.ReviewServiceMethods;
 import ShowManager.service.ShowService;
 import ShowManager.service.ShowServiceMethods;
 import model.bean.Film;
-import model.bean.Review;
 import model.bean.Show;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.Controller;
 import utils.ErrorHandler;
 import utils.InvalidRequestException;
-import utils.Paginator;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -57,12 +53,12 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
                  */
                 case "/details": { //Dettagli film
                     int filmId = Integer.parseInt(request.getParameter("filmId"));
-                    Optional<Film> film = filmService.fetch(filmId);
-                    if (film.isPresent()) {
-                        ArrayList<Show> showList = showService.fetchAll(film.get());
+                    Film film = filmService.fetch(filmId);
+                    if (film != null) {
+                        ArrayList<Show> showList = showService.fetchAll(film);
 
-                        film.get().setShowList(showList);
-                        request.setAttribute("film", film.get());
+                        film.setShowList(showList);
+                        request.setAttribute("film", film);
 
                         request.getRequestDispatcher(view("site/movie/details")).forward(request, response);
                     } else
@@ -77,15 +73,15 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
                     ArrayList<Show> showList = showService.fetchAll();
 
                     Map<Integer, Film> filmMap = new LinkedHashMap<>();
-                    Optional<Film> filmOptional;
+                    Film filmOptional;
                     int filmId;
                     for (Show show : showList) {
                         filmId = show.getFilm().getId();
                         if (!filmMap.containsKey(filmId)) {
                             filmOptional = filmService.fetch(filmId);
-                            if (filmOptional.isPresent()) {
-                                filmOptional.get().getShowList().add(show);
-                                filmMap.put(filmId, filmOptional.get());
+                            if (filmOptional != null) {
+                                filmOptional.getShowList().add(show);
+                                filmMap.put(filmId, filmOptional);
                             }
                         } else
                             filmMap.get(filmId).getShowList().add(show);

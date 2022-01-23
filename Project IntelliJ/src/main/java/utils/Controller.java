@@ -35,7 +35,7 @@ public abstract class Controller extends HttpServlet implements ErrorHandler{
      * @param req rappresenta l'oggetto della request
      * @return una stringa contenente il pathInfo
      */
-    protected String getPath(HttpServletRequest req) {
+    public String getPath(HttpServletRequest req) {
         if(req.getPathInfo() != null)
             return req.getPathInfo();
         else
@@ -47,7 +47,7 @@ public abstract class Controller extends HttpServlet implements ErrorHandler{
      * @param viewPath rappresenta il percorso dell'URL
      * @return una stringa contenente la basePath, la viewPath e l'engine.
      */
-    protected String view(String viewPath) {
+    public String view(String viewPath) {
         String basePath = getServletContext().getInitParameter("basePath");
         String engine = getServletContext().getInitParameter("engine");
         return basePath + viewPath + engine;
@@ -67,7 +67,7 @@ public abstract class Controller extends HttpServlet implements ErrorHandler{
      * @param validator rappresenta l'insieme dei parametri
      * @throws InvalidRequestException quando viene richiamata restituisce il tipo di errore nella console
      */
-    protected void validate(RequestValidator validator) throws InvalidRequestException {
+    public void validate(RequestValidator validator) throws InvalidRequestException {
         if(validator.hasErrors()) {
 
             throw new InvalidRequestException("Validation Error", validator.getErrors(),
@@ -84,7 +84,7 @@ public abstract class Controller extends HttpServlet implements ErrorHandler{
      * @param session rappresenta l'oggetto della sessione
      * @return l'oggetto dell'account nella sessione
      */
-    protected Account getSessionAccount(HttpSession session) {
+    public Account getSessionAccount(HttpSession session) {
         return (Account) session.getAttribute("accountSession");
     }
 

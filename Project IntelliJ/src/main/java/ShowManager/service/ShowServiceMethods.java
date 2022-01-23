@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Optional;
 
 /**
  * Classe che implementa i metodi definiti nell'interfaccia service del sottosistema Show (Gestione Spettacoli).
@@ -67,7 +66,7 @@ public class ShowServiceMethods implements ShowService{
      * @throws SQLException
      */
     @Override
-    public Optional<Show> fetch(int id) throws SQLException {
+    public Show fetch(int id) throws SQLException {
         return showDAO.fetch(id);
     }
 
@@ -78,7 +77,7 @@ public class ShowServiceMethods implements ShowService{
      * @throws SQLException
      */
     @Override
-    public Optional<Room> fetchRoom(int showId) throws SQLException {
+    public Room fetchRoom(int showId) throws SQLException {
         return roomDAO.fetchFromShowId(showId);
     }
 

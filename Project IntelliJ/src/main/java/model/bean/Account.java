@@ -5,6 +5,7 @@ import lombok.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * Questa classe rappresenta l'Utente Registrato.
