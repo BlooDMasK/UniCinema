@@ -224,7 +224,7 @@
                             <jsp:include page="../../partial/site/alert.jsp"/>
                             <div class="form-group">
                                 <label for="reviewWriteTitle">Titolo</label>
-                                <input type="text" class="form-control" name="reviewWriteTitle" id="reviewWriteTitle" placeholder="Titolo della recensione" minlength="3" maxlength="20" pattern="^[A-Za-z0-9\W]{3,20}$" required>
+                                <input type="text" class="form-control" name="reviewWriteTitle" id="reviewWriteTitle" placeholder="Titolo della recensione" minlength="3" maxlength="40" pattern="^[A-Za-z':;.,àèìòù0-9?! ]{3,40}$" required>
 
                                 <label for="reviewWriteDescription">Descrizione</label>
                                 <textarea class="form-control" name="reviewWriteDescription" id="reviewWriteDescription" rows="3" placeholder="Descrizione della recensione" minlength="5" maxlength="500" pattern="^[A-Za-z0-9\W]{5,500}$" required></textarea>
