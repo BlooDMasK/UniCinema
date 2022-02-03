@@ -136,9 +136,6 @@ public class ShowManagerServlet extends Controller implements ErrorHandler {
                         if(!stringDate.isEmpty() && !stringDate.isBlank()) {
                             LocalDate date = getLocalDateFromString(request, "date");
                             ArrayList<Show> showList = showService.fetchDaily(roomId, date);
-                            System.out.println("isEmpty: " + showList.isEmpty());
-                            for (Show show : showList)
-                                System.out.println(show.toString());
                             if (!showList.isEmpty()) {
                                 JSONObject root = new JSONObject();
                                 root.put("timeList", getAvailableDateList(filmLength, date, showList));
@@ -167,7 +164,6 @@ public class ShowManagerServlet extends Controller implements ErrorHandler {
     }
 
     private boolean isOverlapping(LocalDateTime start1, LocalDateTime end1, LocalDateTime start2, LocalDateTime end2) {
-        System.out.println("start1: "+start1+" | end2: "+end2+" && start2: "+start2+" | end1: "+end1);
         return start1.isBefore(end2) && start2.isBefore(end1);
     }
 

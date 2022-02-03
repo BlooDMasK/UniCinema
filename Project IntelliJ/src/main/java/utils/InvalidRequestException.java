@@ -59,10 +59,8 @@ public class InvalidRequestException extends Exception {
                     request.getRequestDispatcher(backPath).forward(request, response);
                 }
                 break;
-            default: {
-                System.out.println("default");
+            default:
                 response.sendError(errorCode, errors.get(0));
-            }
         }
     }
 
