@@ -49,7 +49,7 @@ $("#collapseReviewBox").submit(function(e) {
             success: function (response) {
                 if (triggerAlert(response) == 'success') {
                     resetNumberStar();
-                    resetReviewForm();
+                    resetReviewForm(false);
                     generateReviews(1);
                 }
             }
@@ -79,10 +79,11 @@ $(document).on ("click", ".button-remove-review", function () {
 /*
     Funzioni
  */
-function resetReviewForm() {
+function resetReviewForm(hideAlert = true) {
     $("#reviewWriteTitle").val('');
     $("#reviewWriteDescription").val('');
-    $(".alert").hide();
+    if(hideAlert)
+        $(".alert").hide();
 }
 
 function resetNumberStar() {
