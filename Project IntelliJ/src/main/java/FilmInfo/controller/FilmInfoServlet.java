@@ -26,8 +26,21 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
     /**
      * I service per effettuare le operazioni di persistenza.
      */
-    private FilmService filmService = new FilmServiceMethods();
-    private ShowService showService = new ShowServiceMethods();
+    private FilmService filmService;
+    private ShowService showService;
+
+    public void setFilmService(FilmService filmService) {
+        this.filmService = filmService;
+    }
+
+    public void setShowService(ShowService showService) {
+        this.showService = showService;
+    }
+
+    public FilmInfoServlet() {
+        filmService = new FilmServiceMethods();
+        showService = new ShowServiceMethods();
+    }
 
     /**
      * Implementa le funzionalità svolte durante una chiamata di tipo GET
@@ -37,10 +50,8 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
      * @throws IOException
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-
-            HttpSession session = request.getSession();
 
             /**
              * Rappresenta il path che permette di smistare le funzionalità.
@@ -104,7 +115,7 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String path = getPath(request);
 
