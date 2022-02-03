@@ -4,22 +4,162 @@
 (function () {
     'use strict'
 
-    var forms = document.querySelectorAll('.needs-validation')
+    let forms = document.querySelectorAll('.needs-validation')
 
     Array.prototype.slice.call(forms)
         .forEach(function (form) {
             form.addEventListener('submit', function (event) {
+                form.classList.remove('validation-valid', 'validation-invalid');
+
+                //se la validazione fallisce
                 if (!form.checkValidity()) {
                     event.preventDefault()
                     event.stopPropagation()
-                }
 
-                form.classList.add('was-validated')
+                    //Per ogni input faccio i controlli su cosa è andato storto e cosa no
+                    $(" .form-control", form).each(function() {
+                        let input = $(this);
+                        let inputVal = input.val();
+                        let required = input.attr("required"),
+                            pattern = input.attr("pattern"),
+                            minlength = input.attr("minlength"),
+                            maxlength = input.attr("maxlength"),
+                            min = input.attr("min"),
+                            max = input.attr("max"),
+                            feedback = "",
+                            isValid = true,
+                            inputType = input.attr("type");
+
+                        /*if(input.prop("tagName").toLowerCase() === "textarea")
+                        {
+                            let expression = "";
+                            switch(input.attr("id"))
+                            {
+                                case "reviewWriteDescription":
+                                    expression = "^[A-Za-z0-9\\W]{5,500}$";
+                                    break;
+
+                                case "plot":
+                                    expression = "(?!(\\[|\\]|\\{|\\}|\\@|\\_|\\=))[A-Za-z0-9\\W]{10,1000}";
+                                    break;
+                            }
+
+                            const regex = new RegExp(expression);
+                            isValid = isValid && regex.test(inputVal);
+                            if (!regex.test(inputVal))
+                                feedback = "Formato non valido.";
+                        }
+
+                        if(inputType === "email") {
+                            const regex = new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
+                            isValid = isValid && regex.test(inputVal);
+                            if (!regex.test(inputVal))
+                                feedback = "Formato email non valido.";
+                        }*/
+
+                        if (pattern !== undefined) {
+                            const regex = new RegExp(pattern);
+                            isValid = isValid && regex.test(inputVal);
+                            if (!regex.test(inputVal))
+                                feedback = "Formato non valido.";
+                        }
+
+                        //MIN E MAX
+                        if (min !== undefined && max !== undefined) {
+                            if(inputType === "date") {
+
+                                let dateMin = new Date(min),
+                                    dateMax = new Date(max),
+                                    date = new Date(inputVal);
+
+                                isValid = isValid && (dateMin <= date && date <= dateMax);
+                                if(!(dateMin <= date && date <= dateMax))
+                                    feedback = "La data deve essere compresa tra " + min + " e " + max + ".";
+
+                            } else {
+                                isValid = isValid && (min <= inputVal && inputVal <= max)
+                                if (!(min <= inputVal && inputVal <= max))
+                                    feedback = "Il valore deve essere compreso tra " + min + " e " + max + ".";
+
+                            }
+                        }
+
+                        if (min !== undefined && max === undefined) {
+                            isValid = isValid && (min <= inputVal);
+                            if (!(min <= inputVal))
+                                feedback = "Il valore deve essere minimo " + min + ".";
+                        }
+
+                        if (min === undefined && max !== undefined) {
+                            isValid = isValid && (inputVal >= max);
+                            if (!(inputVal >= max))
+                                feedback = "Il valore deve essere massimo " + max + ".";
+                        }
+
+                        //MINLENGTH E MAX LENGTH
+                        if (minlength !== undefined && maxlength !== undefined) {
+                            isValid = isValid && (minlength <= inputVal.length && inputVal.length <= maxlength);
+                            if (!(minlength <= inputVal.length && inputVal.length <= maxlength))
+                                feedback = "La lunghezza deve essere compresa tra " + minlength + " e " + maxlength + ".";
+                        }
+
+                        if (minlength !== undefined && maxlength === undefined) {
+                            isValid = isValid && (minlength <= inputVal);
+                            if (!(minlength <= inputVal))
+                                feedback = "La lunghezza deve essere minimo di " + minlength + ".";
+                        }
+
+                        if (minlength === undefined && maxlength !== undefined) {
+                            isValid = isValid && (inputVal >= maxlength);
+                            if (!(inputVal >= maxlength))
+                                feedback = "Il valore deve essere massimo " + maxlength + ".";
+                        }
+
+                        //REQUIRED
+                        if (required !== undefined) {
+                            isValid = isValid && (inputVal.length > 0);
+                            if (inputVal.length === 0)
+                                feedback = "Il campo non pu&#242 essere vuoto.";
+                        }
+
+                        if(!isValid) {
+                            $("+ .custom-feedback", this).html(feedback + "<br>");
+                            $("+ .custom-feedback", this).show();
+                            inputSetInvalid(input);
+                        } else {
+                            $("+ .custom-feedback", this).hide();
+                            inputSetValid(input);
+                        }
+                    })
+                } else {
+
+                    $(" .form-control", form).each(function() { //Per ogni input
+
+                        $(this).removeClass("is-valid is-invalid");
+                        $("+ .custom-feedback", this).hide();
+
+                    })
+
+                }
             }, false)
         })
 })()
 
 const urlObject = new URL(window.location.href);
+
+$.fn.isValid = function() {
+    return this[0].checkValidity();
+}
+
+function inputSetValid(input) {
+    input.removeClass("is-invalid");
+    input.addClass("is-valid");
+}
+
+function inputSetInvalid(input) {
+    input.removeClass("is-valid");
+    input.addClass("is-invalid");
+}
 
 function elementExists(element) {
     if (typeof (element) != 'undefined' && element != null)

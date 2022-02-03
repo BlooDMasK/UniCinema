@@ -39,21 +39,22 @@ $(".fa-minus").click(function () {
 $("#collapseReviewBox").submit(function(e) {
     let dataString = $(this).serialize()+"&filmId="+filmId;
 
-    $.ajax({
-        type: 'post',
-        url: contextPath + "/review/add",
-        async: true,
-        data: dataString,
-        dataType: 'json',
-        success: function(response) {
-           if(triggerAlert(response) == 'success') {
-               resetNumberStar();
-               resetReviewForm();
-               generateReviews(1);
-           }
-        }
-    })
-
+    if($(this).isValid()) {
+        $.ajax({
+            type: 'post',
+            url: contextPath + "/review/add",
+            async: true,
+            data: dataString,
+            dataType: 'json',
+            success: function (response) {
+                if (triggerAlert(response) == 'success') {
+                    resetNumberStar();
+                    resetReviewForm();
+                    generateReviews(1);
+                }
+            }
+        })
+    }
     e.preventDefault();
 })
 

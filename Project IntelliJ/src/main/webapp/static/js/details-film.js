@@ -21,16 +21,14 @@ $(document).ready(function () {
                                                 <option value='4'>Sala 4</option>\
                                                 <option value='5'>Sala 5</option>\
                                             </select>\
-                                            <div class='invalid-feedback'>\
-                                                Devi scegliere una sala.\
+                                            <div class='custom-feedback'>\
                                             </div>\
                                         </div>\
                 \
                                         <div class='mb-3'>\
                                             <label for='date' class='form-label text-light fs-1-5 fw-light'>Data dello spettacolo</label>\
                                             <input name='date' type='date' min='"+dateNow+"' class='form-control rounded-3 fs-1-5 fw-light' id='date' required>\
-                                            <div class='invalid-feedback'>\
-                                                Devi inserire una data.\
+                                            <div class='custom-feedback'>\
                                             </div>\
                                         </div>\
                 \
@@ -39,8 +37,7 @@ $(document).ready(function () {
                                             <select name='time' class='form-select form-control rounded-3 fs-1-5 fw-light' id='time' required>\
                 \
                                             </select>\
-                                            <div class='invalid-feedback'>\
-                                                Devi scegliere un orario.\
+                                            <div class='custom-feedback'>\
                                             </div>\
                                         </div>\
                 \

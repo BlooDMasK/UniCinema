@@ -1,4 +1,5 @@
 <%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="it">
 <head>
@@ -38,24 +39,24 @@
                     <div class="mb-3">
                         <label for="title" class="form-label text-light fs-1-5 fw-light">Titolo</label>
                         <input name="title" type="text" class="form-control rounded-3 fs-1-5 fw-light" id="title" value="${not empty film ? film.title : ""}" placeholder="Digita un titolo..." required minlength="6" maxlength="50" pattern="^[A-Za-z0-9\W]{6,50}$">
-                        <div class="invalid-feedback">
-                            Il titolo deve essere di 6-50 caratteri.
+                        <div class="custom-feedback">
+
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="length" class="form-label text-light fs-1-5 fw-light">Durata</label>
                         <input name="length" type="number" class="form-control rounded-3 fs-1-5 fw-light" id="length" value="${not empty film ? film.length : ""}" placeholder="Durata..." required min="10" max="999" pattern="^[0-9]{2,3}$">
-                        <div class="invalid-feedback">
-                            La durata deve essere di minimo 10, massimo 999 minuti.
+                        <div class="custom-feedback">
+                            
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="date-publishing" class="form-label text-light fs-1-5 fw-light">Data di pubblicazione</label>
-                        <input name="date-publishing" type="date" class="form-control rounded-3 fs-1-5 fw-light" value="${datePublishing}" id="date-publishing" required min="<%=LocalDate.now()%>" max="31/12/2050">
-                        <div class="invalid-feedback">
-                            Devi inserire una data.
+                        <input name="date-publishing" type="date" class="form-control rounded-3 fs-1-5 fw-light" value="${datePublishing}" id="date-publishing" required min="2020-01-01" max="2050-12-31">
+                        <div class="custom-feedback">
+
                         </div>
                     </div>
 
@@ -78,32 +79,32 @@
                             <option value="14">Thriller</option>
                             <option value="15">Western</option>
                         </select>
-                        <div class="invalid-feedback">
-                            Devi scegliere un genere.
+                        <div class="custom-feedback">
+
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="plot" class="form-label text-light fs-1-5 fw-light">Trama</label>
                         <textarea name="plot" class="form-control rounded-3 fs-1-5 fw-light" id="plot" placeholder="Trama..." required minlength="10" maxlength="1000">${not empty film ? film.plot : ""}</textarea>
-                        <div class="invalid-feedback">
-                            La trama deve essere di 10-1000 caratteri.
+                        <div class="custom-feedback">
+
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="cover" class="form-label text-light fs-1-5 fw-light">Cover (16:9)</label>
                         <input name="cover" type="file" class="form-control rounded-3 fs-1-5 fw-light" id="cover" required>
-                        <div class="invalid-feedback">
-                            Devi scegliere una cover (16:9).
+                        <div class="custom-feedback">
+
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="poster" class="form-label text-light fs-1-5 fw-light">Locandina (verticale)</label>
                         <input name="poster" type="file" class="form-control rounded-3 fs-1-5 fw-light" id="poster" required>
-                        <div class="invalid-feedback">
-                            Devi scegliere una locandina (verticale).
+                        <div class="custom-feedback">
+
                         </div>
                     </div>
                     <hr class="text-light">

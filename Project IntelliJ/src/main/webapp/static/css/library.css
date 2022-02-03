@@ -115,3 +115,7 @@
 .height-2-4 {
     height: 2.4rem;
 }
+
+.custom-feedback {
+    color: var(--bs-danger);
+}

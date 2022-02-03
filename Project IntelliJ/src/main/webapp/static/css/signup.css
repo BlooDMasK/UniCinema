@@ -30,10 +30,10 @@ label {
     margin-left: 1rem;
 }
 
-.form-text, .invalid-feedback {
+.form-text, .custom-feedback {
     margin-left: 1rem;
 }
 
-.invalid-feedback {
+.custom-feedback {
     color: var(--bs-danger);
 }

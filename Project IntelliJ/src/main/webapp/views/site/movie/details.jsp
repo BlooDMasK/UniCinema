@@ -111,7 +111,7 @@
                     </div>
                     <script>
                         let filmLength = '${film.length}';
-                        let dateNow = <%=LocalDate.now()%>;
+                        let dateNow = '<%=film.getDatePublishing()%>';
 
                     </script>
                     <form id="showForm" method="post" action="${pageContext.request.contextPath}/show-manager/add" class="collapse needs-validation" novalidate>
@@ -220,14 +220,16 @@
                             </div>
                         </div>
                         <!-- scrivi una recensione -->
-                        <form class="collapse mb-4 pb-4" id="collapseReviewBox" novalidate>
+                        <form class="collapse mb-4 pb-4 needs-validation" id="collapseReviewBox" novalidate>
                             <jsp:include page="../../partial/site/alert.jsp"/>
                             <div class="form-group">
                                 <label for="reviewWriteTitle">Titolo</label>
-                                <input type="text" class="form-control" name="reviewWriteTitle" id="reviewWriteTitle" placeholder="Titolo della recensione" minlength="3" maxlength="40" pattern="^[A-Za-z':;.,àèìòù0-9?! ]{3,40}$" required>
+                                <input type="text" class="form-control" name="reviewWriteTitle" id="reviewWriteTitle" placeholder="Titolo della recensione" minlength="3" maxlength="40" pattern="^[A-Za-z':;.,&#224&#232&#236&#242&#249 0-9?!]{3,40}$" required>
+                                <div class="custom-feedback"></div>
 
                                 <label for="reviewWriteDescription">Descrizione</label>
                                 <textarea class="form-control" name="reviewWriteDescription" id="reviewWriteDescription" rows="3" placeholder="Descrizione della recensione" minlength="5" maxlength="500" pattern="^[A-Za-z0-9\W]{5,500}$" required></textarea>
+                                <div class="custom-feedback"></div>
 
                                 <div class="d-flex justify-content-between mt-2">
                                     <div class="d-flex mt-1 mb-1">

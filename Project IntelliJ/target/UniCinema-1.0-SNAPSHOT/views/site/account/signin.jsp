@@ -20,14 +20,13 @@
                 <form method="post" action="${pageContext.request.contextPath}/account/signin" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label for="signinEmail" class="form-label text-light fs-1-5 fw-light">Email</label>
-                        <input name="email" type="email" class="form-control rounded-pill fs-1-5 fw-light" id="signinEmail" placeholder="Digita una email...">
+                        <input name="email" type="email" class="form-control rounded-pill fs-1-5 fw-light" id="signinEmail" placeholder="Digita una email..." required minlength="6" maxlength="30" pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
+                        <div class="custom-feedback"></div>
                     </div>
                     <div class="mb-3">
                         <label for="signinPassword" class="form-label text-light fs-1-5 fw-light">Password</label>
-                        <input name="password" type="password" class="form-control rounded-pill fs-1-5 fw-light" id="signinPassword" aria-describedby="passwordHelpSignin" placeholder="Digita una password...">
-                        <div id="passwordHelpSignin" class="form-text text-light">
-                            La password deve essere compresa tra 8-32 caratteri, deve contenere una maiuscola e un numero.
-                        </div>
+                        <input name="password" type="password" class="form-control rounded-pill fs-1-5 fw-light" id="signinPassword" aria-describedby="passwordHelpSignin" placeholder="Digita una password..." required minlength="8" maxlength="32" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z;:=_+^#$@!%*?&àèìòù\d]{8,32}$">
+                        <div class="custom-feedback"></div>
                     </div>
                     <hr>
                     <button type="submit" class="btn btn-light rounded-pill text-dark fs-1-5">Entra</button>
