@@ -22,11 +22,29 @@ import java.util.*;
 @WebServlet(name = "PurchaseServlet", value = "/purchase/*")
 public class PurchaseServlet extends Controller implements ErrorHandler {
 
-    ShowService showService = new ShowServiceMethods();
-    PurchaseService purchaseService = new PurchaseServiceMethods();
+    ShowService showService;
+    PurchaseService purchaseService;
+
+    public PurchaseServlet(ShowService showService, PurchaseService purchaseService) {
+        this.showService = showService;
+        this.purchaseService = purchaseService;
+    }
+
+    public PurchaseServlet() {
+        showService = new ShowServiceMethods();
+        purchaseService = new PurchaseServiceMethods();
+    }
+
+    public void setShowService(ShowService showService) {
+        this.showService = showService;
+    }
+
+    public void setPurchaseService(PurchaseService purchaseService) {
+        this.purchaseService = purchaseService;
+    }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String path = getPath(request);
             HttpSession session = request.getSession();
@@ -63,7 +81,7 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
             String path = getPath(request);
