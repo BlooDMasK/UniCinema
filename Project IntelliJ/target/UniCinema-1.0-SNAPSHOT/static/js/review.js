@@ -49,7 +49,7 @@ $("#collapseReviewBox").submit(function(e) {
             success: function (response) {
                 if (triggerAlert(response) == 'success') {
                     resetNumberStar();
-                    resetReviewForm();
+                    resetReviewForm(false);
                     generateReviews(1);
                 }
             }
@@ -61,7 +61,6 @@ $("#collapseReviewBox").submit(function(e) {
 //oggetto.click non va bene se il contenuto è creato dinamicamente. Bisogna usare on("click"...
 $(document).on ("click", ".button-remove-review", function () {
     const dataString = "accountId="+$(this).val();
-    console.log(dataString);
 
     $.ajax({
         type: "Post",
@@ -79,10 +78,11 @@ $(document).on ("click", ".button-remove-review", function () {
 /*
     Funzioni
  */
-function resetReviewForm() {
+function resetReviewForm(hideAlert = true) {
     $("#reviewWriteTitle").val('');
     $("#reviewWriteDescription").val('');
-    $(".alert").hide();
+    if(hideAlert)
+        $(".alert").hide();
 }
 
 function resetNumberStar() {

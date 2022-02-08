@@ -1,6 +1,5 @@
 package FilmManager.controller;
 
-import FilmInfo.controller.FilmInfoServlet;
 import FilmInfo.service.FilmService;
 import FilmInfo.service.FilmServiceMethods;
 import FilmManager.service.FilmManagerService;
@@ -96,7 +95,7 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
                 case "/add": {
                     authorize(session);
                     request.setAttribute("back", view("site/movie/form"));
-                    validate(FilmValidator.validateFilm(request));
+                    validate(FilmValidator.validateAddFilm(request));
 
                     Film film = new Film();
                     setFilmValues(request, film);
@@ -115,17 +114,24 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
                 case "/update": {
                     authorize(session);
                     request.setAttribute("back", view("site/movie/form"));
-                    validate(FilmValidator.validateFilm(request));
+                    validate(FilmValidator.validateUpdateFilm(request));
 
                     Film oldFilm = (Film) session.getAttribute("film");
                     Film film = new Film();
                     film.setId(oldFilm.getId());
+                    film.setCover(oldFilm.getCover());
+                    film.setPoster(oldFilm.getPoster());
                     setFilmValues(request, film);
 
                     if (filmManagerService.update(film)) {
 
-                        film.writeCover(getUploadPath(), request.getPart("cover"));
-                        film.writePoster(getUploadPath(), request.getPart("poster"));
+                        String cover = request.getPart("cover").getSubmittedFileName();
+                        if(!cover.isEmpty())
+                            film.writeCover(getUploadPath(), request.getPart("cover"));
+
+                        String poster = request.getPart("poster").getSubmittedFileName();
+                        if(!poster.isEmpty())
+                            film.writePoster(getUploadPath(), request.getPart("poster"));
 
                         session.setAttribute("alert", new Alert(List.of("Film modificato con successo."), "success"));
                         //request.getRequestDispatcher(view("site/movie/form")).forward(request, response);
@@ -166,8 +172,14 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
 
         LocalDate datePublishing = getLocalDateFromString(request, "date-publishing");
 
-        film.setCover(request.getPart("cover").getSubmittedFileName());
-        film.setPoster(request.getPart("poster").getSubmittedFileName());
+        String cover = request.getPart("cover").getSubmittedFileName();
+        if(!cover.isEmpty())
+            film.setCover(cover);
+
+        String poster = request.getPart("poster").getSubmittedFileName();
+        if(!poster.isEmpty())
+            film.setPoster(poster);
+
         film.setDatePublishing(datePublishing);
         film.setGenre(Integer.parseInt(request.getParameter("genre")));
         film.setLength(Integer.parseInt(request.getParameter("length")));

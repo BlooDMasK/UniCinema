@@ -169,7 +169,7 @@ $(document).on("change", "#room", function(){
 
 $(document).on("change", "#date", function() {
     let dataString = $("#showForm").serialize();
-    console.log(dataString);
+
     $.ajax({
         type: "post",
         url: contextPath + (isAdminEditingShow ? "/show-manager/get-show" : "/show-manager/get-all-show"),

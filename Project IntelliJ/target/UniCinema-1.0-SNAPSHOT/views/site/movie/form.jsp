@@ -94,7 +94,14 @@
 
                     <div class="mb-3">
                         <label for="cover" class="form-label text-light fs-1-5 fw-light">Cover (16:9)</label>
-                        <input name="cover" type="file" class="form-control rounded-3 fs-1-5 fw-light" id="cover" required>
+                        <c:choose>
+                            <c:when test="${formType == 'add'}">
+                                <input name="cover" type="file" class="form-control rounded-3 fs-1-5 fw-light" id="cover" required>
+                            </c:when>
+                            <c:when test="${formType == 'update'}">
+                                <input name="cover" type="file" class="form-control rounded-3 fs-1-5 fw-light" id="cover">
+                            </c:when>
+                        </c:choose>
                         <div class="custom-feedback">
 
                         </div>
@@ -102,7 +109,14 @@
 
                     <div class="mb-3">
                         <label for="poster" class="form-label text-light fs-1-5 fw-light">Locandina (verticale)</label>
-                        <input name="poster" type="file" class="form-control rounded-3 fs-1-5 fw-light" id="poster" required>
+                        <c:choose>
+                            <c:when test="${formType == 'add'}">
+                                <input name="poster" type="file" class="form-control rounded-3 fs-1-5 fw-light" id="poster" required>
+                            </c:when>
+                            <c:when test="${formType == 'update'}">
+                                <input name="poster" type="file" class="form-control rounded-3 fs-1-5 fw-light" id="poster">
+                            </c:when>
+                        </c:choose>
                         <div class="custom-feedback">
 
                         </div>
