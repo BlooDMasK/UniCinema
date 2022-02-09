@@ -86,7 +86,7 @@
 
                     <div class="mb-3">
                         <label for="plot" class="form-label text-light fs-1-5 fw-light">Trama</label>
-                        <textarea name="plot" class="form-control rounded-3 fs-1-5 fw-light" id="plot" placeholder="Trama..." required minlength="10" maxlength="1000">${not empty film ? film.plot : ""}</textarea>
+                        <textarea name="plot" class="form-control rounded-3 fs-1-5 fw-light" id="plot" placeholder="Trama..." required minlength="10" maxlength="1000" pattern="^.[^\[\]\{\}\@\=\_\?]{10,1000}$">${not empty film ? film.plot : ""}</textarea>
                         <div class="custom-feedback">
 
                         </div>

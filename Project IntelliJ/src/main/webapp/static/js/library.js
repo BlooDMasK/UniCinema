@@ -11,7 +11,39 @@
             form.addEventListener('submit', function (event) {
                 form.classList.remove('validation-valid', 'validation-invalid');
 
-                //se la validazione fallisce
+                $(" textarea.form-control", form).each(function() {
+                    let textarea = $(this);
+                    let inputVal = textarea.val();
+
+                    let expression = "";
+                    switch(textarea.attr("id"))
+                    {
+                        case "reviewWriteDescription":
+                            expression = "^[A-Za-z0-9\\W]{5,500}$";
+                            break;
+
+                        case "plot":
+                            expression = "^.[^\\[\\]\\{\\}\\@\\=\\_\\?]{10,1000}$";
+                            break;
+                    }
+
+                    console.log(expression);
+                    const regex = new RegExp(expression);
+                    console.log("test: " + regex.test(inputVal));
+                    if (!regex.test(inputVal)) {
+                        event.preventDefault()
+                        event.stopPropagation()
+
+                        $("+ .custom-feedback", textarea).html("Formato non valido.<br>");
+                        $("+ .custom-feedback", textarea).addClass("d-block");
+                        inputSetInvalid(textarea);
+                    } else {
+                        $("+ .custom-feedback", textarea).removeClass("d-block");
+                        inputSetValid(textarea);
+                    }
+                })
+
+                //se la validazione delle non textarea fallisce
                 if (!form.checkValidity()) {
                     event.preventDefault()
                     event.stopPropagation()
@@ -26,30 +58,11 @@
                             maxlength = input.attr("maxlength"),
                             min = input.attr("min"),
                             max = input.attr("max"),
-                            feedback = "",
                             isValid = true,
+                            feedback = "",
                             inputType = input.attr("type");
 
-                        /*if(input.prop("tagName").toLowerCase() === "textarea")
-                        {
-                            let expression = "";
-                            switch(input.attr("id"))
-                            {
-                                case "reviewWriteDescription":
-                                    expression = "^[A-Za-z0-9\\W]{5,500}$";
-                                    break;
-
-                                case "plot":
-                                    expression = "(?!(\\[|\\]|\\{|\\}|\\@|\\_|\\=))[A-Za-z0-9\\W]{10,1000}";
-                                    break;
-                            }
-
-                            const regex = new RegExp(expression);
-                            isValid = isValid && regex.test(inputVal);
-                            if (!regex.test(inputVal))
-                                feedback = "Formato non valido.";
-                        }
-
+/*
                         if(inputType === "email") {
                             const regex = new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
                             isValid = isValid && regex.test(inputVal);
@@ -131,6 +144,7 @@
                             inputSetValid(input);
                         }
                     })
+
                 } else {
 
                     $(" .form-control", form).each(function() { //Per ogni input
