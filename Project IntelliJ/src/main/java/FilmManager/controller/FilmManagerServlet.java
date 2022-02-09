@@ -117,6 +117,12 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
                     validate(FilmValidator.validateUpdateFilm(request));
 
                     Film oldFilm = (Film) session.getAttribute("film");
+                    if(!hasModifiedFilm(request, oldFilm)) {
+                        session.setAttribute("alert", new Alert(List.of("Devi modificare almeno un campo."), "danger"));
+                        response.sendRedirect(getServletContext().getContextPath()+"/film-manager/update?filmId="+oldFilm.getId());
+                        break;
+                    }
+
                     Film film = new Film();
                     film.setId(oldFilm.getId());
                     film.setCover(oldFilm.getCover());
@@ -148,6 +154,144 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
             log(e.getMessage());
             e.handle(request, response);
         }
+    }
+
+    private boolean hasModifiedFilm(HttpServletRequest request, Film oldFilm) throws ServletException, IOException {
+        int length = Integer.parseInt(request.getParameter("length")),
+            genre = Integer.parseInt(request.getParameter("genre"));
+
+        String  title = request.getParameter("title"),
+                plot = request.getParameter("plot"),
+                cover = request.getPart("cover").getSubmittedFileName(),
+                poster = request.getPart("poster").getSubmittedFileName();
+
+        LocalDate datePublishing = getLocalDateFromString(request, "date-publishing");
+
+        ArrayList<String> actorsFirstname = getParamsArrayList(request, "ActorsFirstname");
+        ArrayList<String> actorsLastname = getParamsArrayList(request, "ActorsLastname");
+        ArrayList<String> actorsId = getParamsArrayList(request, "ActorsId");
+        int actorsSize = actorsFirstname.size();
+
+        ArrayList<String> directorsFirstname = getParamsArrayList(request, "DirectorsFirstname");
+        ArrayList<String> directorsLastname = getParamsArrayList(request, "DirectorsLastname");
+        ArrayList<String> directorsId = getParamsArrayList(request, "DirectorsId");
+        int directorsSize = directorsFirstname.size();
+
+        ArrayList<String> productionFirstname = getParamsArrayList(request, "ProductionFirstname");
+        ArrayList<String> productionLastname = getParamsArrayList(request, "ProductionLastname");
+        ArrayList<String> productionId = getParamsArrayList(request, "ProductionId");
+        int productionSize = productionFirstname.size();
+
+        ArrayList<String> houseProductionName = getParamsArrayList(request, "HouseProductionName");
+        ArrayList<String> houseProductionId = getParamsArrayList(request, "HouseProductionId");
+        int houseProductionSize = houseProductionName.size();
+
+        if(length != oldFilm.getLength())
+            return true;
+
+        if(genre != oldFilm.getGenre())
+            return true;
+
+        if(!title.equals(oldFilm.getTitle()))
+            return true;
+
+        if(!plot.equals(oldFilm.getPlot()))
+            return true;
+
+        if(!cover.isEmpty())
+            return true;
+
+        if(!poster.isEmpty())
+            return true;
+
+        if(!datePublishing.equals(oldFilm.getDatePublishing()))
+            return true;
+
+        if(actorsSize != oldFilm.getActorList().size())
+            return true;
+
+        if(directorsSize != oldFilm.getDirectorList().size())
+            return true;
+
+        if(houseProductionSize != oldFilm.getHouseProductionList().size())
+            return true;
+
+        if(productionSize != oldFilm.getProductionList().size())
+            return true;
+
+        String firstname, lastname, name;
+        int occurrenceCounter = 0, id;
+        for(int i = 0; i < actorsSize; i++)
+        {
+            firstname = actorsFirstname.get(i);
+            lastname = actorsLastname.get(i);
+            id = Integer.parseInt(actorsId.get(i));
+
+            for(Actor actor : oldFilm.getActorList()) {
+                if (actor.getId() == id && firstname.equals(actor.getFirstname()) && lastname.equals(actor.getLastname())) {
+                    occurrenceCounter++;
+                    break;
+                }
+            }
+        }
+
+        if(occurrenceCounter != actorsSize)
+            return true;
+
+        occurrenceCounter = 0;
+        for(int i = 0; i < directorsSize; i++)
+        {
+            firstname = directorsFirstname.get(i);
+            lastname = directorsLastname.get(i);
+            id = Integer.parseInt(directorsId.get(i));
+
+            for(Director director : oldFilm.getDirectorList()) {
+                if (director.getId() == id && firstname.equals(director.getFirstname()) && lastname.equals(director.getLastname())) {
+                    occurrenceCounter++;
+                    break;
+                }
+            }
+        }
+
+        if(occurrenceCounter != directorsSize)
+            return true;
+
+        occurrenceCounter = 0;
+        for(int i = 0; i < productionSize; i++)
+        {
+            firstname = productionFirstname.get(i);
+            lastname = productionLastname.get(i);
+            id = Integer.parseInt(productionId.get(i));
+
+            for(Production production : oldFilm.getProductionList()) {
+                if (production.getId() == id && firstname.equals(production.getFirstname()) && lastname.equals(production.getLastname())) {
+                    occurrenceCounter++;
+                    break;
+                }
+            }
+        }
+
+        if(occurrenceCounter != productionSize)
+            return true;
+
+        occurrenceCounter = 0;
+        for(int i = 0; i < houseProductionSize; i++)
+        {
+            name = houseProductionName.get(i);
+            id = Integer.parseInt(houseProductionId.get(i));
+
+            for(HouseProduction houseProduction : oldFilm.getHouseProductionList()) {
+                if (houseProduction.getId() == id && name.equals(houseProduction.getName())) {
+                    occurrenceCounter++;
+                    break;
+                }
+            }
+        }
+
+        if(occurrenceCounter != houseProductionSize)
+            return true;
+
+        return false;
     }
 
     private void setFilmValues(HttpServletRequest request, Film film) throws ServletException, IOException {
