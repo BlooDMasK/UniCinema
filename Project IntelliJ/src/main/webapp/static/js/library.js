@@ -62,14 +62,6 @@
                             feedback = "",
                             inputType = input.attr("type");
 
-/*
-                        if(inputType === "email") {
-                            const regex = new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
-                            isValid = isValid && regex.test(inputVal);
-                            if (!regex.test(inputVal))
-                                feedback = "Formato email non valido.";
-                        }*/
-
                         if (pattern !== undefined) {
                             const regex = new RegExp(pattern);
                             isValid = isValid && regex.test(inputVal);
