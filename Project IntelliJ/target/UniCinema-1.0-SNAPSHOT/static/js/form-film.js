@@ -108,11 +108,11 @@ function generateFirstLastNameForm(firstname = "", lastname = "", id="") {
     return "<div class='first-last-name-div d-flex mb-2'>\
              <button type='button' class='btn btn-danger me-1 height-2-4'><img src='"+contextPath+"/static/icons/minus.svg' alt='...'></button>\
              <div class='d-flex flex-column flex-grow-1'>\
-                 <input name='Firstname' type='text' class='input-firstname form-control rounded-pill fs-1-5 fw-light me-1' value='"+firstname+"' placeholder='Nome...' required minlength='2' maxlength='30' pattern='^[A-Za-z\\W]{2,30}$'>\
+                 <input name='Firstname' type='text' class='input-firstname form-control rounded-pill fs-1-5 fw-light me-1' value='"+firstname+"' placeholder='Nome...' required minlength='2' maxlength='30' pattern='^[&#39;A-Za-z-,àèìòù ]{2,30}$'>\
                  <div class='custom-feedback'></div>\
              </div>\
              <div class='d-flex flex-column flex-grow-1'>\
-                 <input name='Lastname' type='text' class='input-lastname form-control rounded-pill fs-1-5 fw-light' value='"+lastname+"' placeholder='Cognome...' required minlength='2' maxlength='30' pattern='^[A-Za-z\\W]{2,30}$'>\
+                 <input name='Lastname' type='text' class='input-lastname form-control rounded-pill fs-1-5 fw-light' value='"+lastname+"' placeholder='Cognome...' required minlength='2' maxlength='30' pattern='^[&#39;A-Za-z-,àèìòù ]{2,30}$'>\
                  <div class='custom-feedback'></div>\
              </div>\
               <input type='hidden' class='input-id-first' name='Id' value='"+id+"'>\
