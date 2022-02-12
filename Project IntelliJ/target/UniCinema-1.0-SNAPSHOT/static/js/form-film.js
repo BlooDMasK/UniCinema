@@ -123,7 +123,7 @@ function generateNameForm(name = "", id = "") {
     return "<div class='name-div d-flex mb-2'>\
               <button type='button' class='btn btn-danger me-1 height-2-4 '><img src='"+contextPath+"/static/icons/minus.svg' alt='...'></button>\
               <div class='d-flex flex-column flex-grow-1'>\
-                  <input name='Name' type='text' class='input-name form-control rounded-pill fs-1-5 fw-light' value='"+name+"' placeholder='Nome...' required minlength='5' maxlength='50' pattern='^[A-Za-z0-9\\W]{5,50}$'>\
+                  <input name='Name' type='text' class='input-name form-control rounded-pill fs-1-5 fw-light' value='"+name+"' placeholder='Nome...' required minlength='5' maxlength='50' pattern='^[0-9A-Za-z-àèìòù ]{2,30}$'>\
                   <div class='custom-feedback'></div>\
               </div>\
               <input type='hidden' class='input-id-second' name='Id' value='"+id+"'>\

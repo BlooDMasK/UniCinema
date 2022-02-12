@@ -133,7 +133,7 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
                     authorize(session);
                     request.setAttribute("back", view("site/movie/form"));
 
-                    validate(filmValidator.validateFilm(request));
+                    validate(filmValidator.validateUpdateFilm(request));
 
                     Film oldFilm = (Film) session.getAttribute("film");
                     if(!hasModifiedFilm(request, oldFilm)) {

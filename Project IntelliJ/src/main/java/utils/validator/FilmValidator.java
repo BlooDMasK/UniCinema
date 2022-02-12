@@ -26,7 +26,7 @@ public class FilmValidator {
         return requestValidator;
     }
 
-    public static RequestValidator validateUpdateFilm(HttpServletRequest request) throws ServletException, IOException {
+    public RequestValidator validateUpdateFilm(HttpServletRequest request) throws ServletException, IOException {
         RequestValidator requestValidator = new RequestValidator(request);
         requestValidator.assertMatch("title", Pattern.compile("^.[^{}\\[\\];_]{6,50}$"), "Il titolo non è valido.", true);
         requestValidator.assertIntRange("length", 10, 999, "La durata deve essere di minimo 10, massimo 999 minuti.", true);
