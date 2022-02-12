@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ErrorHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UniCinema</a> &gt; <a href="index.source.html" class="el_package">utils</a> &gt; <span class="el_source">ErrorHandler.java</span></div><h1>ErrorHandler.java</h1><pre class="source lang-java linenums">package utils;
+
+import model.bean.Account;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.List;
+
+/**
+ * Questa interfaccia permette di smistare i comportamenti della servlet quando viene lanciata un'eccezione
+ * &lt;p&gt;LEGENDA STATUS CODE&lt;/p&gt;
+ * &lt;ul&gt;
+ *      &lt;li&gt;UNHAUTORIZED: 401&lt;/li&gt;
+ *      &lt;li&gt;FORBIDDEN: 403&lt;/li&gt;
+ *      &lt;li&gt;METHOD NOT ALLOWED: 405&lt;/li&gt;
+ *      &lt;li&gt;INTERNAL SERVER ERROR: 500&lt;/li&gt;
+ * &lt;/ul&gt;
+ */
+public interface ErrorHandler {
+
+    /**
+     * Implementa la funzionalità di verifica dei permessi di autenticazione.
+     * @param session rappresenta l'oggetto della sessione
+     * @throws InvalidRequestException
+     */
+    default void authenticate(HttpSession session) throws InvalidRequestException {
+<span class="nc bnc" id="L27" title="All 4 branches missed.">        if(session == null || session.getAttribute(&quot;accountSession&quot;) == null) {</span>
+<span class="nc" id="L28">            throw new InvalidRequestException(&quot;Errore di autenticazione&quot;, List.of(&quot;Non sei autenticato&quot;),</span>
+                    HttpServletResponse.SC_UNAUTHORIZED);
+        }
+<span class="nc" id="L31">    }</span>
+
+    /**
+     * Implementa la funzionalità di verifica dei permessi di autenticazione e di autorizzazione (se è admin).
+     * @param session rappresenta l'oggetto della sessione
+     * @throws InvalidRequestException
+     */
+    default void authorize(HttpSession session) throws InvalidRequestException {
+<span class="nc" id="L39">        authenticate(session);</span>
+<span class="nc" id="L40">        Account accountSession = (Account) session.getAttribute(&quot;accountSession&quot;);</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        if(!accountSession.isAdministrator()) {</span>
+<span class="nc" id="L42">            throw new InvalidRequestException(&quot;Errore di autorizzazione&quot;, List.of(&quot;Azione non consentita&quot;),</span>
+                    HttpServletResponse.SC_FORBIDDEN);
+        }
+<span class="nc" id="L45">    }</span>
+
+    /**
+     * Implementa la funzionalità che setta lo status INTERNAL SERVER ERROR, quando avviene un errore imprevisto.
+     * @throws InvalidRequestException
+     */
+    default void internalError() throws InvalidRequestException {
+<span class="nc" id="L52">        List&lt;String&gt; errors = List.of(&quot;Un errore imprevisto è accaduto, riprova più tardi&quot;);</span>
+<span class="nc" id="L53">        throw new InvalidRequestException(&quot;Errore interno&quot;, errors,</span>
+                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Implementa la funzionalità che setta lo status INTERNAL SERVER ERROR, quando avviene un errore imprevisto.
+     * @param error rappresenta il messaggio d'errore
+     * @throws InvalidRequestException
+     */
+    default void internalError(String error) throws InvalidRequestException {
+<span class="nc" id="L63">        List&lt;String&gt; errors = List.of(error);</span>
+<span class="nc" id="L64">        throw new InvalidRequestException(&quot;Errore interno&quot;, errors,</span>
+                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    }
+
+
+
+    /**
+     * Implementa la funzionalità che setta lo status INTERNAL SERVER ERROR, quando una risorsa non viene trovata.
+     * @throws InvalidRequestException
+     */
+    default void notFound() throws InvalidRequestException {
+<span class="nc" id="L75">        throw new InvalidRequestException(&quot;Risorsa non trovata&quot;, List.of(&quot;Risorsa non trovata&quot;),</span>
+                HttpServletResponse.SC_NOT_FOUND);
+    }
+
+    /**
+     * Implementa la funzionalità che setta lo status INTERNAL SERVER ERROR, quando una risorsa non viene trovata.
+     * @param msg rappresenta il messaggio da mandare quando viene lanciata l'eccezione
+     * @throws InvalidRequestException
+     */
+    default void notFound(String msg) throws InvalidRequestException {
+<span class="nc" id="L85">        throw new InvalidRequestException(msg, List.of(msg),</span>
+                HttpServletResponse.SC_NOT_FOUND);
+    }
+
+    /**
+     * Implementa la funzionalità che setta lo status METHOD NOT ALLOWED, quando un'operazione non è consentita
+     * @throws InvalidRequestException
+     */
+    default void notAllowed() throws InvalidRequestException {
+<span class="nc" id="L94">        throw new InvalidRequestException(&quot;Operazione non consentita&quot;, List.of(&quot;Operazione non permessa&quot;),</span>
+                HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -30,11 +30,17 @@ public class ReviewServlet extends Controller implements ErrorHandler {
     ReviewService reviewService;
     FilmService filmService;
     ReviewValidator reviewValidator;
+    JSONObject jsonObject;
 
     public ReviewServlet() {
         reviewService = new ReviewServiceMethods();
         filmService = new FilmServiceMethods();
         reviewValidator = new ReviewValidator();
+        jsonObject = new JSONObject();
+    }
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
     }
 
     public void setReviewService(ReviewService reviewService) {
@@ -80,8 +86,6 @@ public class ReviewServlet extends Controller implements ErrorHandler {
 
                         ArrayList<Review> reviewList = reviewService.fetchAll(film, paginator);
 
-                        JSONObject root = new JSONObject();
-
                     /*
                             0 - lista delle recensioni
                             1 - pages
@@ -99,8 +103,8 @@ public class ReviewServlet extends Controller implements ErrorHandler {
                         for (Review review : reviewList)
                             list.put(review.toJson());
 
-                        root.put("reviewList", list);
-                        root.put("pages", paginator.getPages(size));
+                        jsonObject.put("reviewList", list);
+                        jsonObject.put("pages", paginator.getPages(size));
 
                         /*
                                 Review Stats
@@ -109,14 +113,14 @@ public class ReviewServlet extends Controller implements ErrorHandler {
 
                         DecimalFormat df = new DecimalFormat("#.#");
                         double avg = reviewService.averageStars(reviewListTotal, 0);
-                        root.put("reviewAverage", df.format(avg));
-                        root.put("reviewAverageRounded", round(avg));
+                        jsonObject.put("reviewAverage", df.format(avg));
+                        jsonObject.put("reviewAverageRounded", round(avg));
 
                         for (int i = 1; i < 6; i++)
-                            root.put("reviewPercentage" + i, df.format(reviewService.percentageStars(reviewListTotal, i)).replace(",", ".") + "%");
+                            jsonObject.put("reviewPercentage" + i, df.format(reviewService.percentageStars(reviewListTotal, i)).replace(",", ".") + "%");
 
-                        root.put("reviewCount", reviewService.countAll(film));
-                        sendJson(response, root);
+                        jsonObject.put("reviewCount", reviewService.countAll(film));
+                        sendJson(response, jsonObject);
                     }
                 }
                 break;
@@ -136,22 +140,20 @@ public class ReviewServlet extends Controller implements ErrorHandler {
                         Review review = new Review(getSessionAccount(session), new Film(filmId), description, title, LocalDate.now(), LocalTime.now(), stars);
                         reviewService.insert(review);
 
-                        JSONObject alert = new JSONObject();
-                        alert.put("alert", new Alert(List.of("Recensione pubblicata con successo."), "success").toJson());
-                        sendJson(response, alert);
+                        jsonObject.put("alert", new Alert(List.of("Recensione pubblicata con successo."), "success").toJson());
+                        sendJson(response, jsonObject);
                     }
                     break;
 
                 case "/remove":
                     if(isAjax(request)) {
-                        JSONObject result = new JSONObject();
                         int accountId = Integer.parseInt(request.getParameter("accountId"));
                         if(reviewService.delete(accountId))
-                            result.put("result", "La recensione dell'Account "+accountId+" è stata cancellata con successo.");
+                            jsonObject.put("result", "La recensione dell'Account "+accountId+" è stata cancellata con successo.");
                         else
-                            result.put("result", "A causa di un errore interno, non è stato possibile cancellare la recensione dell'Account "+  accountId);
+                            jsonObject.put("result", "A causa di un errore interno, non è stato possibile cancellare la recensione dell'Account "+  accountId);
 
-                        sendJson(response, result);
+                        sendJson(response, jsonObject);
                     }
                     break;
             }

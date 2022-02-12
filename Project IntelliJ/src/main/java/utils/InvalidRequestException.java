@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static utils.Controller.sendJson;
-
 /**
  * Questa classe rappresenta l'eccezione lanciata quando avviene un errore (vedi anche {@link ErrorHandler} e {@link utils.validator.RequestValidator}.
  */
@@ -74,6 +72,6 @@ public class InvalidRequestException extends Exception {
         JSONObject alert = new JSONObject();
 
         alert.put("alert", new Alert(errors, "danger").toJson());
-        sendJson(response, alert);
+        new Controller().sendJson(response, alert);
     }
 }

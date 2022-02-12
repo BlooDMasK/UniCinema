@@ -4,6 +4,7 @@ import Authentication.controller.AuthenticationServlet;
 import Authentication.service.AuthenticationServiceMethods;
 import ReviewManager.service.ReviewServiceMethods;
 import model.bean.Account;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
@@ -46,6 +47,7 @@ public class AuthenticationServletTest {
     @Mock private RequestValidator validator;
     @Mock private AccountValidator accountValidator;
     @Mock private PrintWriter printWriter;
+    @Mock private JSONObject jsonObject;
 
 
     @Spy private AuthenticationServlet authenticationServlet;
@@ -70,6 +72,11 @@ public class AuthenticationServletTest {
 
         when(request.getHeader("X-Requested-With")).thenReturn("XMLHttpRequest");
         when(response.getWriter()).thenReturn(printWriter);
+
+        authenticationServlet.setJsonObject(jsonObject);
+        authenticationServlet.setReviewService(reviewServiceMethods);
+        authenticationServlet.setAccountValidator(accountValidator);
+        authenticationServlet.setAuthenticationService(authenticationServiceMethods);
     }
 
     @Test
@@ -111,7 +118,6 @@ public class AuthenticationServletTest {
 
         doNothing().when(authenticationServlet).authenticate(session);
 
-        authenticationServlet.setReviewService(reviewServiceMethods);
         when(reviewServiceMethods.countByAccountId(anyInt())).thenReturn(1);
 
         authenticationServlet.doGet(request,response);
@@ -133,28 +139,25 @@ public class AuthenticationServletTest {
         when(request.getParameter("lastname")).thenReturn("Leone");
         when(request.getParameter("email")).thenReturn("g.leone@gmail.com");
         when(request.getParameter("password")).thenReturn("Password1234");
-        authenticationServlet.setAccountValidator(accountValidator);
         when(accountValidator.validateSignup(request, false)).thenReturn(validator);
         doNothing().when(authenticationServlet).validate(validator);
-        authenticationServlet.setAuthenticationService(authenticationServiceMethods);
         when(authenticationServiceMethods.edit(account)).thenReturn(true);
 
         authenticationServlet.doPost(request, response);
 
         verify(session).setAttribute("accountSession", account);
+        verify(authenticationServlet).sendJson(response, jsonObject);
     }
 
     @Test
     public void doPostValueSignin() throws SQLException, ServletException, IOException, NoSuchAlgorithmException {
         when(authenticationServlet.getPath(request)).thenReturn("/signin");
 
-        authenticationServlet.setAccountValidator(accountValidator);
         when(accountValidator.validateSignin(request)).thenReturn(validator);
         String email = "g.leone@gmail.com",
                password = "password";
         when(request.getParameter("email")).thenReturn(email);
         when(request.getParameter("password")).thenReturn(password);
-        authenticationServlet.setAuthenticationService(authenticationServiceMethods);
         when(authenticationServiceMethods.signin(email, authenticationServlet.getCryptedPassword(password))).thenReturn(account);
         authenticationServlet.doPost(request, response);
 

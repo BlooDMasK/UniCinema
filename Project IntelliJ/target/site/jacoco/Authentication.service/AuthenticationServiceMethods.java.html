@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthenticationServiceMethods.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UniCinema</a> &gt; <a href="index.source.html" class="el_package">Authentication.service</a> &gt; <span class="el_source">AuthenticationServiceMethods.java</span></div><h1>AuthenticationServiceMethods.java</h1><pre class="source lang-java linenums">package Authentication.service;
+
+import model.bean.Account;
+import model.dao.AccountDAO;
+
+import java.sql.SQLException;
+
+<span class="fc" id="L8">public class AuthenticationServiceMethods implements AuthenticationService{</span>
+    /**
+     * Si occupa delle operazioni CRUD per un account.
+     */
+<span class="fc" id="L12">    private final AccountDAO accountDAO = new AccountDAO();</span>
+
+    /**
+     * Implementa la funzionalità di login per l'Utente Registrato.
+     * @param account dell'utente da loggare.
+     * @return dell'utente da loggato.
+     * @throws SQLException
+     */
+    @Override
+    public Account signin(String email, String pswrd) throws SQLException {
+<span class="nc" id="L22">        return accountDAO.find(email, pswrd, false);</span>
+    }
+
+    /**
+     * Implementa la funzionalità che permette di restituire un account, preso dal database, a partire dalla sua email.
+     * @param email dell'account da restituire.
+     * @return true se la modifica avviene con successo, false altrimenti.
+     * @throws SQLException
+     */
+    @Override
+    public Account fetch(String email) throws SQLException {
+<span class="nc" id="L33">        return accountDAO.fetch(email);</span>
+    }
+
+    /**
+     * Implementa la funzionalità di modifica dell'account.
+     * @param account da modificare.
+     * @return true se la modifica avviene con successo, false altrimenti.
+     * @throws SQLException
+     */
+    @Override
+    public boolean edit(Account account) throws SQLException {
+<span class="nc" id="L44">        return accountDAO.update(account);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

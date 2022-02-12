@@ -38,7 +38,6 @@ public class ShowManagerServletTest {
     @Mock private ServletContext servletContext;
     @Mock private HttpServletRequest request;
     @Mock private HttpServletResponse response;
-    @Mock private RequestDispatcher requestDispatcher;
     @Mock private HttpSession session;
     @Mock private PrintWriter printWriter;
     @Mock private ShowServiceMethods showServiceMethods;
@@ -48,7 +47,6 @@ public class ShowManagerServletTest {
     @Mock private Film film;
     @Mock private ArrayList<Show> showList;
     @Mock private Iterator<Show> showIterator;
-    @Mock private JSONArray jsonArray;
 
     @Spy private ShowManagerServlet showManagerServlet;
 
@@ -71,6 +69,7 @@ public class ShowManagerServletTest {
         doNothing().when(showManagerServlet).authorize(session);
 
         showManagerServlet.setShowService(showServiceMethods);
+        showManagerServlet.setJsonObject(jsonObject);
     }
 
     @Test

@@ -25,9 +25,15 @@ import java.util.ArrayList;
 public class ShowManagerServlet extends Controller implements ErrorHandler {
 
     ShowService showService;
+    JSONObject jsonObject;
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
+    }
 
     public ShowManagerServlet() {
         showService = new ShowServiceMethods();
+        jsonObject = new JSONObject();
     }
 
     public void setShowService(ShowService showService) {
@@ -50,9 +56,8 @@ public class ShowManagerServlet extends Controller implements ErrorHandler {
                     if(isAjax(request)) {
                         int showId = Integer.parseInt(request.getParameter("showId"));
                         if(showService.remove(showId)) {
-                            JSONObject root = new JSONObject();
-                            root.put("result", "success");
-                            sendJson(response, root);
+                            jsonObject.put("result", "success");
+                            sendJson(response, jsonObject);
                         } else
                             internalError();
                     }
@@ -111,23 +116,22 @@ public class ShowManagerServlet extends Controller implements ErrorHandler {
                         Show show = showService.fetch(showId);
                         if(show != null) {
                             int roomId = show.getRoom().getId();
-                            JSONObject root = new JSONObject();
                             LocalDate date = show.getDate();
 
                             ArrayList<Show> showList = showService.fetchDaily(roomId, date, show);
                             if (!showList.isEmpty())
-                                root.put("timeList", getAvailableDateList(show.getFilm().getLength(), date, showList));
+                                jsonObject.put("timeList", getAvailableDateList(show.getFilm().getLength(), date, showList));
                             else {
                                 JSONArray list = new JSONArray();
                                 for (int i = STARTING_HOUR; i <= ENDING_HOUR; i++)
                                     list.put(i + ":00");
 
-                                root.put("timeList", list);
+                                jsonObject.put("timeList", list);
                             }
 
-                            root.put("roomId", roomId);
-                            root.put("date", date);
-                            sendJson(response, root);
+                            jsonObject.put("roomId", roomId);
+                            jsonObject.put("date", date);
+                            sendJson(response, jsonObject);
                         } else
                             notFound();
                     }
@@ -145,17 +149,15 @@ public class ShowManagerServlet extends Controller implements ErrorHandler {
                             LocalDate date = getLocalDateFromString(request, "date");
                             ArrayList<Show> showList = showService.fetchDaily(roomId, date);
                             if (!showList.isEmpty()) {
-                                JSONObject root = new JSONObject();
-                                root.put("timeList", getAvailableDateList(filmLength, date, showList));
-                                sendJson(response, root);
+                                jsonObject.put("timeList", getAvailableDateList(filmLength, date, showList));
+                                sendJson(response, jsonObject);
                             } else {
                                 JSONArray list = new JSONArray();
                                 for (int i = STARTING_HOUR; i <= ENDING_HOUR; i++)
                                     list.put(i + ":00");
 
-                                JSONObject root = new JSONObject();
-                                root.put("timeList", list);
-                                sendJson(response, root);
+                                jsonObject.put("timeList", list);
+                                sendJson(response, jsonObject);
                             }
                         }
                     }

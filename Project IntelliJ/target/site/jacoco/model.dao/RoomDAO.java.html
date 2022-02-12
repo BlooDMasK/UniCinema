@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoomDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UniCinema</a> &gt; <a href="index.source.html" class="el_package">model.dao</a> &gt; <span class="el_source">RoomDAO.java</span></div><h1>RoomDAO.java</h1><pre class="source lang-java linenums">package model.dao;
+
+import utils.ConPool;
+import utils.Paginator;
+import utils.SqlMethods;
+import utils.extractor.RoomExtractor;
+import model.bean.Room;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Questa classe rappresenta il DAO di una Sala.
+ */
+<span class="fc" id="L19">public class RoomDAO implements SqlMethods&lt;Room&gt; {</span>
+
+    /**
+     * Implementa la funzionalità di prendere una lista delle sale.
+     * @param paginator per gestire la paginazione
+     * @return la lista delle sale
+     * @throws SQLException
+     */
+    @Override
+    public List&lt;Room&gt; fetchAll(Paginator paginator) throws SQLException {
+<span class="nc" id="L29">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L30">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM room LIMIT ?,?&quot;)) {</span>
+<span class="nc" id="L31">                ps.setInt(1, paginator.getOffset());</span>
+<span class="nc" id="L32">                ps.setInt(2, paginator.getLimit());</span>
+
+<span class="nc" id="L34">                List&lt;Room&gt; roomList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L36">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L37">                RoomExtractor roomExtractor = new RoomExtractor();</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">                while(rs.next()) {</span>
+<span class="nc" id="L39">                    Room room = roomExtractor.extract(rs);</span>
+<span class="nc" id="L40">                    roomList.add(room);</span>
+<span class="nc" id="L41">                }</span>
+<span class="nc" id="L42">                rs.close();</span>
+<span class="nc" id="L43">                return roomList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una sala.
+     * @param id rappresenta l'identificativo numerico della sala
+     * @return la sala
+     * @throws SQLException
+     */
+    @Override
+    public Room fetch(int id) throws SQLException {
+<span class="nc" id="L56">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L57">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM room WHERE id = ?&quot;)) {</span>
+<span class="nc" id="L58">                ps.setInt(1, id);</span>
+
+<span class="nc" id="L60">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L61">                Room room = null;</span>
+
+<span class="nc bnc" id="L63" title="All 2 branches missed.">                if(rs.next()) {</span>
+<span class="nc" id="L64">                    RoomExtractor roomExtractor = new RoomExtractor();</span>
+<span class="nc" id="L65">                    room = roomExtractor.extract(rs);</span>
+                }
+<span class="nc" id="L67">                rs.close();</span>
+<span class="nc" id="L68">                return room;</span>
+            }
+        }
+    }
+
+    public Room fetchFromShowId(int showId) throws SQLException {
+<span class="nc" id="L74">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L75">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM room JOIN spectacle sp on room.id = sp.id_room WHERE sp.id = ?&quot;)) {</span>
+<span class="nc" id="L76">                ps.setInt(1, showId);</span>
+
+<span class="nc" id="L78">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L79">                Room room = null;</span>
+
+<span class="nc bnc" id="L81" title="All 2 branches missed.">                if(rs.next()) {</span>
+<span class="nc" id="L82">                    RoomExtractor roomExtractor = new RoomExtractor();</span>
+<span class="nc" id="L83">                    room = roomExtractor.extract(rs);</span>
+                }
+<span class="nc" id="L85">                rs.close();</span>
+<span class="nc" id="L86">                return room;</span>
+            }
+        }
+    }
+
+    @Override
+    public boolean insert(Room room) throws SQLException {
+<span class="nc" id="L93">        return false;</span>
+    }
+
+    @Override
+    public boolean update(Room room) throws SQLException {
+<span class="nc" id="L98">        return false;</span>
+    }
+
+    @Override
+    public boolean delete(int id) throws SQLException {
+<span class="nc" id="L103">        return false;</span>
+    }
+
+    /**
+     * Implementa la funzionalità di conteggio delle sale registrate nel database.
+     * @return un intero che rappresenta il numero di sale registrate nel database
+     * @throws SQLException
+     */
+    @Override
+    public int countAll() throws SQLException {
+<span class="nc" id="L113">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L114">            try(PreparedStatement ps = con.prepareStatement(&quot;SELECT COUNT(*) AS ct FROM room&quot;)) {</span>
+<span class="nc" id="L115">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L116">                int ct = 0;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">                if(rs.next())</span>
+<span class="nc" id="L118">                    ct = rs.getInt(&quot;ct&quot;);</span>
+<span class="nc" id="L119">                rs.close();</span>
+<span class="nc" id="L120">                return ct;</span>
+            }
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

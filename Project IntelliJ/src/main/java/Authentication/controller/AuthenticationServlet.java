@@ -25,6 +25,11 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
     AuthenticationService authenticationService;
     ReviewService reviewService;
     AccountValidator accountValidator;
+    JSONObject jsonObject;
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
+    }
 
     public void setAccountValidator(AccountValidator accountValidator) {
         this.accountValidator = accountValidator;
@@ -42,6 +47,7 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
         authenticationService = new AuthenticationServiceMethods();
         reviewService = new ReviewServiceMethods();
         accountValidator = new AccountValidator();
+        jsonObject = new JSONObject();
     }
 
     /**
@@ -169,10 +175,8 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
                                 if(authenticationService.edit(accountSession)) {
                                     session.setAttribute("accountSession", accountSession);
 
-                                    JSONObject alert = new JSONObject();
-
-                                    alert.put("alert", new Alert(List.of("Account aggiornato con successo"), "success").toJson());
-                                    sendJson(response, alert);
+                                    jsonObject.put("alert", new Alert(List.of("Account aggiornato con successo"), "success").toJson());
+                                    sendJson(response, jsonObject);
                                 } else
                                     internalError();
                             } else

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UniCinema</a> &gt; <a href="index.source.html" class="el_package">utils.validator</a> &gt; <span class="el_source">AccountValidator.java</span></div><h1>AccountValidator.java</h1><pre class="source lang-java linenums">package utils.validator;
+
+
+import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
+import java.util.regex.Pattern;
+
+/**
+ * Questa classe implementa funzionalità di validazione dei parametri di un form riguardanti l'Account.
+ */
+<span class="fc" id="L11">public class AccountValidator {</span>
+
+    /**
+     * Implementa la funzionalità di validazione del login
+     * @param request è l'oggetto contenente i parametri
+     * @return il validator
+     */
+    public RequestValidator validateSignin(HttpServletRequest request) {
+<span class="nc" id="L19">        RequestValidator validator = new RequestValidator(request);</span>
+<span class="nc" id="L20">        validator.assertEmail(&quot;email&quot;, &quot;L'email non è valida&quot;, true);</span>
+<span class="nc" id="L21">        return validator;</span>
+    }
+
+    /**
+     * Implementa la funzionalità di validazione della registrazione
+     * @param request è l'oggetto contenente i parametri
+     * @return il validator
+     */
+    public RequestValidator validateSignup(HttpServletRequest request, boolean requiredParams) throws SQLException {
+<span class="nc" id="L30">        RequestValidator validator = new RequestValidator(request);</span>
+
+<span class="nc" id="L32">        validator.assertMatch(&quot;firstname&quot;, Pattern.compile(&quot;^[A-Za-zàèìòù]{3,25}$&quot;), &quot;Il nome non è valido&quot;, requiredParams);</span>
+
+<span class="nc" id="L34">        validator.assertMatch(&quot;lastname&quot;, Pattern.compile(&quot;^[A-Za-zàèìòù' ]{3,25}$&quot;), &quot;Il cognome non è valido&quot;, requiredParams);</span>
+
+<span class="nc" id="L36">        validator.assertPassword(&quot;password&quot;, &quot;La password non è valida&quot;, requiredParams);</span>
+
+<span class="nc" id="L38">        validator.assertEmail(&quot;email&quot;, &quot;L'email non è valida&quot;, requiredParams);</span>
+<span class="nc" id="L39">        validator.assertExistingEmail(&quot;email&quot;, &quot;L'email è già associata ad un altro account&quot;);</span>
+
+<span class="nc" id="L41">        return validator;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

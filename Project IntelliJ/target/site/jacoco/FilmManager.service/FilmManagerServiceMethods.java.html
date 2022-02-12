@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FilmManagerServiceMethods.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UniCinema</a> &gt; <a href="index.source.html" class="el_package">FilmManager.service</a> &gt; <span class="el_source">FilmManagerServiceMethods.java</span></div><h1>FilmManagerServiceMethods.java</h1><pre class="source lang-java linenums">package FilmManager.service;
+
+import model.bean.*;
+import model.dao.*;
+
+import java.sql.SQLException;
+
+<span class="fc" id="L8">public class FilmManagerServiceMethods implements FilmManagerService{</span>
+
+<span class="fc" id="L10">    ActorDAO actorDAO = new ActorDAO();</span>
+<span class="fc" id="L11">    DirectorDAO directorDAO = new DirectorDAO();</span>
+<span class="fc" id="L12">    HouseProductionDAO houseProductionDAO = new HouseProductionDAO();</span>
+<span class="fc" id="L13">    ProductionDAO productionDAO = new ProductionDAO();</span>
+<span class="fc" id="L14">    FilmDAO filmDAO = new FilmDAO();</span>
+
+    @Override
+    public boolean removeFilm(int filmId) throws SQLException {
+<span class="nc" id="L18">        return filmDAO.delete(filmId);</span>
+    }
+
+    @Override
+    public boolean insert(Film film) throws SQLException {
+<span class="nc" id="L23">        return</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">                filmDAO.insertAndReturnID(film) != 0 &amp;&amp;</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">                actorDAO.insert(film.getActorList()) &amp;&amp;</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">                directorDAO.insert(film.getDirectorList()) &amp;&amp;</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">                houseProductionDAO.insert(film.getHouseProductionList()) &amp;&amp;</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">                productionDAO.insert(film.getProductionList());</span>
+    }
+
+    @Override
+    public boolean update(Film film) throws SQLException {
+<span class="nc" id="L33">            return</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">                    filmDAO.update(film) &amp;&amp;</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">                    actorDAO.update(film.getActorList(), film.getId()) &amp;&amp;</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">                    directorDAO.update(film.getDirectorList(), film.getId()) &amp;&amp;</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">                    houseProductionDAO.update(film.getHouseProductionList(), film.getId()) &amp;&amp;</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">                    productionDAO.update(film.getProductionList(), film.getId());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

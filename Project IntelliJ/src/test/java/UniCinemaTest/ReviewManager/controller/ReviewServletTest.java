@@ -74,6 +74,7 @@ public class ReviewServletTest {
         reviewServlet.setReviewService(reviewServiceMethods);
         reviewServlet.setReviewValidator(reviewValidator);
         reviewServlet.setFilmService(filmServiceMethods);
+        reviewServlet.setJsonObject(jsonObject);
     }
 
     @Test

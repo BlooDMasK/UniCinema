@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DirectorDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UniCinema</a> &gt; <a href="index.source.html" class="el_package">model.dao</a> &gt; <span class="el_source">DirectorDAO.java</span></div><h1>DirectorDAO.java</h1><pre class="source lang-java linenums">package model.dao;
+
+import model.bean.Director;
+import utils.ConPool;
+import utils.Paginator;
+import utils.SqlMethods;
+import utils.extractor.DirectorExtractor;
+import model.bean.Film;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Questa classe rappresenta il DAO di un Regista.
+ */
+<span class="fc" id="L20">public class DirectorDAO implements SqlMethods&lt;Director&gt; {</span>
+
+    /**
+     * Implementa la funzionalità di prendere una lista di registi.
+     * @param paginator per gestire la paginazione
+     * @return la lista dei registi
+     * @throws SQLException
+     */
+    @Override
+    public List&lt;Director&gt; fetchAll(Paginator paginator) throws SQLException {
+<span class="nc" id="L30">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L31">            try(PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM director LIMIT ?,?&quot;)){</span>
+<span class="nc" id="L32">                ps.setInt(1, paginator.getOffset());</span>
+<span class="nc" id="L33">                ps.setInt(2, paginator.getLimit());</span>
+
+<span class="nc" id="L35">                List&lt;Director&gt; directorList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L37">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L38">                DirectorExtractor directorExtractor = new DirectorExtractor();</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">                while(rs.next()) {</span>
+<span class="nc" id="L40">                    Director director = directorExtractor.extract(rs);</span>
+<span class="nc" id="L41">                    directorList.add(director);</span>
+<span class="nc" id="L42">                }</span>
+<span class="nc" id="L43">                rs.close();</span>
+<span class="nc" id="L44">                return directorList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una lista di registi.
+     * @return la lista dei registi
+     * @throws SQLException
+     */
+    public List&lt;Director&gt; fetchAll() throws SQLException {
+<span class="nc" id="L55">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L56">            try(PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM director&quot;)){</span>
+
+<span class="nc" id="L58">                List&lt;Director&gt; directorList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L60">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L61">                DirectorExtractor directorExtractor = new DirectorExtractor();</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                while(rs.next()) {</span>
+<span class="nc" id="L63">                    Director director = directorExtractor.extract(rs);</span>
+<span class="nc" id="L64">                    directorList.add(director);</span>
+<span class="nc" id="L65">                }</span>
+<span class="nc" id="L66">                rs.close();</span>
+<span class="nc" id="L67">                return directorList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una lista di registi.
+     * @param film a cui hanno preso parte i registi
+     * @return la lista dei registi
+     * @throws SQLException
+     */
+    public List&lt;Director&gt; fetchAll(Film film) throws SQLException {
+<span class="nc" id="L79">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L80">            try(PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM director WHERE id_film = ?&quot;)){</span>
+<span class="nc" id="L81">                ps.setInt(1, film.getId());</span>
+
+<span class="nc" id="L83">                List&lt;Director&gt; directorList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L85">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L86">                DirectorExtractor directorExtractor = new DirectorExtractor();</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                while(rs.next()) {</span>
+<span class="nc" id="L88">                    Director director = directorExtractor.extract(rs);</span>
+<span class="nc" id="L89">                    directorList.add(director);</span>
+<span class="nc" id="L90">                }</span>
+<span class="nc" id="L91">                rs.close();</span>
+<span class="nc" id="L92">                return directorList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere un regista.
+     * @param id rappresenta l'identificativo numerico del regista
+     * @return il regista
+     * @throws SQLException
+     */
+    @Override
+    public Director fetch(int id) throws SQLException {
+<span class="nc" id="L105">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L106">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM director WHERE id = ?&quot;)) {</span>
+<span class="nc" id="L107">                ps.setInt(1,id);</span>
+
+<span class="nc" id="L109">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L110">                Director director = null;</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">                if(rs.next()) {</span>
+<span class="nc" id="L112">                    DirectorExtractor directorExtractor = new DirectorExtractor();</span>
+<span class="nc" id="L113">                    director = directorExtractor.extract(rs);</span>
+                }
+<span class="nc" id="L115">                rs.close();</span>
+<span class="nc" id="L116">                return director;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità che registra un regista nel database.
+     * @param director da registrare
+     * @return true se la registrazione va a buon fine, false altrimenti
+     * @throws SQLException
+     */
+    @Override
+    public boolean insert(Director director) throws SQLException {
+<span class="nc" id="L129">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L130">            try (PreparedStatement ps = con.prepareStatement(&quot;INSERT INTO director (firstname, lastname, id_film) VALUE (?,?,?)&quot;)) {</span>
+<span class="nc" id="L131">                ps.setString(1, director.getFirstname());</span>
+<span class="nc" id="L132">                ps.setString(2, director.getLastname());</span>
+<span class="nc" id="L133">                ps.setInt(3, director.getFilm().getId());</span>
+
+<span class="nc" id="L135">                int rows = ps.executeUpdate();</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">                return rows == 1;</span>
+            }
+        }
+    }
+
+    public boolean insert(ArrayList&lt;Director&gt; directorList) throws SQLException {
+<span class="nc" id="L142">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L143">            String query = &quot;INSERT INTO director (firstname, lastname, id_film) VALUE &quot;;</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">            for(Director director : directorList)</span>
+<span class="nc" id="L145">                query += &quot;('&quot;+director.getFirstname()+&quot;','&quot;+director.getLastname()+&quot;',&quot;+director.getFilm().getId()+&quot;),&quot;;</span>
+
+<span class="nc" id="L147">            query = query.substring(0, query.length()-1);</span>
+
+<span class="nc" id="L149">            try (PreparedStatement ps = con.prepareStatement(query)) {</span>
+<span class="nc" id="L150">                int rows = ps.executeUpdate();</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">                return rows == directorList.size();</span>
+            }
+        }
+    }
+
+
+
+    /**
+     * Implementa la funzionalità che aggiorna un regista nel database.
+     * @param director da aggiornare
+     * @return true se l'aggiornamento va a buon fine, false altrimenti
+     * @throws SQLException
+     */
+    @Override
+    public boolean update(Director director) throws SQLException {
+<span class="nc" id="L166">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L167">            try (PreparedStatement ps = con.prepareStatement(&quot;UPDATE director SET firstname = ?, lastname = ? WHERE id = ?&quot;)) {</span>
+<span class="nc" id="L168">                ps.setString(1, director.getFirstname());</span>
+<span class="nc" id="L169">                ps.setString(2, director.getLastname());</span>
+<span class="nc" id="L170">                ps.setInt(3, director.getFilm().getId());</span>
+<span class="nc" id="L171">                ps.setInt(4, director.getId());</span>
+
+<span class="nc" id="L173">                int rows = ps.executeUpdate();</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">                return rows == 1;</span>
+            }
+        }
+    }
+
+    public boolean update(ArrayList&lt;Director&gt; directorList, int filmId) throws SQLException {
+<span class="nc" id="L180">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L181">            int deleteCount = 0,</span>
+<span class="nc" id="L182">                    updateCount = 0,</span>
+<span class="nc" id="L183">                    insertCount = 0;</span>
+
+            String deleteQuery;
+<span class="nc" id="L186">            ArrayList&lt;String&gt; updateQueryList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L187">            String insertQuery = &quot;INSERT INTO director(firstname, lastname, id_film) VALUES &quot;;</span>
+
+
+<span class="nc bnc" id="L190" title="All 2 branches missed.">            if (directorList.isEmpty()) {</span>
+<span class="nc" id="L191">                deleteQuery = &quot;DELETE FROM director WHERE id_film = &quot; + filmId;</span>
+            } else {
+                //Elimino tutte le righe non presenti nella nuova lista di attori
+<span class="nc" id="L194">                deleteQuery = &quot;DELETE FROM director WHERE id_film = &quot; + filmId + &quot; AND id NOT IN (&quot;;</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">                for (Director director : directorList)</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">                    if (director.getId() != 0) {</span>
+<span class="nc" id="L197">                        deleteQuery += director.getId() + &quot;,&quot;;</span>
+<span class="nc" id="L198">                        deleteCount++;</span>
+                    }
+
+<span class="nc" id="L201">                deleteQuery = deleteQuery.substring(0, deleteQuery.length() - 1);</span>
+<span class="nc" id="L202">                deleteQuery += &quot;)&quot;;</span>
+
+                //Aggiorno tutte le righe che sono nella lista
+<span class="nc bnc" id="L205" title="All 2 branches missed.">                for (Director director : directorList)</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">                    if (director.getId() != 0) {</span>
+<span class="nc" id="L207">                        updateQueryList.add(&quot;UPDATE director SET firstname = '&quot; + director.getFirstname() + &quot;', lastname = '&quot; + director.getLastname() + &quot;' WHERE id=&quot; + director.getId());</span>
+<span class="nc" id="L208">                        updateCount++;</span>
+                    }
+
+                //Inserisco tutte le entità che non hanno id (non avendo id significa che sono state appena inserite nella lista)
+<span class="nc bnc" id="L212" title="All 2 branches missed.">                for (Director director : directorList)</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">                    if (director.getId() == 0) {</span>
+<span class="nc" id="L214">                        insertQuery += &quot;('&quot; + director.getFirstname() + &quot;','&quot; + director.getLastname() + &quot;',&quot; + filmId + &quot;),&quot;;</span>
+<span class="nc" id="L215">                        insertCount++;</span>
+                    }
+
+<span class="nc" id="L218">                insertQuery = insertQuery.substring(0, insertQuery.length() - 1);</span>
+            }
+
+<span class="nc" id="L221">            try (PreparedStatement deletePS = con.prepareStatement(deleteQuery)) {</span>
+<span class="nc" id="L222">                deletePS.executeUpdate();</span>
+            }
+
+<span class="nc bnc" id="L225" title="All 2 branches missed.">            if (updateCount &gt; 0) {</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">                for (String updateQuery : updateQueryList)</span>
+<span class="nc" id="L227">                    try (PreparedStatement updatePS = con.prepareStatement(updateQuery)) {</span>
+<span class="nc" id="L228">                        updatePS.executeUpdate();</span>
+<span class="nc" id="L229">                    }</span>
+            }
+
+<span class="nc bnc" id="L232" title="All 2 branches missed.">            if (insertCount &gt; 0) {</span>
+<span class="nc" id="L233">                try (PreparedStatement insertPS = con.prepareStatement(insertQuery)) {</span>
+<span class="nc" id="L234">                    insertPS.executeUpdate();</span>
+                }
+            }
+<span class="nc" id="L237">            return true;</span>
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di rimozione del regista dal database.
+     * @param id rappresenta l'identificativo numerico del regista
+     * @return true se la rimozione va a buon fine, false altrimenti
+     * @throws SQLException
+     */
+    @Override
+    public boolean delete(int id) throws SQLException {
+<span class="nc" id="L249">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L250">            try (PreparedStatement ps = con.prepareStatement(&quot;DELETE FROM director WHERE id = ?&quot;)) {</span>
+<span class="nc" id="L251">                ps.setInt(1, id);</span>
+
+<span class="nc" id="L253">                int rows = ps.executeUpdate();</span>
+<span class="nc bnc" id="L254" title="All 2 branches missed.">                return rows == 1;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di conteggio dei registi nel database.
+     * @return un intero che rappresenta il numero di registi nel database.
+     * @throws SQLException
+     */
+    @Override
+    public int countAll() throws SQLException {
+<span class="nc" id="L266">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L267">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT COUNT(*) AS ct FROM director&quot;)) {</span>
+<span class="nc" id="L268">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L269">                int ct = 0;</span>
+<span class="nc bnc" id="L270" title="All 2 branches missed.">                if(rs.next())</span>
+<span class="nc" id="L271">                    ct = rs.getInt(&quot;ct&quot;);</span>
+<span class="nc" id="L272">                rs.close();</span>
+<span class="nc" id="L273">                return ct;</span>
+            }
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

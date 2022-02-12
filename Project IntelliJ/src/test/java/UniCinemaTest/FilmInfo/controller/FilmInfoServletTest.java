@@ -60,7 +60,6 @@ public class FilmInfoServletTest {
     @Mock private Iterator<Show> showIterator;
     @Mock private Iterator<Film> filmIterator;
     @Mock private Map<Integer, Film> filmMap;
-    @Mock private Controller controller;
     @Mock private JSONObject jsonObject;
 
     @Spy private FilmInfoServlet filmInfoServlet;
@@ -88,6 +87,7 @@ public class FilmInfoServletTest {
 
         filmInfoServlet.setFilmService(filmServiceMethods);
         filmInfoServlet.setShowService(showServiceMethods);
+        filmInfoServlet.setJsonObject(jsonObject);
     }
 
     @Test
@@ -130,7 +130,7 @@ public class FilmInfoServletTest {
 
     @Test
     public void doPostSearch() throws SQLException, ServletException, IOException {
-        when(filmInfoServlet.getPath(request)).thenReturn("/schedule");
+        when(filmInfoServlet.getPath(request)).thenReturn("/search");
 
         when(request.getParameter("title")).thenReturn("Spiderman");
         when(filmServiceMethods.search("Spiderman")).thenReturn(filmList);
@@ -143,6 +143,6 @@ public class FilmInfoServletTest {
 
         filmInfoServlet.doPost(request, response);
 
-        verify(controller).sendJson(response, jsonObject);
+        verify(filmInfoServlet).sendJson(response, jsonObject);
     }
 }

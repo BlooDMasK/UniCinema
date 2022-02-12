@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Room.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UniCinema</a> &gt; <a href="index.source.html" class="el_package">model.bean</a> &gt; <span class="el_source">Room.java</span></div><h1>Room.java</h1><pre class="source lang-java linenums">package model.bean;
+
+import lombok.Data;
+
+/**
+ * Questa classe rappresenta la sala in cui si tengono gli spettacoli.
+ */
+<span class="pc bnc" id="L8" title="All 12 branches missed.">@Data</span>
+public class Room {
+    /**
+     * Rappresenta il numero di file presenti in sala.
+     */
+<span class="nc" id="L13">    private int n_rows;</span>
+
+    /**
+     * Rappresenta il numero di posti per fila presenti in sala.
+     */
+<span class="nc" id="L18">    private int n_seats;</span>
+
+    /**
+     * Rappresenta il numero identificativo della sala.
+     */
+<span class="nc" id="L23">    private int id;</span>
+
+    /**
+     * Il totale dei posti sarà calcolato facendo n_rows * n_seats.
+     * La fila A sta in basso, la fila finale sta in alto.
+     * Lo schermo in una sala sta in basso (quindi la fila A è quella più vicina).
+     */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

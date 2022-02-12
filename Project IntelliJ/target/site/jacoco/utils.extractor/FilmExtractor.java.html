@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FilmExtractor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UniCinema</a> &gt; <a href="index.source.html" class="el_package">utils.extractor</a> &gt; <span class="el_source">FilmExtractor.java</span></div><h1>FilmExtractor.java</h1><pre class="source lang-java linenums">package utils.extractor;
+
+import model.bean.Film;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**
+ * Questa classe permette di estrarre i dati del Film da una {@link ResultSet}.
+ */
+<span class="nc" id="L11">public class FilmExtractor {</span>
+
+    /**
+     * Implementa la funzionalità che permette di estrarre i dati del Film da una {@link ResultSet}
+     * @param resultSet rappresenta l'insieme delle righe SQL
+     * @return il film
+     * @throws SQLException
+     */
+    public Film extract(ResultSet resultSet) throws SQLException {
+<span class="nc" id="L20">        Film film = new Film();</span>
+
+<span class="nc" id="L22">        film.setId(resultSet.getInt(&quot;film.id&quot;));</span>
+<span class="nc" id="L23">        film.setDatePublishing(resultSet.getDate(&quot;film.date_publishing&quot;).toLocalDate());</span>
+<span class="nc" id="L24">        film.setGenre(resultSet.getInt(&quot;film.genre&quot;));</span>
+<span class="nc" id="L25">        film.setLength(resultSet.getInt(&quot;film.duration&quot;));</span>
+<span class="nc" id="L26">        film.setPlot(resultSet.getString(&quot;film.plot&quot;));</span>
+<span class="nc" id="L27">        film.setTitle(resultSet.getString(&quot;film.title&quot;));</span>
+<span class="nc" id="L28">        film.setCover(resultSet.getString(&quot;film.cover&quot;));</span>
+<span class="nc" id="L29">        film.setPoster(resultSet.getString(&quot;film.poster&quot;));</span>
+<span class="nc" id="L30">        return film;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

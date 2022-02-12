@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ShowDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UniCinema</a> &gt; <a href="index.source.html" class="el_package">model.dao</a> &gt; <span class="el_source">ShowDAO.java</span></div><h1>ShowDAO.java</h1><pre class="source lang-java linenums">package model.dao;
+
+import utils.ConPool;
+import utils.Paginator;
+import utils.SqlMethods;
+import utils.extractor.FilmExtractor;
+import utils.extractor.ShowExtractor;
+import model.bean.Film;
+import model.bean.Show;
+
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Questa classe rappresenta il DAO di uno Spettacolo.
+ */
+<span class="fc" id="L19">public class ShowDAO implements SqlMethods&lt;Show&gt; {</span>
+
+    /**
+     * Implementa la funzionalità di prendere una lista degli spettacoli.
+     * @param paginator per gestire la paginazione
+     * @return la lista degli spettacoli
+     * @throws SQLException
+     */
+    @Override
+    public List&lt;Show&gt; fetchAll(Paginator paginator) throws SQLException {
+<span class="nc" id="L29">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L30">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM spectacle AS sp LIMIT ?,?&quot;)) {</span>
+<span class="nc" id="L31">                ps.setInt(1, paginator.getOffset());</span>
+<span class="nc" id="L32">                ps.setInt(2, paginator.getLimit());</span>
+
+<span class="nc" id="L34">                List&lt;Show&gt; showList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L36">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L37">                ShowExtractor showExtractor = new ShowExtractor();</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">                while(rs.next()) {</span>
+<span class="nc" id="L39">                    Show show = showExtractor.extract(rs);</span>
+<span class="nc" id="L40">                    showList.add(show);</span>
+<span class="nc" id="L41">                }</span>
+
+<span class="nc" id="L43">                rs.close();</span>
+<span class="nc" id="L44">                return showList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una lista degli spettacoli.
+     * @param film proiettato durante lo spettacolo
+     * @return la lista degli spettacoli
+     * @throws SQLException
+     */
+    public ArrayList&lt;Show&gt; fetchAll(Film film) throws SQLException {
+<span class="nc" id="L56">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L57">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM spectacle AS sp WHERE id_film = ? AND cast(concat(show_date, ' ', show_hour) as datetime) &gt; NOW()&quot;)) {</span>
+<span class="nc" id="L58">                ps.setInt(1, film.getId());</span>
+
+<span class="nc" id="L60">                ArrayList&lt;Show&gt; showList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L62">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L63">                ShowExtractor showExtractor = new ShowExtractor();</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                while(rs.next()) {</span>
+<span class="nc" id="L65">                    Show show = showExtractor.extract(rs);</span>
+<span class="nc" id="L66">                    showList.add(show);</span>
+<span class="nc" id="L67">                }</span>
+
+<span class="nc" id="L69">                rs.close();</span>
+<span class="nc" id="L70">                return showList;</span>
+            }
+        }
+    }
+
+    public ArrayList&lt;Show&gt; fetchDaily(int roomId, LocalDate date) throws SQLException {
+<span class="nc" id="L76">        try(Connection con = ConPool.getConnection()) {</span>
+
+<span class="nc" id="L78">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM spectacle AS sp JOIN film on film.id = sp.id_film WHERE sp.id_room = ? AND show_date = ?&quot;)) {</span>
+<span class="nc" id="L79">                ps.setInt(1, roomId);</span>
+<span class="nc" id="L80">                ps.setDate(2, Date.valueOf(date));</span>
+
+<span class="nc" id="L82">                ArrayList&lt;Show&gt; showList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L84">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L85">                ShowExtractor showExtractor = new ShowExtractor();</span>
+<span class="nc" id="L86">                FilmExtractor filmExtractor = new FilmExtractor();</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                while(rs.next()) {</span>
+<span class="nc" id="L88">                    Show show = showExtractor.extract(rs);</span>
+<span class="nc" id="L89">                    Film film = filmExtractor.extract(rs);</span>
+
+<span class="nc" id="L91">                    show.setFilm(film);</span>
+<span class="nc" id="L92">                    showList.add(show);</span>
+<span class="nc" id="L93">                }</span>
+
+<span class="nc" id="L95">                rs.close();</span>
+<span class="nc" id="L96">                return showList;</span>
+            }
+        }
+    }
+
+    public ArrayList&lt;Show&gt; fetchDaily(int roomId, LocalDate date, Show excludingShow) throws SQLException {
+<span class="nc" id="L102">        try(Connection con = ConPool.getConnection()) {</span>
+
+<span class="nc" id="L104">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM spectacle AS sp JOIN film on film.id = sp.id_film WHERE sp.id_room = ? AND show_date = ? AND sp.id != ?&quot;)) {</span>
+<span class="nc" id="L105">                ps.setInt(1, roomId);</span>
+<span class="nc" id="L106">                ps.setDate(2, Date.valueOf(date));</span>
+<span class="nc" id="L107">                ps.setInt(3, excludingShow.getId());</span>
+
+<span class="nc" id="L109">                ArrayList&lt;Show&gt; showList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L111">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L112">                ShowExtractor showExtractor = new ShowExtractor();</span>
+<span class="nc" id="L113">                FilmExtractor filmExtractor = new FilmExtractor();</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">                while(rs.next()) {</span>
+<span class="nc" id="L115">                    Show show = showExtractor.extract(rs);</span>
+<span class="nc" id="L116">                    Film film = filmExtractor.extract(rs);</span>
+
+<span class="nc" id="L118">                    show.setFilm(film);</span>
+<span class="nc" id="L119">                    showList.add(show);</span>
+<span class="nc" id="L120">                }</span>
+
+<span class="nc" id="L122">                rs.close();</span>
+<span class="nc" id="L123">                return showList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una lista degli spettacoli.
+     * @return la lista degli spettacoli
+     * @throws SQLException
+     */
+    public ArrayList&lt;Show&gt; fetchAll() throws SQLException {
+<span class="nc" id="L134">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L135">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM spectacle AS sp WHERE cast(concat(show_date, ' ', show_hour) as datetime) &gt; NOW()&quot;)) {</span>
+<span class="nc" id="L136">                ArrayList&lt;Show&gt; showList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L138">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L139">                ShowExtractor showExtractor = new ShowExtractor();</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">                while(rs.next()) {</span>
+<span class="nc" id="L141">                    Show show = showExtractor.extract(rs);</span>
+<span class="nc" id="L142">                    showList.add(show);</span>
+<span class="nc" id="L143">                }</span>
+
+<span class="nc" id="L145">                rs.close();</span>
+<span class="nc" id="L146">                return showList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere uno spettacolo.
+     * @param id rappresenta l'identificativo numerico dello spettacolo
+     * @return lo spettacolo
+     * @throws SQLException
+     */
+    @Override
+    public Show fetch(int id) throws SQLException {
+<span class="nc" id="L159">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L160">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM spectacle AS sp JOIN film on sp.id_film = film.id WHERE sp.id = ?&quot;)) {</span>
+<span class="nc" id="L161">                ps.setInt(1, id);</span>
+
+<span class="nc" id="L163">                Show show = null;</span>
+                Film film;
+<span class="nc" id="L165">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">                if(rs.next()) {</span>
+<span class="nc" id="L167">                    ShowExtractor showExtractor = new ShowExtractor();</span>
+<span class="nc" id="L168">                    show = showExtractor.extract(rs);</span>
+
+<span class="nc" id="L170">                    FilmExtractor filmExtractor = new FilmExtractor();</span>
+<span class="nc" id="L171">                    film = filmExtractor.extract(rs);</span>
+
+<span class="nc" id="L173">                    show.setFilm(film);</span>
+                }
+<span class="nc" id="L175">                rs.close();</span>
+<span class="nc" id="L176">                return show;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di registrazione di uno spettacolo nel database.
+     * @param show da registrare
+     * @return true se la registrazione va a buon fine, false altrimenti
+     * @throws SQLException
+     */
+    @Override
+    public boolean insert(Show show) throws SQLException {
+<span class="nc" id="L189">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L190">            try (PreparedStatement ps = con.prepareStatement(&quot;INSERT INTO spectacle (show_hour, show_date, id_film, id_room) VALUES (?, ?, ?, ?)&quot;, Statement.RETURN_GENERATED_KEYS)) {</span>
+<span class="nc" id="L191">                ps.setTime(1, Time.valueOf(show.getTime()));</span>
+<span class="nc" id="L192">                ps.setDate(2, Date.valueOf(show.getDate()));</span>
+<span class="nc" id="L193">                ps.setInt(3, show.getFilm().getId());</span>
+<span class="nc" id="L194">                ps.setInt(4, show.getRoom().getId());</span>
+<span class="nc" id="L195">                ps.executeUpdate();</span>
+
+<span class="nc" id="L197">                ResultSet rs = ps.getGeneratedKeys();</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">                if(rs.next()) {</span>
+<span class="nc" id="L199">                    int showId = rs.getInt(1);</span>
+<span class="nc" id="L200">                    show.setId(showId);</span>
+<span class="nc" id="L201">                    return true;</span>
+                } else
+<span class="nc" id="L203">                    return false;</span>
+<span class="nc bnc" id="L204" title="All 2 branches missed.">            }</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">        }</span>
+    }
+
+    /**
+     * Implementa la funzionalità di aggiornare uno spettacolo.
+     * @param show da aggiornare
+     * @return true se l'aggiornamento va a buon fine, false altrimenti
+     * @throws SQLException
+     */
+    @Override
+    public boolean update(Show show) throws SQLException {
+<span class="nc" id="L216">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L217">            try (PreparedStatement ps = con.prepareStatement(&quot;UPDATE spectacle SET show_hour = ?, show_date = ? WHERE id = ?&quot;)) {</span>
+<span class="nc" id="L218">                ps.setTime(1, Time.valueOf(show.getTime()));</span>
+<span class="nc" id="L219">                ps.setDate(2, Date.valueOf(show.getDate()));</span>
+<span class="nc" id="L220">                ps.setInt(3, show.getId());</span>
+
+<span class="nc" id="L222">                int rows = ps.executeUpdate();</span>
+<span class="nc bnc" id="L223" title="All 2 branches missed.">                return rows == 1;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di rimuovere uno spettacolo nel database.
+     * @param id rappresenta l'identificativo numerico dello spettacolo
+     * @return true se la rimozione va a buon fine, false altrimenti
+     * @throws SQLException
+     */
+    @Override
+    public boolean delete(int id) throws SQLException {
+<span class="nc" id="L236">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L237">            try (PreparedStatement ps = con.prepareStatement(&quot;DELETE FROM spectacle WHERE id = ?&quot;)) {</span>
+<span class="nc" id="L238">                ps.setInt(1, id);</span>
+
+<span class="nc" id="L240">                int rows = ps.executeUpdate();</span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">                return rows == 1;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di conteggio degli spettacoli registrati nel database.
+     * @return un intero che rappresenta il numero di spettacoli registrati nel database
+     * @throws SQLException
+     */
+    @Override
+    public int countAll() throws SQLException {
+<span class="nc" id="L253">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L254">            try(PreparedStatement ps = con.prepareStatement(&quot;SELECT COUNT(*) AS ct FROM spectacle&quot;)) {</span>
+<span class="nc" id="L255">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L256">                int ct = 0;</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">                if(rs.next())</span>
+<span class="nc" id="L258">                    ct = rs.getInt(&quot;ct&quot;);</span>
+<span class="nc" id="L259">                rs.close();</span>
+<span class="nc" id="L260">                return ct;</span>
+            }
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

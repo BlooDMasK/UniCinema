@@ -28,6 +28,11 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
      */
     private FilmService filmService;
     private ShowService showService;
+    private JSONObject jsonObject;
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
+    }
 
     public void setFilmService(FilmService filmService) {
         this.filmService = filmService;
@@ -40,6 +45,7 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
     public FilmInfoServlet() {
         filmService = new FilmServiceMethods();
         showService = new ShowServiceMethods();
+        jsonObject = new JSONObject();
     }
 
     /**
@@ -130,10 +136,9 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
                             for(Film film : filmList)
                                 list.put(film.toJson());
 
-                        JSONObject root = new JSONObject();
-                        root.put("filmList", list);
+                        jsonObject.put("filmList", list);
 
-                        sendJson(response, root);
+                        sendJson(response, jsonObject);
                     }
                     break;
             }

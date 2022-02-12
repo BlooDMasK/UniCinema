@@ -1,0 +1,6 @@
+UniCinemaTest\FilmInfo\controller\FilmInfoServletTest.class
+UniCinemaTest\PurchaseManager\controller\PurchaseServletTest.class
+UniCinemaTest\FilmManager\controller\FilmManagerServletTest.class
+UniCinemaTest\ShowManager\controller\ShowManagerServletTest.class
+UniCinemaTest\Authentication\controller\AuthenticationServletTest.class
+UniCinemaTest\ReviewManager\controller\ReviewServletTest.class

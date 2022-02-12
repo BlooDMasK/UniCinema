@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductionDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UniCinema</a> &gt; <a href="index.source.html" class="el_package">model.dao</a> &gt; <span class="el_source">ProductionDAO.java</span></div><h1>ProductionDAO.java</h1><pre class="source lang-java linenums">package model.dao;
+
+import model.bean.Production;
+import utils.ConPool;
+import utils.Paginator;
+import utils.SqlMethods;
+import utils.extractor.ProductionExtractor;
+import model.bean.Film;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Questa classe rappresenta il DAO della Produzione.
+ */
+<span class="fc" id="L20">public class ProductionDAO implements SqlMethods&lt;Production&gt; {</span>
+
+    /**
+     * Implementa la funzionalità di prendere una lista di produzione.
+     * @param paginator per gestire la paginazione
+     * @return la lista di produzione
+     * @throws SQLException
+     */
+    @Override
+    public List&lt;Production&gt; fetchAll(Paginator paginator) throws SQLException {
+<span class="nc" id="L30">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L31">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM production AS prod LIMIT ?,?&quot;)) {</span>
+<span class="nc" id="L32">                ps.setInt(1, paginator.getOffset());</span>
+<span class="nc" id="L33">                ps.setInt(2, paginator.getLimit());</span>
+
+<span class="nc" id="L35">                List&lt;Production&gt; productionList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L37">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L38">                ProductionExtractor productionExtractor = new ProductionExtractor();</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">                while(rs.next()){</span>
+<span class="nc" id="L40">                    Production production = productionExtractor.extract(rs);</span>
+<span class="nc" id="L41">                    productionList.add(production);</span>
+<span class="nc" id="L42">                }</span>
+<span class="nc" id="L43">                rs.close();</span>
+<span class="nc" id="L44">                return productionList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una lista di produzione.
+     * @return la lista di produzione
+     * @throws SQLException
+     */
+    public List&lt;Production&gt; fetchAll() throws SQLException {
+<span class="nc" id="L55">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L56">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM production AS prod&quot;)) {</span>
+
+<span class="nc" id="L58">                List&lt;Production&gt; productionList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L60">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L61">                ProductionExtractor productionExtractor = new ProductionExtractor();</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                while(rs.next()){</span>
+<span class="nc" id="L63">                    Production production = productionExtractor.extract(rs);</span>
+<span class="nc" id="L64">                    productionList.add(production);</span>
+<span class="nc" id="L65">                }</span>
+<span class="nc" id="L66">                rs.close();</span>
+<span class="nc" id="L67">                return productionList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una lista di produzione.
+     * @param film a cui ha preso parte la produzione
+     * @return la lista di produzione
+     * @throws SQLException
+     */
+    public List&lt;Production&gt; fetchAll(Film film) throws SQLException {
+<span class="nc" id="L79">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L80">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM production AS prod WHERE id_film = ?&quot;)) {</span>
+<span class="nc" id="L81">                ps.setInt(1, film.getId());</span>
+
+<span class="nc" id="L83">                List&lt;Production&gt; productionList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L85">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L86">                ProductionExtractor productionExtractor = new ProductionExtractor();</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                while(rs.next()){</span>
+<span class="nc" id="L88">                    Production production = productionExtractor.extract(rs);</span>
+<span class="nc" id="L89">                    productionList.add(production);</span>
+<span class="nc" id="L90">                }</span>
+<span class="nc" id="L91">                rs.close();</span>
+<span class="nc" id="L92">                return productionList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una produzione.
+     * @param id rappresenta l'identificativo numerico della produzione
+     * @return la lista di produzione
+     * @throws SQLException
+     */
+    @Override
+    public Production fetch(int id) throws SQLException {
+<span class="nc" id="L105">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L106">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM production AS prod WHERE id = ?&quot;)) {</span>
+<span class="nc" id="L107">                ps.setInt(1, id);</span>
+
+<span class="nc" id="L109">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L110">                Production production = null;</span>
+
+<span class="nc bnc" id="L112" title="All 2 branches missed.">                if(rs.next()) {</span>
+<span class="nc" id="L113">                    ProductionExtractor productionExtractor = new ProductionExtractor();</span>
+<span class="nc" id="L114">                    production = productionExtractor.extract(rs);</span>
+                }
+<span class="nc" id="L116">                rs.close();</span>
+<span class="nc" id="L117">                return production;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di registrazione della produzione nel database.
+     * @param production da registrare
+     * @return true se la registrazione va a buon fine, false altrimenti
+     * @throws SQLException
+     */
+    @Override
+    public boolean insert(Production production) throws SQLException {
+<span class="nc" id="L130">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L131">            try (PreparedStatement ps = con.prepareStatement(&quot;INSERT INTO production (firstname, lastname, id_film) VALUES (?,?,?)&quot;)) {</span>
+<span class="nc" id="L132">                ps.setString(1, production.getFirstname());</span>
+<span class="nc" id="L133">                ps.setString(2, production.getLastname());</span>
+<span class="nc" id="L134">                ps.setInt(3, production.getFilm().getId());</span>
+
+<span class="nc" id="L136">                int rows = ps.executeUpdate();</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">                return rows == 1;</span>
+            }
+        }
+    }
+
+    public boolean insert(ArrayList&lt;Production&gt; productionList) throws SQLException {
+<span class="nc" id="L143">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L144">            String query = &quot;INSERT INTO production (firstname, lastname, id_film) VALUE &quot;;</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">            for(Production production : productionList)</span>
+<span class="nc" id="L146">                query += &quot;('&quot;+production.getFirstname()+&quot;','&quot;+production.getLastname()+&quot;',&quot;+production.getFilm().getId()+&quot;),&quot;;</span>
+
+<span class="nc" id="L148">            query = query.substring(0, query.length()-1);</span>
+
+<span class="nc" id="L150">            try (PreparedStatement ps = con.prepareStatement(query)) {</span>
+<span class="nc" id="L151">                int rows = ps.executeUpdate();</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">                return rows == productionList.size();</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di aggiornamento della produzione.
+     * @param production da aggiornare
+     * @return true se l'aggiornamento va a buon fine, false altrimenti
+     * @throws SQLException
+     */
+    @Override
+    public boolean update(Production production) throws SQLException {
+<span class="nc" id="L165">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L166">            try (PreparedStatement ps = con.prepareStatement(&quot;UPDATE production SET firstname = ?, lastname = ? WHERE id = ?&quot;)) {</span>
+<span class="nc" id="L167">                ps.setString(1, production.getFirstname());</span>
+<span class="nc" id="L168">                ps.setString(2, production.getLastname());</span>
+<span class="nc" id="L169">                ps.setInt(3, production.getFilm().getId());</span>
+
+<span class="nc" id="L171">                int rows = ps.executeUpdate();</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">                return rows == 1;</span>
+            }
+        }
+    }
+
+    public boolean update(ArrayList&lt;Production&gt; productionList, int filmId) throws SQLException {
+<span class="nc" id="L178">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L179">            int deleteCount = 0,</span>
+<span class="nc" id="L180">                    updateCount = 0,</span>
+<span class="nc" id="L181">                    insertCount = 0;</span>
+
+            String deleteQuery;
+<span class="nc" id="L184">            ArrayList&lt;String&gt; updateQueryList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L185">            String insertQuery = &quot;INSERT INTO production(firstname, lastname, id_film) VALUES &quot;;</span>
+
+
+<span class="nc bnc" id="L188" title="All 2 branches missed.">            if (productionList.isEmpty()) {</span>
+<span class="nc" id="L189">                deleteQuery = &quot;DELETE FROM production WHERE id_film = &quot; + filmId;</span>
+            } else {
+                //Elimino tutte le righe non presenti nella nuova lista di attori
+<span class="nc" id="L192">                deleteQuery = &quot;DELETE FROM production WHERE id_film = &quot; + filmId + &quot; AND id NOT IN (&quot;;</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">                for (Production production : productionList)</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">                    if (production.getId() != 0) {</span>
+<span class="nc" id="L195">                        deleteQuery += production.getId() + &quot;,&quot;;</span>
+<span class="nc" id="L196">                        deleteCount++;</span>
+                    }
+
+<span class="nc" id="L199">                deleteQuery = deleteQuery.substring(0, deleteQuery.length() - 1);</span>
+<span class="nc" id="L200">                deleteQuery += &quot;)&quot;;</span>
+
+                //Aggiorno tutte le righe che sono nella lista
+<span class="nc bnc" id="L203" title="All 2 branches missed.">                for (Production production : productionList)</span>
+<span class="nc bnc" id="L204" title="All 2 branches missed.">                    if (production.getId() != 0) {</span>
+<span class="nc" id="L205">                        updateQueryList.add(&quot;UPDATE production SET firstname = '&quot; + production.getFirstname() + &quot;', lastname = '&quot; + production.getLastname() + &quot;' WHERE id=&quot; + production.getId());</span>
+<span class="nc" id="L206">                        updateCount++;</span>
+                    }
+
+                //Inserisco tutte le entità che non hanno id (non avendo id significa che sono state appena inserite nella lista)
+<span class="nc bnc" id="L210" title="All 2 branches missed.">                for (Production production : productionList)</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">                    if (production.getId() == 0) {</span>
+<span class="nc" id="L212">                        insertQuery += &quot;('&quot; + production.getFirstname() + &quot;','&quot; + production.getLastname() + &quot;',&quot; + filmId + &quot;),&quot;;</span>
+<span class="nc" id="L213">                        insertCount++;</span>
+                    }
+
+<span class="nc" id="L216">                insertQuery = insertQuery.substring(0, insertQuery.length() - 1);</span>
+            }
+
+<span class="nc" id="L219">            try (PreparedStatement deletePS = con.prepareStatement(deleteQuery)) {</span>
+<span class="nc" id="L220">                deletePS.executeUpdate();</span>
+            }
+
+<span class="nc bnc" id="L223" title="All 2 branches missed.">            if (updateCount &gt; 0) {</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">                for (String updateQuery : updateQueryList)</span>
+<span class="nc" id="L225">                    try (PreparedStatement updatePS = con.prepareStatement(updateQuery)) {</span>
+<span class="nc" id="L226">                        updatePS.executeUpdate();</span>
+<span class="nc" id="L227">                    }</span>
+            }
+
+<span class="nc bnc" id="L230" title="All 2 branches missed.">            if (insertCount &gt; 0) {</span>
+<span class="nc" id="L231">                try (PreparedStatement insertPS = con.prepareStatement(insertQuery)) {</span>
+<span class="nc" id="L232">                    insertPS.executeUpdate();</span>
+                }
+            }
+<span class="nc" id="L235">            return true;</span>
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di rimozione della produzione dal database.
+     * @param id rappresenta l'identificativo numerico della produzione
+     * @return true se la rimozione va a buon fine, false altrimenti
+     * @throws SQLException
+     */
+    @Override
+    public boolean delete(int id) throws SQLException {
+<span class="nc" id="L247">        try (Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L248">            try (PreparedStatement ps = con.prepareStatement(&quot;DELETE FROM production WHERE id = ?&quot;)) {</span>
+<span class="nc" id="L249">                ps.setInt(1, id);</span>
+
+<span class="nc" id="L251">                int rows = ps.executeUpdate();</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">                return rows == 1;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di conteggio delle produzioni nel database.
+     * @return un intero che rappresenta il numero di produzioni nel database.
+     * @throws SQLException
+     */
+    @Override
+    public int countAll() throws SQLException {
+<span class="nc" id="L264">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L265">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT COUNT(*) AS ct FROM production&quot;)) {</span>
+<span class="nc" id="L266">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L267">                int ct = 0;</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">                if(rs.next())</span>
+<span class="nc" id="L269">                    ct = rs.getInt(&quot;ct&quot;);</span>
+<span class="nc" id="L270">                rs.close();</span>
+<span class="nc" id="L271">                return ct;</span>
+            }
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

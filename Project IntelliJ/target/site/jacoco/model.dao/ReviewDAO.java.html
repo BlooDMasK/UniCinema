@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReviewDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">UniCinema</a> &gt; <a href="index.source.html" class="el_package">model.dao</a> &gt; <span class="el_source">ReviewDAO.java</span></div><h1>ReviewDAO.java</h1><pre class="source lang-java linenums">package model.dao;
+
+import model.bean.Account;
+import utils.SqlMethods;
+import utils.extractor.ReviewExtractor;
+import utils.extractor.AccountExtractor;
+import utils.ConPool;
+import utils.Paginator;
+import model.bean.Film;
+import utils.extractor.FilmExtractor;
+import model.bean.Review;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Questa classe rappresenta il DAO di una recensione
+ */
+<span class="fc" id="L20">public class ReviewDAO implements SqlMethods&lt;Review&gt; {</span>
+    /**
+     * Implementa la funzionalità di prendere una lista di recensioni
+     * @param paginator per gestire la paginazione
+     * @return la lista delle recensioni
+     * @throws SQLException
+     */
+    @Override
+    public List&lt;Review&gt; fetchAll(Paginator paginator) throws SQLException {
+<span class="nc" id="L29">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L30">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM review AS rev JOIN film on rev.id_film = film.id JOIN customer acc on rev.id_customer = acc.id ORDER BY rev.id DESC LIMIT ?,?&quot;)) {</span>
+<span class="nc" id="L31">                ps.setInt(1, paginator.getOffset());</span>
+<span class="nc" id="L32">                ps.setInt(2, paginator.getLimit());</span>
+
+<span class="nc" id="L34">                List&lt;Review&gt; reviewList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L36">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L37">                ReviewExtractor reviewExtractor = new ReviewExtractor();</span>
+<span class="nc" id="L38">                AccountExtractor accountExtractor = new AccountExtractor();</span>
+<span class="nc" id="L39">                FilmExtractor filmExtractor = new FilmExtractor();</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">                while(rs.next()) {</span>
+<span class="nc" id="L41">                    Review review = reviewExtractor.extract(rs);</span>
+<span class="nc" id="L42">                    review.setFilm(filmExtractor.extract(rs));</span>
+<span class="nc" id="L43">                    review.setAccount(accountExtractor.extract(rs));</span>
+
+<span class="nc" id="L45">                    reviewList.add(review);</span>
+<span class="nc" id="L46">                }</span>
+<span class="nc" id="L47">                rs.close();</span>
+<span class="nc" id="L48">                return reviewList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una lista di recensioni
+     * @return la lista delle recensioni
+     * @throws SQLException
+     */
+    public ArrayList&lt;Review&gt; fetchAll() throws SQLException {
+<span class="nc" id="L59">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L60">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM review AS rev&quot;)) {</span>
+
+<span class="nc" id="L62">                ArrayList&lt;Review&gt; reviewList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L64">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L65">                ReviewExtractor reviewExtractor = new ReviewExtractor();</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                while(rs.next()) {</span>
+<span class="nc" id="L67">                    Review review = reviewExtractor.extract(rs);</span>
+<span class="nc" id="L68">                    reviewList.add(review);</span>
+<span class="nc" id="L69">                }</span>
+<span class="nc" id="L70">                rs.close();</span>
+<span class="nc" id="L71">                return reviewList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una lista di recensioni
+     * @param filmId soggetto a recensione
+     * @return la lista delle recensioni
+     * @throws SQLException
+     */
+    public ArrayList&lt;Review&gt; fetchAll(int filmId) throws SQLException {
+<span class="nc" id="L83">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L84">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM review AS rev JOIN customer acc ON rev.id_customer = acc.id WHERE id_film = ?&quot;)) {</span>
+<span class="nc" id="L85">                ps.setInt(1, filmId);</span>
+
+<span class="nc" id="L87">                ArrayList&lt;Review&gt; reviewList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L89">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L90">                ReviewExtractor reviewExtractor = new ReviewExtractor();</span>
+<span class="nc" id="L91">                AccountExtractor accountExtractor = new AccountExtractor();</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                while(rs.next()) {</span>
+<span class="nc" id="L93">                    Review review = reviewExtractor.extract(rs);</span>
+<span class="nc" id="L94">                    Account account = accountExtractor.extract(rs);</span>
+<span class="nc" id="L95">                    review.setAccount(account);</span>
+
+<span class="nc" id="L97">                    reviewList.add(review);</span>
+<span class="nc" id="L98">                }</span>
+<span class="nc" id="L99">                rs.close();</span>
+<span class="nc" id="L100">                return reviewList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una lista di recensioni
+     * @param film soggetto a recensioni
+     * @param paginator per gestire la paginazione
+     * @return la lista delle recensioni
+     * @throws SQLException
+     */
+    public ArrayList&lt;Review&gt; fetchAll(Film film, Paginator paginator) throws SQLException {
+<span class="nc" id="L113">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L114">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM review AS rev JOIN customer acc ON rev.id_customer = acc.id WHERE id_film = ? ORDER BY cast(concat(rev.rev_date, ' ', rev.rev_time) as datetime) DESC LIMIT ?,?&quot;)) {</span>
+<span class="nc" id="L115">                ps.setInt(1, film.getId());</span>
+<span class="nc" id="L116">                ps.setInt(2, paginator.getOffset());</span>
+<span class="nc" id="L117">                ps.setInt(3, paginator.getLimit());</span>
+
+<span class="nc" id="L119">                ArrayList&lt;Review&gt; reviewList = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L121">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L122">                ReviewExtractor reviewExtractor = new ReviewExtractor();</span>
+<span class="nc" id="L123">                AccountExtractor accountExtractor = new AccountExtractor();</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                while(rs.next()) {</span>
+<span class="nc" id="L125">                    Review review = reviewExtractor.extract(rs);</span>
+<span class="nc" id="L126">                    Account account = accountExtractor.extract(rs);</span>
+<span class="nc" id="L127">                    review.setAccount(account);</span>
+
+<span class="nc" id="L129">                    reviewList.add(review);</span>
+<span class="nc" id="L130">                }</span>
+<span class="nc" id="L131">                rs.close();</span>
+<span class="nc" id="L132">                return reviewList;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una recensione
+     * @param accountId rappresenta l'identificativo numerico del cliente che sottomette la recensione
+     * @return la recensione
+     * @throws SQLException
+     */
+    @Override
+    public Review fetch(int accountId) throws SQLException {
+<span class="nc" id="L145">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L146">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM review AS rev JOIN film on rev.id_film = film.id JOIN customer acc on rev.id_customer = acc.id WHERE id_customer = ?&quot;)) {</span>
+<span class="nc" id="L147">                ps.setInt(1, accountId);</span>
+
+<span class="nc" id="L149">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L150">                Review review = null;</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">                if(rs.next()) {</span>
+<span class="nc" id="L152">                    AccountExtractor accountExtractor = new AccountExtractor();</span>
+<span class="nc" id="L153">                    FilmExtractor filmExtractor = new FilmExtractor();</span>
+<span class="nc" id="L154">                    ReviewExtractor reviewExtractor = new ReviewExtractor();</span>
+<span class="nc" id="L155">                    review = reviewExtractor.extract(rs);</span>
+<span class="nc" id="L156">                    review.setAccount(accountExtractor.extract(rs));</span>
+<span class="nc" id="L157">                    review.setFilm(filmExtractor.extract(rs));</span>
+                }
+<span class="nc" id="L159">                rs.close();</span>
+<span class="nc" id="L160">                return review;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di prendere una recensione
+     * @param accountId rappresenta l'identificativo numerico del cliente che sottomette la recensione
+     * @return la recensione
+     * @throws SQLException
+     */
+    public Review fetch(int accountId, int filmId) throws SQLException {
+<span class="nc" id="L172">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L173">            try (PreparedStatement ps = con.prepareStatement(&quot;SELECT * FROM review AS rev JOIN film on rev.id_film = film.id JOIN customer acc on rev.id_customer = acc.id WHERE id_customer = ? AND id_film = ?&quot;)) {</span>
+<span class="nc" id="L174">                ps.setInt(1, accountId);</span>
+<span class="nc" id="L175">                ps.setInt(2, filmId);</span>
+
+<span class="nc" id="L177">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L178">                Review review = null;</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">                if(rs.next()) {</span>
+<span class="nc" id="L180">                    AccountExtractor accountExtractor = new AccountExtractor();</span>
+<span class="nc" id="L181">                    FilmExtractor filmExtractor = new FilmExtractor();</span>
+<span class="nc" id="L182">                    ReviewExtractor reviewExtractor = new ReviewExtractor();</span>
+<span class="nc" id="L183">                    review = reviewExtractor.extract(rs);</span>
+<span class="nc" id="L184">                    review.setAccount(accountExtractor.extract(rs));</span>
+<span class="nc" id="L185">                    review.setFilm(filmExtractor.extract(rs));</span>
+                }
+<span class="nc" id="L187">                rs.close();</span>
+<span class="nc" id="L188">                return review;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità che permette di registrare una recensione nel DataBAse
+     * @param review da registrare
+     * @return  true se la registrazione va a buon fine, false altrimenti
+     * @throws SQLException
+     */
+    @Override
+    public boolean insert(Review review) throws SQLException {
+<span class="nc" id="L201">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L202">            try (PreparedStatement ps = con.prepareStatement(&quot;INSERT INTO review (id_customer, id_film, title, caption, stars, rev_date, rev_time) VALUES (?,?,?,?,?,?,?)&quot;)) {</span>
+<span class="nc" id="L203">                ps.setInt(1, review.getAccount().getId());</span>
+<span class="nc" id="L204">                ps.setInt(2, review.getFilm().getId());</span>
+<span class="nc" id="L205">                ps.setString(3, review.getTitle());</span>
+<span class="nc" id="L206">                ps.setString(4, review.getDescription());</span>
+<span class="nc" id="L207">                ps.setInt(5, review.getStars());</span>
+<span class="nc" id="L208">                ps.setDate(6, Date.valueOf(review.getDate()));</span>
+<span class="nc" id="L209">                ps.setTime(7, Time.valueOf(review.getTime()));</span>
+
+<span class="nc" id="L211">                int rows = ps.executeUpdate();</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">                return rows == 1;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità che permette di aggiornare i dati di una recensione
+     * @param review da aggiornare
+     * @return true se l'aggiornamento va a buon fine, false altrimenti
+     * @throws SQLException
+     */
+    @Override
+    public boolean update(Review review) throws SQLException {
+<span class="nc" id="L225">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L226">            try (PreparedStatement ps = con.prepareStatement(&quot;UPDATE review SET caption = ?, stars = ? WHERE id_customer = ?&quot;)) {</span>
+<span class="nc" id="L227">                ps.setString(1, review.getDescription());</span>
+<span class="nc" id="L228">                ps.setInt(2, review.getStars());</span>
+<span class="nc" id="L229">                ps.setInt(3, review.getAccount().getId());</span>
+
+<span class="nc" id="L231">                int rows = ps.executeUpdate();</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">                return rows == 1;</span>
+            }
+        }
+    }
+
+    /**
+     *Implementa la funzionalità che permette di rimuovere una recensione
+     * @param accountId rappresenta l'identificativo numerico di un account
+     * @return true se la rimozione va a buon fine, false altrimenti
+     * @throws SQLException
+     */
+    @Override
+    public boolean delete(int accountId) throws SQLException {
+<span class="nc" id="L245">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L246">            try (PreparedStatement ps = con.prepareStatement(&quot;DELETE FROM review WHERE id_customer = ?&quot;)) {</span>
+<span class="nc" id="L247">                ps.setInt(1, accountId);</span>
+
+<span class="nc" id="L249">                int rows = ps.executeUpdate();</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">                return rows == 1;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di conteggio delle recensioni
+     * @return un intero che rappresenta il numero di recensioni registrate nel database
+     * @throws SQLException
+     */
+    @Override
+    public int countAll() throws SQLException {
+<span class="nc" id="L262">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L263">            try(PreparedStatement ps = con.prepareStatement(&quot;SELECT COUNT(*) AS ct FROM review&quot;)) {</span>
+<span class="nc" id="L264">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L265">                int ct = 0;</span>
+<span class="nc bnc" id="L266" title="All 2 branches missed.">                if(rs.next())</span>
+<span class="nc" id="L267">                    ct = rs.getInt(&quot;ct&quot;);</span>
+<span class="nc" id="L268">                rs.close();</span>
+<span class="nc" id="L269">                return ct;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di conteggio delle recensioni
+     * @param film soggetto a recensioni
+     * @return un intero che rappresenta il numero di recensioni registrate nel database
+     * @throws SQLException
+     */
+    public int countAll(Film film) throws SQLException {
+<span class="nc" id="L281">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L282">            try(PreparedStatement ps = con.prepareStatement(&quot;SELECT COUNT(*) AS ct FROM review WHERE id_film = ?&quot;)) {</span>
+<span class="nc" id="L283">                ps.setInt(1, film.getId());</span>
+
+<span class="nc" id="L285">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L286">                int ct = 0;</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">                if(rs.next())</span>
+<span class="nc" id="L288">                    ct = rs.getInt(&quot;ct&quot;);</span>
+<span class="nc" id="L289">                rs.close();</span>
+<span class="nc" id="L290">                return ct;</span>
+            }
+        }
+    }
+
+    /**
+     * Implementa la funzionalità di conteggio delle recensioni effettuate da un determinato account
+     * @param accountId rappresenta l'identificativo numerico diun account
+     * @return un intero che rappresenta il numero dir ecensioni effettuate da un account
+     * @throws SQLException
+     */
+    public int countByAccountId(int accountId) throws SQLException {
+<span class="nc" id="L302">        try(Connection con = ConPool.getConnection()) {</span>
+<span class="nc" id="L303">            try(PreparedStatement ps = con.prepareStatement(&quot;SELECT COUNT(*) AS ct FROM review WHERE id_customer = ?&quot;)) {</span>
+<span class="nc" id="L304">                ps.setInt(1, accountId);</span>
+
+<span class="nc" id="L306">                ResultSet rs = ps.executeQuery();</span>
+<span class="nc" id="L307">                int ct = 0;</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">                if(rs.next())</span>
+<span class="nc" id="L309">                    ct = rs.getInt(&quot;ct&quot;);</span>
+<span class="nc" id="L310">                rs.close();</span>
+<span class="nc" id="L311">                return ct;</span>
+            }
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

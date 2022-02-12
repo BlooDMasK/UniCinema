@@ -25,7 +25,7 @@ import java.util.Locale;
 /**
  * Questa classe offre funzionalità di utilità per le Servlet.
  */
-public abstract class Controller extends HttpServlet implements ErrorHandler{
+public class Controller extends HttpServlet implements ErrorHandler{
 
     /**
      * Questo tag permette la connessione al database di nome "cinema"
@@ -115,7 +115,7 @@ public abstract class Controller extends HttpServlet implements ErrorHandler{
      * @param object rappresenta l'oggetto JSON
      * @throws IOException
      */
-    public static void sendJson(HttpServletResponse response, JSONObject object) throws IOException {
+    public void sendJson(HttpServletResponse response, JSONObject object) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();

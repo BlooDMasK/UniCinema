@@ -75,6 +75,7 @@ public class PurchaseServletTest {
 
         purchaseServlet.setPurchaseService(purchaseServiceMethods);
         purchaseServlet.setShowService(showServiceMethods);
+        purchaseServlet.setJsonObject(jsonObject);
     }
 
     @Test

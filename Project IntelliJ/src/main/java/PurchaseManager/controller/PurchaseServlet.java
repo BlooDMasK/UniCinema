@@ -24,15 +24,16 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
 
     ShowService showService;
     PurchaseService purchaseService;
+    JSONObject jsonObject;
 
-    public PurchaseServlet(ShowService showService, PurchaseService purchaseService) {
-        this.showService = showService;
-        this.purchaseService = purchaseService;
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
     }
 
     public PurchaseServlet() {
         showService = new ShowServiceMethods();
         purchaseService = new PurchaseServiceMethods();
+        jsonObject = new JSONObject();
     }
 
     public void setShowService(ShowService showService) {
@@ -93,13 +94,12 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
                         char row = key[0].toCharArray()[0];
                         int seat = Integer.parseInt(key[1]);
 
-                        JSONObject root = new JSONObject();
                         if(purchaseService.findTicket(showId, row, seat))
-                            root.put("occupied", true);
+                            jsonObject.put("occupied", true);
                         else
-                            root.put("occupied", false);
+                            jsonObject.put("occupied", false);
 
-                        sendJson(response, root);
+                        sendJson(response, jsonObject);
                     }
                     break;
 
@@ -156,16 +156,15 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
 
                         ArrayList<Purchase> purchaseList = purchaseService.fetchAll(accountId, paginator);
 
-                        JSONObject root = new JSONObject();
                         JSONArray list = new JSONArray();
 
                         for(Purchase purchaseItem : purchaseList)
                             list.put(purchaseItem.toJson());
 
-                        root.put("purchaseList", list);
-                        root.put("pages", paginator.getPages(size));
+                        jsonObject.put("purchaseList", list);
+                        jsonObject.put("pages", paginator.getPages(size));
 
-                        sendJson(response, root);
+                        sendJson(response, jsonObject);
                     }
                     break;
             }

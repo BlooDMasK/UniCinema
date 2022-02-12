@@ -19,32 +19,29 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
-                <executions>
+
+           <plugin>
+               <groupId>org.jacoco</groupId>
+               <artifactId>jacoco-maven-plugin</artifactId>
+               <version>0.8.7</version>
+
+               <executions>
                     <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+               </execution>
+               <execution>
+                   <id>report</id>
+                        <phase>test</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
                     </execution>
-                    <execution>
-                        <id>default-restore-instrumented-classes</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>restore-instrumented-classes</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+               </executions>
+
+
+           </plugin>
         </plugins>
     </build>
     <name>UniCinema</name>
@@ -113,7 +110,6 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-
 
     </dependencies>
 
