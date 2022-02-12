@@ -16,7 +16,15 @@ public class ReviewServiceMethods implements ReviewService{
     /**
      * Si occupa delle operazioni CRUD per una recensione.
      */
-    ReviewDAO reviewDAO = new ReviewDAO();
+    ReviewDAO reviewDAO;
+
+    public ReviewServiceMethods() {
+        reviewDAO = new ReviewDAO();
+    }
+
+    public void setReviewDAO(ReviewDAO reviewDAO) {
+        this.reviewDAO = reviewDAO;
+    }
 
     /**
      * Implementa la funzionalità che conta tutte le recensioni effettuate per un film.

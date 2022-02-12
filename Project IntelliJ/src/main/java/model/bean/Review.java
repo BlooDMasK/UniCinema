@@ -54,6 +54,14 @@ public class Review implements JsonSerializable {
      */
     private int stars;
 
+    public Review(String description, String title, LocalDate date, LocalTime time, int stars) {
+        this.description = description;
+        this.title = title;
+        this.date = date;
+        this.time = time;
+        this.stars = stars;
+    }
+
     /**
      * Implementa la funzionalità che permette di convertire la seguente classe in un file JSON, da passare alla response tramite chiamate Ajax.
      * @return object di tipo JSON, contenente i parametri della classe.

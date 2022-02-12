@@ -49,6 +49,12 @@ public class Ticket implements JsonSerializable {
         this.purchase = purchase;
     }
 
+    public Ticket(double price, int seat, char rowLetter) {
+        this.price = price;
+        this.seat = seat;
+        this.rowLetter = rowLetter;
+    }
+
     public String generateUniqueCode() {
         return "TK"+id+"-RW"+rowLetter+"-ST"+seat+"-SH"+show.getId();
     }

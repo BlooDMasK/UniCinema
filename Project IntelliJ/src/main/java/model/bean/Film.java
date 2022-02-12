@@ -101,6 +101,17 @@ public class Film implements JsonSerializable {
         showList = new ArrayList<>();
     }
 
+    public Film(int id, int length, int genre, String title, String plot, String cover, String poster, LocalDate datePublishing) {
+        this.id = id;
+        this.length = length;
+        this.genre = genre;
+        this.title = title;
+        this.plot = plot;
+        this.cover = cover;
+        this.poster = poster;
+        this.datePublishing = datePublishing;
+    }
+
     public Film(int filmId) {
         id = filmId;
     }

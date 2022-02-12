@@ -11,8 +11,21 @@ import java.util.ArrayList;
 
 public class PurchaseServiceMethods implements PurchaseService {
 
-    TicketDAO ticketDAO = new TicketDAO();
-    PurchaseDAO purchaseDAO = new PurchaseDAO();
+    TicketDAO ticketDAO;
+    PurchaseDAO purchaseDAO;
+
+    public PurchaseServiceMethods() {
+        ticketDAO = new TicketDAO();
+        purchaseDAO = new PurchaseDAO();
+    }
+
+    public void setTicketDAO(TicketDAO ticketDAO) {
+        this.ticketDAO = ticketDAO;
+    }
+
+    public void setPurchaseDAO(PurchaseDAO purchaseDAO) {
+        this.purchaseDAO = purchaseDAO;
+    }
 
     @Override
     public ArrayList<Ticket> fetchTickets(int showId) throws SQLException {
