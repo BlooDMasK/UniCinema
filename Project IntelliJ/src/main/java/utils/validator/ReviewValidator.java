@@ -13,7 +13,7 @@ public class ReviewValidator {
      * @param request è l'oggetto contenente i parametri
      * @return il validator
      */
-    public static RequestValidator validateReview(HttpServletRequest request) {
+    public RequestValidator validateReview(HttpServletRequest request) {
         RequestValidator requestValidator = new RequestValidator(request);
         requestValidator.assertMatch("reviewWriteTitle", Pattern.compile("^[A-Za-z':;.,àèìòù0-9?! ]{3,20}$"), "Il titolo non è valido", true);
         requestValidator.assertMatch("reviewWriteDescription", Pattern.compile("^[A-Za-z0-9\\W]{5,500}$"), "La descrizione non è valida", true);

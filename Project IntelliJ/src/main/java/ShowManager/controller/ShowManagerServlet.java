@@ -24,7 +24,15 @@ import java.util.ArrayList;
 @WebServlet(name = "ShowManagerServlet", value = "/show-manager/*")
 public class ShowManagerServlet extends Controller implements ErrorHandler {
 
-    ShowService showService = new ShowServiceMethods();
+    ShowService showService;
+
+    public ShowManagerServlet() {
+        showService = new ShowServiceMethods();
+    }
+
+    public void setShowService(ShowService showService) {
+        this.showService = showService;
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,7 +40,7 @@ public class ShowManagerServlet extends Controller implements ErrorHandler {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
             String path = getPath(request);
@@ -92,6 +100,7 @@ public class ShowManagerServlet extends Controller implements ErrorHandler {
                         response.sendRedirect(getServletContext().getContextPath()+"/film/details?filmId="+filmId);
                     } else
                         internalError();
+                    break;
                 }
 
                 case "/get-show": {
@@ -171,7 +180,7 @@ public class ShowManagerServlet extends Controller implements ErrorHandler {
         return (long) minutes;
     }
 
-    private JSONArray getAvailableDateList(int filmLength, LocalDate date, ArrayList<Show> showList) {
+    public JSONArray getAvailableDateList(int filmLength, LocalDate date, ArrayList<Show> showList) {
         long hourTime = toHour(filmLength) + 1; //Aggiungo 1 ora per liberare la sala
         LocalTime time = LocalTime.of(STARTING_HOUR, 0);
         LocalDateTime localDateTime = LocalDateTime.of(date, time);
