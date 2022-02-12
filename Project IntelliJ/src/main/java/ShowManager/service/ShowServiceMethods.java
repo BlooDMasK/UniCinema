@@ -19,12 +19,26 @@ public class ShowServiceMethods implements ShowService{
     /**
      * Si occupa delle operazioni CRUD per uno spettacolo.
      */
-    ShowDAO showDAO = new ShowDAO();
+    ShowDAO showDAO;
 
     /**
      *  Si occupa delle operazioni CRUD per una sala.
      */
-    RoomDAO roomDAO = new RoomDAO();
+    RoomDAO roomDAO;
+
+    public ShowServiceMethods() {
+        showDAO = new ShowDAO();
+        roomDAO = new RoomDAO();
+    }
+
+    public void setShowDAO(ShowDAO showDAO) {
+        this.showDAO = showDAO;
+    }
+
+    public void setRoomDAO(RoomDAO roomDAO) {
+        this.roomDAO = roomDAO;
+    }
+
 
     /**
      * Firma del metodo che implementa la funzionalità che restituisce tutti gli spettacoli che proiettano un dato film.

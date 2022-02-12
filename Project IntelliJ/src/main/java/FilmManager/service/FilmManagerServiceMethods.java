@@ -7,11 +7,40 @@ import java.sql.SQLException;
 
 public class FilmManagerServiceMethods implements FilmManagerService{
 
-    ActorDAO actorDAO = new ActorDAO();
-    DirectorDAO directorDAO = new DirectorDAO();
-    HouseProductionDAO houseProductionDAO = new HouseProductionDAO();
-    ProductionDAO productionDAO = new ProductionDAO();
-    FilmDAO filmDAO = new FilmDAO();
+    ActorDAO actorDAO;
+    DirectorDAO directorDAO;
+    HouseProductionDAO houseProductionDAO;
+    ProductionDAO productionDAO;
+    FilmDAO filmDAO;
+
+
+    public FilmManagerServiceMethods() {
+        actorDAO = new ActorDAO();
+        directorDAO = new DirectorDAO();
+        houseProductionDAO = new HouseProductionDAO();
+        productionDAO = new ProductionDAO();
+        filmDAO = new FilmDAO();
+    }
+
+    public void setActorDAO(ActorDAO actorDAO) {
+        this.actorDAO = actorDAO;
+    }
+
+    public void setDirectorDAO(DirectorDAO directorDAO) {
+        this.directorDAO = directorDAO;
+    }
+
+    public void setHouseProductionDAO(HouseProductionDAO houseProductionDAO) {
+        this.houseProductionDAO = houseProductionDAO;
+    }
+
+    public void setProductionDAO(ProductionDAO productionDAO) {
+        this.productionDAO = productionDAO;
+    }
+
+    public void setFilmDAO(FilmDAO filmDAO) {
+        this.filmDAO = filmDAO;
+    }
 
     @Override
     public boolean removeFilm(int filmId) throws SQLException {

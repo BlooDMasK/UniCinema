@@ -5,11 +5,23 @@ import model.dao.AccountDAO;
 
 import java.sql.SQLException;
 
+
+
+
 public class AuthenticationServiceMethods implements AuthenticationService{
     /**
      * Si occupa delle operazioni CRUD per un account.
      */
-    private final AccountDAO accountDAO = new AccountDAO();
+    private AccountDAO accountDAO;
+
+
+    public AuthenticationServiceMethods() {
+        accountDAO = new AccountDAO();
+    }
+
+    public void setAccountDAO(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
 
     /**
      * Implementa la funzionalità di login per l'Utente Registrato.

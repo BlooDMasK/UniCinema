@@ -15,7 +15,16 @@ public class FilmServiceMethods implements FilmService {
     /**
      * Si occupa delle operazioni CRUD di un film.
      */
-    FilmDAO filmDAO = new FilmDAO();
+    FilmDAO filmDAO;
+
+    public FilmServiceMethods() {
+        filmDAO = new FilmDAO();
+    }
+
+
+    public void setFilmDAO(FilmDAO filmDAO) {
+        this.filmDAO = filmDAO;
+    }
 
     /**
      * Implementa la funzionalità che permette di restituire un film, preso dal database, a partire dal suo id.

@@ -22,11 +22,17 @@ import java.util.Map;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Show implements Comparable<Show>, JsonSerializable {
+
+    public Show(int id, @NonNull LocalDate date, @NonNull LocalTime time) {
+        this.id = id;
+        this.date = date;
+        this.time = time;
+    }
+
     /**
      * Rappresenta il numero identificativo di uno spettacolo.
      */
     private int id;
-
     /**
      * Rappresenta la data in cui si svolge lo spettacolo.
      */

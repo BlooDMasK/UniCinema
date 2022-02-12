@@ -97,6 +97,12 @@ public class Account {
         this.administrator = administrator;
     }
 
+    public Account(String email, String pswrd,boolean administrator) throws NoSuchAlgorithmException {
+        this.email = email;
+        setPswrd(pswrd);
+        this.administrator = administrator;
+    }
+
     /**
      *
      * @param pswrd password non criptata
