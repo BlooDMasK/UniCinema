@@ -41,6 +41,11 @@ public class Purchase implements JsonSerializable {
         this.datePurchase = LocalDate.now();
     }
 
+    public Purchase(int id, LocalDate date) {
+        this.id = id;
+        this.datePurchase = date;
+    }
+
 
     @Override
     public JSONObject toJson() {
