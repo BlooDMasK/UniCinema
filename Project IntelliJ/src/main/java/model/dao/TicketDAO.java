@@ -9,7 +9,6 @@ import model.bean.Ticket;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Questa classe rappresenta il DAO di un biglietto
@@ -74,7 +73,7 @@ public class TicketDAO implements SqlMethods<Ticket> {
      * @throws SQLException
      */
     @Override
-    public Optional<Ticket> fetch(int id) throws SQLException {
+    public Ticket fetch(int id) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps = con.prepareStatement("SELECT * FROM ticket WHERE id = ?")) {
                 ps.setInt(1, id);
@@ -87,7 +86,7 @@ public class TicketDAO implements SqlMethods<Ticket> {
                     ticket = ticketExtractor.extract(rs);
                 }
                 rs.close();
-                return Optional.ofNullable(ticket);
+                return ticket;
             }
         }
     }

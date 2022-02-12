@@ -20,7 +20,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Optional;
 
 @WebServlet(name = "ShowManagerServlet", value = "/show-manager/*")
 public class ShowManagerServlet extends Controller implements ErrorHandler {
@@ -100,15 +99,15 @@ public class ShowManagerServlet extends Controller implements ErrorHandler {
                     if(isAjax(request)) {
                         int showId = Integer.parseInt(request.getParameter("showId"));
 
-                        Optional<Show> show = showService.fetch(showId);
-                        if(show.isPresent()) {
-                            int roomId = show.get().getRoom().getId();
+                        Show show = showService.fetch(showId);
+                        if(show != null) {
+                            int roomId = show.getRoom().getId();
                             JSONObject root = new JSONObject();
-                            LocalDate date = show.get().getDate();
+                            LocalDate date = show.getDate();
 
-                            ArrayList<Show> showList = showService.fetchDaily(roomId, date, show.get());
+                            ArrayList<Show> showList = showService.fetchDaily(roomId, date, show);
                             if (!showList.isEmpty())
-                                root.put("timeList", getAvailableDateList(show.get().getFilm().getLength(), date, showList));
+                                root.put("timeList", getAvailableDateList(show.getFilm().getLength(), date, showList));
                             else {
                                 JSONArray list = new JSONArray();
                                 for (int i = STARTING_HOUR; i <= ENDING_HOUR; i++)

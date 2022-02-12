@@ -4,7 +4,6 @@ import model.bean.Film;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Optional;
 
 /**
  * Interfaccia per i metodi del sottosistema Film (Gestione Film)
@@ -17,7 +16,7 @@ public interface FilmService {
      * @return l'oggetto film.
      * @throws SQLException
      */
-    Optional<Film> fetch(int filmId) throws SQLException;
+    Film fetch(int filmId) throws SQLException;
 
     /**
      * Firma del metodo che implementa la funzionalità che permette di restituire la lista dei film contenenti il carattere immesso nella searchbar

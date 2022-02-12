@@ -20,7 +20,21 @@ import java.util.List;
 @WebServlet(name = "SignupServlet", value = "/signup")
 public class SignupServlet extends Controller implements ErrorHandler {
 
-    SignupService signupService = new SignupServiceMethods();
+    SignupService signupService;
+    AccountValidator accountValidator;
+
+    public SignupServlet() {
+        this.signupService = new SignupServiceMethods();
+        this.accountValidator = new AccountValidator();
+    }
+
+    public void setSignupService(SignupService signupService) {
+        this.signupService = signupService;
+    }
+
+    public void setAccountValidator(AccountValidator accountValidator) {
+        this.accountValidator = accountValidator;
+    }
 
     /**
      * Implementa le funzionalità svolte durante una chiamata di tipo GET
@@ -51,7 +65,7 @@ public class SignupServlet extends Controller implements ErrorHandler {
             HttpSession session = request.getSession();
 
             request.setAttribute("back", view("site/account/signup"));
-            validate(AccountValidator.validateSignup(request, true));
+            validate(accountValidator.validateSignup(request, true));
             Account tmpAccountSignup = new Account();
             tmpAccountSignup.setEmail(request.getParameter("email"));
             tmpAccountSignup.setPswrd(request.getParameter("password"));

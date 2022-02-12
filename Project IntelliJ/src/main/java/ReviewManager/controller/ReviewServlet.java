@@ -21,7 +21,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static java.lang.Math.round;
 
@@ -55,12 +54,12 @@ public class ReviewServlet extends Controller implements ErrorHandler {
                         Review List
                  */
                     int filmId = Integer.parseInt(request.getParameter("filmId"));
-                    Optional<Film> film = filmService.fetch(filmId);
-                    if (film.isPresent()) {
+                    Film film = filmService.fetch(filmId);
+                    if (film != null) {
                         Paginator paginator = new Paginator(parsePage(request), 5);
-                        int size = reviewService.countAll(film.get());
+                        int size = reviewService.countAll(film);
 
-                        ArrayList<Review> reviewList = reviewService.fetchAll(film.get(), paginator);
+                        ArrayList<Review> reviewList = reviewService.fetchAll(film, paginator);
 
                         JSONObject root = new JSONObject();
 
@@ -87,7 +86,7 @@ public class ReviewServlet extends Controller implements ErrorHandler {
                         /*
                                 Review Stats
                          */
-                        ArrayList<Review> reviewListTotal = reviewService.fetchAll(film.get().getId());
+                        ArrayList<Review> reviewListTotal = reviewService.fetchAll(film.getId());
 
                         DecimalFormat df = new DecimalFormat("#.#");
                         double avg = reviewService.averageStars(reviewListTotal, 0);
@@ -97,7 +96,7 @@ public class ReviewServlet extends Controller implements ErrorHandler {
                         for (int i = 1; i < 6; i++)
                             root.put("reviewPercentage" + i, df.format(reviewService.percentageStars(reviewListTotal, i)).replace(",", ".") + "%");
 
-                        root.put("reviewCount", reviewService.countAll(film.get()));
+                        root.put("reviewCount", reviewService.countAll(film));
                         sendJson(response, root);
                     }
                 }
@@ -107,7 +106,7 @@ public class ReviewServlet extends Controller implements ErrorHandler {
                     if(isAjax(request)) {
                         validate(ReviewValidator.validateReview(request));
 
-                        if(reviewService.fetch(getSessionAccount(session).getId(), Integer.parseInt(request.getParameter("filmId"))).isPresent())
+                        if(reviewService.fetch(getSessionAccount(session).getId(), Integer.parseInt(request.getParameter("filmId"))) != null)
                             throw new InvalidRequestException("Hai già pubblicato una recensione.", List.of("Hai già pubblicato una recensione."), HttpServletResponse.SC_BAD_REQUEST);
 
                         String  title = request.getParameter("reviewWriteTitle"),

@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
@@ -198,9 +197,9 @@ public class RequestValidator {
      * @throws SQLException
      */
     public boolean assertExistingEmail(String value, String msg) throws SQLException {
-        Optional<Account> account = new AccountDAO().fetch(request.getParameter(value));
+        Account account = new AccountDAO().fetch(request.getParameter(value));
 
-        return gatherError(account.isEmpty(), msg);
+        return gatherError(account == null, msg);
     }
 
     /**

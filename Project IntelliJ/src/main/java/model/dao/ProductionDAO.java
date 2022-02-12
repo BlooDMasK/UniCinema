@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Questa classe rappresenta il DAO della Produzione.
@@ -102,7 +101,7 @@ public class ProductionDAO implements SqlMethods<Production> {
      * @throws SQLException
      */
     @Override
-    public Optional<Production> fetch(int id) throws SQLException {
+    public Production fetch(int id) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps = con.prepareStatement("SELECT * FROM production AS prod WHERE id = ?")) {
                 ps.setInt(1, id);
@@ -115,7 +114,7 @@ public class ProductionDAO implements SqlMethods<Production> {
                     production = productionExtractor.extract(rs);
                 }
                 rs.close();
-                return Optional.ofNullable(production);
+                return production;
             }
         }
     }

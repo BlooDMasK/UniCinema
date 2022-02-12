@@ -4,7 +4,6 @@ import model.bean.Account;
 import model.dao.AccountDAO;
 
 import java.sql.SQLException;
-import java.util.Optional;
 
 public class AuthenticationServiceMethods implements AuthenticationService{
     /**
@@ -19,8 +18,8 @@ public class AuthenticationServiceMethods implements AuthenticationService{
      * @throws SQLException
      */
     @Override
-    public Optional<Account> signin(Account account) throws SQLException {
-        return accountDAO.find(account.getEmail(), account.getPswrd(), false);
+    public Account signin(String email, String pswrd) throws SQLException {
+        return accountDAO.find(email, pswrd, false);
     }
 
     /**
@@ -30,7 +29,7 @@ public class AuthenticationServiceMethods implements AuthenticationService{
      * @throws SQLException
      */
     @Override
-    public Optional<Account> fetch(String email) throws SQLException {
+    public Account fetch(String email) throws SQLException {
         return accountDAO.fetch(email);
     }
 

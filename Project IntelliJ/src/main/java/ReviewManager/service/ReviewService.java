@@ -6,7 +6,6 @@ import utils.Paginator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Optional;
 
 /**
  * Interfaccia per i metodi del sottosistema Review (Gestione Recensioni)
@@ -69,7 +68,7 @@ public interface ReviewService {
      * @return recensione
      * @throws SQLException
      */
-    Optional<Review> fetch(int accountId, int filmId) throws SQLException;
+    Review fetch(int accountId, int filmId) throws SQLException;
 
     /**
      * Firma del metodo che implementa la funzionalità che permette di rimuovere una recensione dal database.

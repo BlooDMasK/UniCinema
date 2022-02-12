@@ -1,8 +1,8 @@
 package model.dao;
 
+import model.bean.Account;
 import utils.SqlMethods;
 import utils.extractor.ReviewExtractor;
-import model.bean.Account;
 import utils.extractor.AccountExtractor;
 import utils.ConPool;
 import utils.Paginator;
@@ -13,7 +13,6 @@ import model.bean.Review;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Questa classe rappresenta il DAO di una recensione
@@ -142,7 +141,7 @@ public class ReviewDAO implements SqlMethods<Review> {
      * @throws SQLException
      */
     @Override
-    public Optional<Review> fetch(int accountId) throws SQLException {
+    public Review fetch(int accountId) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN film on rev.id_film = film.id JOIN customer acc on rev.id_customer = acc.id WHERE id_customer = ?")) {
                 ps.setInt(1, accountId);
@@ -158,7 +157,7 @@ public class ReviewDAO implements SqlMethods<Review> {
                     review.setFilm(filmExtractor.extract(rs));
                 }
                 rs.close();
-                return Optional.ofNullable(review);
+                return review;
             }
         }
     }
@@ -169,7 +168,7 @@ public class ReviewDAO implements SqlMethods<Review> {
      * @return la recensione
      * @throws SQLException
      */
-    public Optional<Review> fetch(int accountId, int filmId) throws SQLException {
+    public Review fetch(int accountId, int filmId) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps = con.prepareStatement("SELECT * FROM review AS rev JOIN film on rev.id_film = film.id JOIN customer acc on rev.id_customer = acc.id WHERE id_customer = ? AND id_film = ?")) {
                 ps.setInt(1, accountId);
@@ -186,7 +185,7 @@ public class ReviewDAO implements SqlMethods<Review> {
                     review.setFilm(filmExtractor.extract(rs));
                 }
                 rs.close();
-                return Optional.ofNullable(review);
+                return review;
             }
         }
     }

@@ -16,15 +16,33 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 import static utils.validator.RequestValidator.isNull;
 
 @WebServlet(name = "AuthenticationServlet", value = "/account/*")
 public class AuthenticationServlet extends Controller implements ErrorHandler {
 
-    AuthenticationService authenticationService = new AuthenticationServiceMethods();
-    ReviewService reviewService = new ReviewServiceMethods();
+    AuthenticationService authenticationService;
+    ReviewService reviewService;
+    AccountValidator accountValidator;
+
+    public void setAccountValidator(AccountValidator accountValidator) {
+        this.accountValidator = accountValidator;
+    }
+
+    public void setAuthenticationService(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
+
+    public void setReviewService(ReviewService reviewService) {
+        this.reviewService = reviewService;
+    }
+
+    public AuthenticationServlet() {
+        authenticationService = new AuthenticationServiceMethods();
+        reviewService = new ReviewServiceMethods();
+        accountValidator = new AccountValidator();
+    }
 
     /**
      * Implementa le funzionalità svolte durante una chiamata di tipo GET
@@ -34,7 +52,7 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
      * @throws IOException
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
 
             /**
@@ -87,7 +105,7 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
                 default:
                     notFound();
             }
-        } catch (SQLException /*| NoSuchAlgorithmException */ ex) {
+        } catch (SQLException ex) {
             log(ex.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
         } catch (InvalidRequestException e) {
@@ -104,7 +122,7 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
      * @throws IOException
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             /**
              * Rappresenta il path che permette di smistare le funzionalità.
@@ -133,7 +151,7 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
                                     List.of("Devi compilare almeno un campo"), HttpServletResponse.SC_BAD_REQUEST);
 
                         } else { //Se compila almeno un campo
-                            validate(AccountValidator.validateSignup(request, false));
+                            validate(accountValidator.validateSignup(request, false));
                             Account accountSession = getSessionAccount(session);
                             if(accountSession != null) {
                                 if(!isNull(firstname))
@@ -168,13 +186,12 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
                  */
                 case "/signin":
                     request.setAttribute("back", view("site/account/signin"));
-                    validate(AccountValidator.validateSignin(request));
-                    Account tmpAccountSignin = new Account();
-                    tmpAccountSignin.setEmail(request.getParameter("email"));
-                    tmpAccountSignin.setPswrd(request.getParameter("password"));
-                    Optional<Account> optAccountSignin = authenticationService.signin(tmpAccountSignin);
-                    if(optAccountSignin.isPresent()) {
-                        session.setAttribute("accountSession", optAccountSignin.get());
+                    validate(accountValidator.validateSignin(request));
+                    String email = request.getParameter("email"),
+                           pswrd = request.getParameter("password");
+                    Account optAccountSignin = authenticationService.signin(email, getCryptedPassword(pswrd));
+                    if(optAccountSignin != null) {
+                        session.setAttribute("accountSession", optAccountSignin);
                         response.sendRedirect(getServletContext().getContextPath()+"/pages");
                     } else {
                         request.setAttribute("alert", new Alert(List.of("Credenziali non valide"), "danger"));

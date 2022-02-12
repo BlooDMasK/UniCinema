@@ -1,1 +1,2 @@
-Project IntelliJ/target/*
+Project IntelliJ/target
+*.class

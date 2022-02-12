@@ -7,7 +7,6 @@ import model.bean.Show;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Optional;
 
 /**
  * Interfaccia per i metodi del sottosistema Show (Gestione Spettacoli).
@@ -47,7 +46,7 @@ public interface ShowService {
      * @return uno spettacolo
      * @throws SQLException
      */
-    Optional<Show> fetch(int id) throws SQLException;
+    Show fetch(int id) throws SQLException;
 
     /**
      * Firma del metodo che implementa la funzionalità che restituisce la sala dove si tiene lo spettacolo.
@@ -55,7 +54,7 @@ public interface ShowService {
      * @return una sala
      * @throws SQLException
      */
-    Optional<Room> fetchRoom(int showId) throws SQLException;
+    Room fetchRoom(int showId) throws SQLException;
 
     boolean remove(int showId) throws SQLException;
 

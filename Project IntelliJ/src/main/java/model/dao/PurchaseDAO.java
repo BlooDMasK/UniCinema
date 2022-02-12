@@ -89,7 +89,7 @@ public class PurchaseDAO implements SqlMethods<Purchase> {
      * @throws SQLException
      */
     @Override
-    public Optional<Purchase> fetch(int id) throws SQLException {
+    public Purchase fetch(int id) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try (PreparedStatement ps = con.prepareStatement("SELECT * FROM purchase AS pur WHERE id = ?")) {
                 ps.setInt(1,id);
@@ -98,7 +98,7 @@ public class PurchaseDAO implements SqlMethods<Purchase> {
                 PurchaseExtractor purchaseExtractor = new PurchaseExtractor();
                 Purchase purchase = purchaseExtractor.extract(rs);
                 rs.close();
-                return Optional.ofNullable(purchase);
+                return purchase;
             }
         }
     }
