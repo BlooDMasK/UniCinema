@@ -24,11 +24,30 @@ import java.util.List;
 @MultipartConfig
 public class FilmManagerServlet extends Controller implements ErrorHandler {
 
-    FilmManagerService filmManagerService = new FilmManagerServiceMethods();
-    FilmService filmInfoService = new FilmServiceMethods();
+    FilmManagerService filmManagerService;
+    FilmService filmInfoService;
+    FilmValidator filmValidator;
+
+    public void setFilmValidator(FilmValidator filmValidator) {
+        this.filmValidator = filmValidator;
+    }
+
+    public void setFilmManagerService(FilmManagerService filmManagerService) {
+        this.filmManagerService = filmManagerService;
+    }
+
+    public void setFilmInfoService(FilmService filmInfoService) {
+        this.filmInfoService = filmInfoService;
+    }
+
+    public FilmManagerServlet() {
+        filmManagerService = new FilmManagerServiceMethods();
+        filmInfoService = new FilmServiceMethods();
+        filmValidator = new FilmValidator();
+    }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
             String path = getPath(request);
@@ -85,7 +104,7 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
             String path = getPath(request);
@@ -94,7 +113,7 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
                 case "/add": {
                     authorize(session);
                     request.setAttribute("back", view("site/movie/form"));
-                    validate(FilmValidator.validateFilm(request));
+                    validate(filmValidator.validateFilm(request));
 
                     Film film = new Film();
                     setFilmValues(request, film);
@@ -113,7 +132,7 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
                 case "/update": {
                     authorize(session);
                     request.setAttribute("back", view("site/movie/form"));
-                    validate(FilmValidator.validateFilm(request));
+                    validate(filmValidator.validateFilm(request));
 
                     Film oldFilm = (Film) session.getAttribute("film");
                     Film film = new Film();
@@ -142,11 +161,12 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
         }
     }
 
-    private void setFilmValues(HttpServletRequest request, Film film) throws ServletException, IOException {
+    public void setFilmValues(HttpServletRequest request, Film film) throws ServletException, IOException {
         ArrayList<String> actorsFirstname = getParamsArrayList(request, "ActorsFirstname");
         ArrayList<String> actorsLastname = getParamsArrayList(request, "ActorsLastname");
         ArrayList<String> actorsId = getParamsArrayList(request, "ActorsId");
         int actorsSize = actorsFirstname.size();
+
 
         ArrayList<String> directorsFirstname = getParamsArrayList(request, "DirectorsFirstname");
         ArrayList<String> directorsLastname = getParamsArrayList(request, "DirectorsLastname");

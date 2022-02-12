@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 public class FilmValidator {
-    public static RequestValidator validateFilm(HttpServletRequest request) throws ServletException, IOException {
+    public RequestValidator validateFilm(HttpServletRequest request) throws ServletException, IOException {
         RequestValidator requestValidator = new RequestValidator(request);
         requestValidator.assertMatch("title", Pattern.compile("^.{1,50}$"), "Il titolo deve essere di 3-50 caratteri.", true);
         requestValidator.assertIntRange("length", 1, 600, "La durata deve essere di minimo 1 minuto massimo 600 minuti.", true);

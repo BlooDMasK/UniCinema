@@ -27,8 +27,27 @@ import static java.lang.Math.round;
 @WebServlet(name = "ReviewServlet", value = "/review/*")
 public class ReviewServlet extends Controller implements ErrorHandler {
 
-    ReviewService reviewService = new ReviewServiceMethods();
-    FilmService filmService = new FilmServiceMethods();
+    ReviewService reviewService;
+    FilmService filmService;
+    ReviewValidator reviewValidator;
+
+    public ReviewServlet() {
+        reviewService = new ReviewServiceMethods();
+        filmService = new FilmServiceMethods();
+        reviewValidator = new ReviewValidator();
+    }
+
+    public void setReviewService(ReviewService reviewService) {
+        this.reviewService = reviewService;
+    }
+
+    public void setFilmService(FilmService filmService) {
+        this.filmService = filmService;
+    }
+
+    public void setReviewValidator(ReviewValidator reviewValidator) {
+        this.reviewValidator = reviewValidator;
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,7 +61,7 @@ public class ReviewServlet extends Controller implements ErrorHandler {
      * @throws IOException
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
             HttpSession session = request.getSession();
 
@@ -104,7 +123,7 @@ public class ReviewServlet extends Controller implements ErrorHandler {
 
                 case "/add":
                     if(isAjax(request)) {
-                        validate(ReviewValidator.validateReview(request));
+                        validate(reviewValidator.validateReview(request));
 
                         if(reviewService.fetch(getSessionAccount(session).getId(), Integer.parseInt(request.getParameter("filmId"))) != null)
                             throw new InvalidRequestException("Hai già pubblicato una recensione.", List.of("Hai già pubblicato una recensione."), HttpServletResponse.SC_BAD_REQUEST);

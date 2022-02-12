@@ -13,7 +13,7 @@ public class ReviewValidator {
      * @param request è l'oggetto contenente i parametri
      * @return il validator
      */
-    public static RequestValidator validateReview(HttpServletRequest request) {
+    public RequestValidator validateReview(HttpServletRequest request) {
         RequestValidator requestValidator = new RequestValidator(request);
         requestValidator.assertMatch("reviewWriteTitle", Pattern.compile("^.{1,50}$"), "Il titolo deve essere di 1-50 caratteri.", true);
         requestValidator.assertMatch("reviewWriteDescription", Pattern.compile("^.{1,500}$"), "La recensione deve essere di 1-500 caratteri.", true);

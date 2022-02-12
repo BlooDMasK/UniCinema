@@ -123,7 +123,7 @@ public abstract class Controller extends HttpServlet implements ErrorHandler{
         writer.flush();
     }
 
-    public static ArrayList<String> getParamsArrayList(HttpServletRequest request, String params) {
+    public ArrayList<String> getParamsArrayList(HttpServletRequest request, String params) {
         String[] paramsArray = request.getParameterValues(params);
         return new ArrayList<>(List.of(paramsArray));
     }
