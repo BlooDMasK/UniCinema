@@ -20,17 +20,6 @@ import java.util.ArrayList;
 @Data
 public class Film implements JsonSerializable {
 
-    public Film(int id, int length, int genre, String title, String plot, String cover, String poster, LocalDate datePublishing) {
-        this.id = id;
-        this.length = length;
-        this.genre = genre;
-        this.title = title;
-        this.plot = plot;
-        this.cover = cover;
-        this.poster = poster;
-        this.datePublishing = datePublishing;
-    }
-
     /**
      * Rappresenta l'identificativo numerico del film.
      */

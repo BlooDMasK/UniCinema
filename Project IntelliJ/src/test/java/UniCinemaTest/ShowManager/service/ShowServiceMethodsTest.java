@@ -132,9 +132,7 @@ public class ShowServiceMethodsTest {
 
 
     private static Stream<Arguments> provideFilm() throws NoSuchAlgorithmException {
-        return Stream.of(Arguments.of(new Film(12, 120, 5,
-                "titoloFilm", "tramaFilm", "cover.png",
-                "poster.png", LocalDate.now())));
+        return Stream.of(Arguments.of(new Film(12, 120, 5, "titoloFilm", "tramaFilm", "cover.png", "poster.png", LocalDate.now())));
     }
 
     private static Stream<Arguments> provideRoomDate() {
