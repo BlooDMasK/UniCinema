@@ -1,10 +1,12 @@
 package utils;
 
 import lombok.Data;
+import lombok.Generated;
 
 /**
  * Questa classe permette di gestire la paginazione
  */
+@Generated
 @Data
 public class Paginator {
     /**

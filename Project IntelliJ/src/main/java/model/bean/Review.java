@@ -2,6 +2,7 @@ package model.bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 import utils.JsonSerializable;
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import java.util.Locale;
 /**
  * Questa classe rappresenta la recensione ad un film effettuata dall'Utente Registrato.
  */
+@Generated
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

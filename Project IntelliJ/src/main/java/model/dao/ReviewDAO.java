@@ -1,5 +1,6 @@
 package model.dao;
 
+import lombok.Generated;
 import model.bean.Account;
 import utils.SqlMethods;
 import utils.extractor.ReviewExtractor;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Questa classe rappresenta il DAO di una recensione
  */
+@Generated
 public class ReviewDAO implements SqlMethods<Review> {
     /**
      * Implementa la funzionalità di prendere una lista di recensioni

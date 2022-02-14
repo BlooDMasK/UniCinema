@@ -23,18 +23,18 @@ public class SignupServlet extends Controller implements ErrorHandler {
     SignupService signupService;
     AccountValidator accountValidator;
 
-<span class="nc" id="L26">    public SignupServlet() {</span>
-<span class="nc" id="L27">        this.signupService = new SignupServiceMethods();</span>
-<span class="nc" id="L28">        this.accountValidator = new AccountValidator();</span>
-<span class="nc" id="L29">    }</span>
+<span class="fc" id="L26">    public SignupServlet() {</span>
+<span class="fc" id="L27">        this.signupService = new SignupServiceMethods();</span>
+<span class="fc" id="L28">        this.accountValidator = new AccountValidator();</span>
+<span class="fc" id="L29">    }</span>
 
     public void setSignupService(SignupService signupService) {
-<span class="nc" id="L32">        this.signupService = signupService;</span>
-<span class="nc" id="L33">    }</span>
+<span class="fc" id="L32">        this.signupService = signupService;</span>
+<span class="fc" id="L33">    }</span>
 
     public void setAccountValidator(AccountValidator accountValidator) {
-<span class="nc" id="L36">        this.accountValidator = accountValidator;</span>
-<span class="nc" id="L37">    }</span>
+<span class="fc" id="L36">        this.accountValidator = accountValidator;</span>
+<span class="fc" id="L37">    }</span>
 
     /**
      * Implementa le funzionalità svolte durante una chiamata di tipo GET
@@ -44,9 +44,9 @@ public class SignupServlet extends Controller implements ErrorHandler {
      * @throws IOException
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<span class="nc" id="L48">        request.getRequestDispatcher(view(&quot;site/account/signup&quot;)).forward(request, response);</span>
-<span class="nc" id="L49">    }</span>
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<span class="fc" id="L48">        request.getRequestDispatcher(view(&quot;site/account/signup&quot;)).forward(request, response);</span>
+<span class="fc" id="L49">    }</span>
 
     /**
      * Implementa le funzionalità svolte durante una chiamata di tipo POST
@@ -56,42 +56,42 @@ public class SignupServlet extends Controller implements ErrorHandler {
      * @throws IOException
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
 
             /**
              * Rappresenta la sessione attuale {@link HttpSession}.
              */
-<span class="nc" id="L65">            HttpSession session = request.getSession();</span>
+<span class="fc" id="L65">            HttpSession session = request.getSession();</span>
 
-<span class="nc" id="L67">            request.setAttribute(&quot;back&quot;, view(&quot;site/account/signup&quot;));</span>
-<span class="nc" id="L68">            validate(accountValidator.validateSignup(request, true));</span>
-<span class="nc" id="L69">            Account tmpAccountSignup = new Account();</span>
-<span class="nc" id="L70">            tmpAccountSignup.setEmail(request.getParameter(&quot;email&quot;));</span>
-<span class="nc" id="L71">            tmpAccountSignup.setPswrd(request.getParameter(&quot;password&quot;));</span>
-<span class="nc" id="L72">            tmpAccountSignup.setFirstname(request.getParameter(&quot;firstname&quot;));</span>
-<span class="nc" id="L73">            tmpAccountSignup.setLastname(request.getParameter(&quot;lastname&quot;));</span>
-<span class="nc" id="L74">            tmpAccountSignup.setAdministrator(false);</span>
-<span class="nc bnc" id="L75" title="All 2 branches missed.">            if(signupService.signup(tmpAccountSignup)) {</span>
-<span class="nc" id="L76">                session.setAttribute(&quot;accountSession&quot;, tmpAccountSignup);</span>
-<span class="nc" id="L77">                response.sendRedirect(getServletContext().getContextPath()+&quot;/pages&quot;);</span>
+<span class="fc" id="L67">            request.setAttribute(&quot;back&quot;, view(&quot;site/account/signup&quot;));</span>
+<span class="fc" id="L68">            validate(accountValidator.validateSignup(request, true));</span>
+<span class="fc" id="L69">            Account tmpAccountSignup = new Account();</span>
+<span class="fc" id="L70">            tmpAccountSignup.setEmail(request.getParameter(&quot;email&quot;));</span>
+<span class="fc" id="L71">            tmpAccountSignup.setPswrd(request.getParameter(&quot;password&quot;));</span>
+<span class="fc" id="L72">            tmpAccountSignup.setFirstname(request.getParameter(&quot;firstname&quot;));</span>
+<span class="fc" id="L73">            tmpAccountSignup.setLastname(request.getParameter(&quot;lastname&quot;));</span>
+<span class="fc" id="L74">            tmpAccountSignup.setAdministrator(false);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            if(signupService.signup(tmpAccountSignup)) {</span>
+<span class="fc" id="L76">                session.setAttribute(&quot;accountSession&quot;, tmpAccountSignup);</span>
+<span class="fc" id="L77">                response.sendRedirect(getServletContext().getContextPath()+&quot;/pages&quot;);</span>
             } else {
-<span class="nc" id="L79">                request.setAttribute(&quot;alert&quot;, new Alert(List.of(&quot;Errore nell'inserimento dei dati&quot;), &quot;danger&quot;));</span>
-<span class="nc" id="L80">                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);</span>
+<span class="fc" id="L79">                request.setAttribute(&quot;alert&quot;, new Alert(List.of(&quot;Errore nell'inserimento dei dati&quot;), &quot;danger&quot;));</span>
+<span class="fc" id="L80">                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);</span>
 
-<span class="nc" id="L82">                throw new InvalidRequestException(&quot;Errore nell'inserimento dei dati&quot;,</span>
-<span class="nc" id="L83">                        List.of(&quot;Errore nell'inserimento dei dati&quot;), HttpServletResponse.SC_BAD_REQUEST);</span>
+<span class="fc" id="L82">                throw new InvalidRequestException(&quot;Errore nell'inserimento dei dati&quot;,</span>
+<span class="fc" id="L83">                        List.of(&quot;Errore nell'inserimento dei dati&quot;), HttpServletResponse.SC_BAD_REQUEST);</span>
             }
 <span class="nc" id="L85">        } catch (SQLException | NoSuchAlgorithmException ex) {</span>
 <span class="nc" id="L86">            log(ex.getMessage());</span>
 <span class="nc" id="L87">            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());</span>
-<span class="nc" id="L88">        } catch (InvalidRequestException e) {</span>
-<span class="nc" id="L89">            log(e.getMessage());</span>
-<span class="nc bnc" id="L90" title="All 2 branches missed.">            if(isAjax(request))</span>
+<span class="fc" id="L88">        } catch (InvalidRequestException e) {</span>
+<span class="fc" id="L89">            log(e.getMessage());</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">            if(isAjax(request))</span>
 <span class="nc" id="L91">                e.handleAjax(response);</span>
             else
-<span class="nc" id="L93">                e.handle(request, response);</span>
-<span class="nc" id="L94">        }</span>
-<span class="nc" id="L95">    }</span>
+<span class="fc" id="L93">                e.handle(request, response);</span>
+<span class="pc" id="L94">        }</span>
+<span class="fc" id="L95">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

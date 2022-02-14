@@ -1,6 +1,7 @@
 package utils;
 
 import lombok.Data;
+import lombok.Generated;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * Questa classe rappresenta l'eccezione lanciata quando avviene un errore (vedi anche {@link ErrorHandler} e {@link utils.validator.RequestValidator}.
  */
+@Generated
 @Data
 public class InvalidRequestException extends Exception {
 

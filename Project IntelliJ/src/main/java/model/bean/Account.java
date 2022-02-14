@@ -12,6 +12,7 @@ import java.util.List;
  * L'Utente Registrato viene considerato amministratore se la variabile administrator è true,
  * mentre se è false, viene considerato Cliente.
  */
+@Generated
 @Data
 @NoArgsConstructor
 public class Account {

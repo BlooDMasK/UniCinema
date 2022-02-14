@@ -25,5 +25,9 @@ public interface FilmService {
      */
     ArrayList<Film> search(String title) throws SQLException;
 
+    ArrayList<Film> fetchLastReleases(int total) throws SQLException;
+
+    ArrayList<Film> fetchComingSoon(int total) throws SQLException;
+
     //Map<Integer, Film> doRetrieveOrderedFilmList(List<Show> showList) throws SQLException;
 }

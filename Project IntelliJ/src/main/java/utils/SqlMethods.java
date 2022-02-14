@@ -1,5 +1,7 @@
 package utils;
 
+import lombok.Generated;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import java.util.List;
  * Questa interfaccia permette di generalizzare i metodi dei DAO.
  * @param <T> rappresenta il bean soggetto al DAO.
  */
+@Generated
 public interface SqlMethods <T> {
 
     /**

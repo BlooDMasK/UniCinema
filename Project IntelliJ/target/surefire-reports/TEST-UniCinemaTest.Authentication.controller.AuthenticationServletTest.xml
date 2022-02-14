@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="5" failures="0" name="UniCinemaTest.Authentication.controller.AuthenticationServletTest" time="0.541" errors="0" skipped="0">
+<testsuite tests="16" failures="0" name="UniCinemaTest.Authentication.controller.AuthenticationServletTest" time="0.763" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2021.2.3"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -44,7 +44,7 @@
     <property name="java.class.path" value="G:\IntelliJ IDEA 2021.2.3\plugins\maven\lib\maven3\boot\plexus-classworlds-2.6.0.jar;G:\IntelliJ IDEA 2021.2.3\plugins\maven\lib\maven3\boot\plexus-classworlds.license"/>
     <property name="java.vm.specification.version" value="15"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2021.2.3 test"/>
+    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2021.2.3 clean test"/>
     <property name="java.home" value="D:\Program Files\Java\jdk-15"/>
     <property name="user.language" value="it"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -59,9 +59,20 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doGetValueProfile" time="0.48"/>
-  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doGetValueIsLogoutTest" time="0.007"/>
-  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doGetSignin" time="0.011"/>
-  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostValueEdit" time="0.014"/>
-  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostValueSignin" time="0.029"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostEditFalse" time="0.654"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doGetValueProfile" time="0.033"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doGetValueIsLogoutTest" time="0.009"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doGetSignin" time="0"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostSigninAccountNull" time="0.025"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doGetNotValid" time="0.002"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostEditNullFirstname" time="0.004"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostValueEdit" time="0.005"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostEditAccountSessionNull" time="0.004"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostNotValid" time="0.003"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostEditFirstnameLastnameNull" time="0.004"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostValueSignin" time="0.008"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostEditFirstnameLastnameEmailNull" time="0.002"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostEditPasswordNull" time="0.003"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostEditFirstnameNull" time="0.003"/>
+  <testcase classname="UniCinemaTest.Authentication.controller.AuthenticationServletTest" name="doPostEditNotAjax" time="0.004"/>
 </testsuite>

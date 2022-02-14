@@ -114,9 +114,9 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
 <span class="nc" id="L114">        } catch (SQLException ex) {</span>
 <span class="nc" id="L115">            log(ex.getMessage());</span>
 <span class="nc" id="L116">            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());</span>
-<span class="nc" id="L117">        } catch (InvalidRequestException e) {</span>
-<span class="nc" id="L118">            log(e.getMessage());</span>
-<span class="nc" id="L119">            e.handle(request, response);</span>
+<span class="fc" id="L117">        } catch (InvalidRequestException e) {</span>
+<span class="fc" id="L118">            log(e.getMessage());</span>
+<span class="fc" id="L119">            e.handle(request, response);</span>
 <span class="pc" id="L120">        }</span>
 <span class="fc" id="L121">    }</span>
 
@@ -145,31 +145,31 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
                  * Implementa la funzionalità di modifica dell'Account.
                  */
                 case &quot;/edit&quot;:
-<span class="pc bpc" id="L148" title="1 of 2 branches missed.">                    if(isAjax(request)) {</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">                    if(isAjax(request)) {</span>
 <span class="fc" id="L149">                        String firstname = request.getParameter(&quot;firstname&quot;),</span>
 <span class="fc" id="L150">                                lastname = request.getParameter(&quot;lastname&quot;),</span>
 <span class="fc" id="L151">                                email = request.getParameter(&quot;email&quot;),</span>
 <span class="fc" id="L152">                                password = request.getParameter(&quot;password&quot;);</span>
 
-<span class="pc bpc" id="L154" title="7 of 8 branches missed.">                        if(firstname.isEmpty() &amp;&amp; lastname.isEmpty() &amp;&amp; email.isEmpty() &amp;&amp; password.isEmpty()) {</span>
+<span class="fc bfc" id="L154" title="All 8 branches covered.">                        if(firstname.isEmpty() &amp;&amp; lastname.isEmpty() &amp;&amp; email.isEmpty() &amp;&amp; password.isEmpty()) {</span>
 
-<span class="nc" id="L156">                            throw new InvalidRequestException(&quot;Devi compilare almeno un campo&quot;,</span>
-<span class="nc" id="L157">                                    List.of(&quot;Devi compilare almeno un campo&quot;), HttpServletResponse.SC_BAD_REQUEST);</span>
+<span class="fc" id="L156">                            throw new InvalidRequestException(&quot;Devi compilare almeno un campo&quot;,</span>
+<span class="fc" id="L157">                                    List.of(&quot;Devi compilare almeno un campo&quot;), HttpServletResponse.SC_BAD_REQUEST);</span>
 
                         } else { //Se compila almeno un campo
 <span class="fc" id="L160">                            validate(accountValidator.validateSignup(request, false));</span>
 <span class="fc" id="L161">                            Account accountSession = getSessionAccount(session);</span>
 <span class="pc bpc" id="L162" title="1 of 2 branches missed.">                            if(accountSession != null) {</span>
-<span class="pc bpc" id="L163" title="1 of 2 branches missed.">                                if(!isNull(firstname))</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">                                if(!isNull(firstname))</span>
 <span class="fc" id="L164">                                    accountSession.setFirstname(firstname);</span>
 
-<span class="pc bpc" id="L166" title="1 of 2 branches missed.">                                if(!isNull(lastname))</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">                                if(!isNull(lastname))</span>
 <span class="fc" id="L167">                                    accountSession.setLastname(lastname);</span>
 
-<span class="pc bpc" id="L169" title="1 of 2 branches missed.">                                if(!isNull(email))</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">                                if(!isNull(email))</span>
 <span class="fc" id="L170">                                    accountSession.setEmail(email);</span>
 
-<span class="pc bpc" id="L172" title="1 of 2 branches missed.">                                if(!isNull(password))</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">                                if(!isNull(password))</span>
 <span class="fc" id="L173">                                    accountSession.setPswrd(password);</span>
 
 <span class="pc bpc" id="L175" title="1 of 2 branches missed.">                                if(authenticationService.edit(accountSession)) {</span>
@@ -194,15 +194,15 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
 <span class="fc" id="L194">                    String email = request.getParameter(&quot;email&quot;),</span>
 <span class="fc" id="L195">                           pswrd = request.getParameter(&quot;password&quot;);</span>
 <span class="fc" id="L196">                    Account optAccountSignin = authenticationService.signin(email, getCryptedPassword(pswrd));</span>
-<span class="pc bpc" id="L197" title="1 of 2 branches missed.">                    if(optAccountSignin != null) {</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">                    if(optAccountSignin != null) {</span>
 <span class="fc" id="L198">                        session.setAttribute(&quot;accountSession&quot;, optAccountSignin);</span>
 <span class="fc" id="L199">                        response.sendRedirect(getServletContext().getContextPath()+&quot;/pages&quot;);</span>
                     } else {
-<span class="nc" id="L201">                        request.setAttribute(&quot;alert&quot;, new Alert(List.of(&quot;Credenziali non valide&quot;), &quot;danger&quot;));</span>
-<span class="nc" id="L202">                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);</span>
+<span class="fc" id="L201">                        request.setAttribute(&quot;alert&quot;, new Alert(List.of(&quot;Credenziali non valide&quot;), &quot;danger&quot;));</span>
+<span class="fc" id="L202">                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);</span>
 
-<span class="nc" id="L204">                        throw new InvalidRequestException(&quot;Credenziali non valide&quot;,</span>
-<span class="nc" id="L205">                                List.of(&quot;Credenziali non valide&quot;), HttpServletResponse.SC_BAD_REQUEST);</span>
+<span class="fc" id="L204">                        throw new InvalidRequestException(&quot;Credenziali non valide&quot;,</span>
+<span class="fc" id="L205">                                List.of(&quot;Credenziali non valide&quot;), HttpServletResponse.SC_BAD_REQUEST);</span>
                     }
                     break;
                 default:
@@ -211,10 +211,10 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
 <span class="nc" id="L211">        } catch (SQLException | NoSuchAlgorithmException ex) {</span>
 <span class="nc" id="L212">            log(ex.getMessage());</span>
 <span class="nc" id="L213">            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());</span>
-<span class="nc" id="L214">        } catch (InvalidRequestException e) {</span>
-<span class="nc" id="L215">            log(e.getMessage());</span>
-<span class="nc bnc" id="L216" title="All 2 branches missed.">            if(isAjax(request))</span>
-<span class="nc" id="L217">                e.handleAjax(response);</span>
+<span class="fc" id="L214">        } catch (InvalidRequestException e) {</span>
+<span class="fc" id="L215">            log(e.getMessage());</span>
+<span class="pc bpc" id="L216" title="1 of 2 branches missed.">            if(isAjax(request))</span>
+<span class="fc" id="L217">                e.handleAjax(response);</span>
             else
 <span class="nc" id="L219">                e.handle(request, response);</span>
 <span class="pc" id="L220">        }</span>

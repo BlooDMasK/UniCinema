@@ -1,5 +1,6 @@
 package model.dao;
 
+import lombok.Generated;
 import model.bean.Director;
 import utils.ConPool;
 import utils.Paginator;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Questa classe rappresenta il DAO di un Regista.
  */
+@Generated
 public class DirectorDAO implements SqlMethods<Director> {
 
     /**

@@ -7,7 +7,15 @@ import java.sql.SQLException;
 
 public class SignupServiceMethods implements SignupService{
 
-    AccountDAO accountDAO = new AccountDAO();
+    AccountDAO accountDAO;
+
+    public SignupServiceMethods() {
+        accountDAO = new AccountDAO();
+    }
+
+    public void setAccountDAO(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
 
     /**
      * Implementa la funzionalità di registrazione per l'Ospite.

@@ -1,5 +1,6 @@
 package utils.extractor;
 
+import lombok.Generated;
 import utils.ResultSetExtractor;
 import model.bean.Director;
 
@@ -8,6 +9,7 @@ import java.sql.SQLException;
 /**
  * Questa classe permette di estrarre i dati del regista da una {@link ResultSet}.
  */
+@Generated
 public class DirectorExtractor implements ResultSetExtractor<Director> {
     /**
      * Implementa la funzionalità che permette di estrarre i dati del regista da una {@link ResultSet}

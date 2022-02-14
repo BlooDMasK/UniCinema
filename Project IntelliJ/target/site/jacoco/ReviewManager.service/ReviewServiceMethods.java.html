@@ -11,12 +11,20 @@ import java.util.ArrayList;
 /**
  * Classe che implementa i metodi definiti nell'interfaccia service del sottosistema Review (Gestione Recensioni)
  */
-<span class="fc" id="L14">public class ReviewServiceMethods implements ReviewService{</span>
+public class ReviewServiceMethods implements ReviewService{
 
     /**
      * Si occupa delle operazioni CRUD per una recensione.
      */
-<span class="fc" id="L19">    ReviewDAO reviewDAO = new ReviewDAO();</span>
+    ReviewDAO reviewDAO;
+
+<span class="fc" id="L21">    public ReviewServiceMethods() {</span>
+<span class="fc" id="L22">        reviewDAO = new ReviewDAO();</span>
+<span class="fc" id="L23">    }</span>
+
+    public void setReviewDAO(ReviewDAO reviewDAO) {
+<span class="fc" id="L26">        this.reviewDAO = reviewDAO;</span>
+<span class="fc" id="L27">    }</span>
 
     /**
      * Implementa la funzionalità che conta tutte le recensioni effettuate per un film.
@@ -26,7 +34,7 @@ import java.util.ArrayList;
      */
     @Override
     public int countAll(Film film) throws SQLException {
-<span class="nc" id="L29">        return reviewDAO.countAll(film);</span>
+<span class="fc" id="L37">        return reviewDAO.countAll(film);</span>
     }
 
     /**
@@ -38,12 +46,12 @@ import java.util.ArrayList;
      */
     @Override
     public ArrayList&lt;Review&gt; fetchAll(Film film, Paginator paginator) throws SQLException {
-<span class="nc" id="L41">        return reviewDAO.fetchAll(film, paginator);</span>
+<span class="fc" id="L49">        return reviewDAO.fetchAll(film, paginator);</span>
     }
 
     @Override
     public ArrayList&lt;Review&gt; fetchAll(int filmId) throws SQLException {
-<span class="nc" id="L46">        return reviewDAO.fetchAll(filmId);</span>
+<span class="fc" id="L54">        return reviewDAO.fetchAll(filmId);</span>
     }
 
     /**
@@ -55,16 +63,16 @@ import java.util.ArrayList;
      */
     @Override
     public double averageStars(ArrayList&lt;Review&gt; reviewList, int stars) {
-<span class="nc" id="L58">        int size = reviewList.size();</span>
-<span class="nc bnc" id="L59" title="All 2 branches missed.">        if(size == 0)</span>
-<span class="nc" id="L60">            return 0;</span>
+<span class="fc" id="L66">        int size = reviewList.size();</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if(size == 0)</span>
+<span class="fc" id="L68">            return 0;</span>
 
-<span class="nc" id="L62">        double avg = 0.0;</span>
-<span class="nc bnc" id="L63" title="All 2 branches missed.">        for(Review review : reviewList)</span>
-<span class="nc bnc" id="L64" title="All 4 branches missed.">            if(stars == 0 || stars == review.getStars())</span>
-<span class="nc" id="L65">                avg += review.getStars();</span>
+<span class="fc" id="L70">        double avg = 0.0;</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        for(Review review : reviewList)</span>
+<span class="fc bfc" id="L72" title="All 4 branches covered.">            if(stars == 0 || stars == review.getStars())</span>
+<span class="fc" id="L73">                avg += review.getStars();</span>
 
-<span class="nc" id="L67">        return avg / size;</span>
+<span class="fc" id="L75">        return avg / size;</span>
     }
 
     /**
@@ -76,18 +84,18 @@ import java.util.ArrayList;
      */
     @Override
     public double percentageStars(ArrayList&lt;Review&gt; reviewList, int stars) {
-<span class="nc" id="L79">        double size = reviewList.size();</span>
-<span class="nc bnc" id="L80" title="All 2 branches missed.">        if(size == 0.0)</span>
-<span class="nc" id="L81">            return 0.0;</span>
+<span class="fc" id="L87">        double size = reviewList.size();</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        if(size == 0.0)</span>
+<span class="fc" id="L89">            return 0.0;</span>
 
-<span class="nc" id="L83">        double count = 0.0;</span>
-<span class="nc bnc" id="L84" title="All 2 branches missed.">        for(Review review : reviewList)</span>
-<span class="nc bnc" id="L85" title="All 4 branches missed.">            if (stars == 0.0 || stars == review.getStars())</span>
-<span class="nc" id="L86">                count++;</span>
+<span class="fc" id="L91">        double count = 0.0;</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        for(Review review : reviewList)</span>
+<span class="fc bfc" id="L93" title="All 4 branches covered.">            if (stars == 0.0 || stars == review.getStars())</span>
+<span class="fc" id="L94">                count++;</span>
 
 
 
-<span class="nc" id="L90">        return (count/size)*100.0;</span>
+<span class="fc" id="L98">        return (count/size)*100.0;</span>
     }
 
     /**
@@ -97,7 +105,7 @@ import java.util.ArrayList;
      * @throws SQLException
      */
     public boolean insert(Review review) throws SQLException {
-<span class="nc" id="L100">        return reviewDAO.insert(review);</span>
+<span class="fc" id="L108">        return reviewDAO.insert(review);</span>
     }
 
     /**
@@ -108,7 +116,7 @@ import java.util.ArrayList;
      */
     @Override
     public Review fetch(int accountId, int filmId) throws SQLException {
-<span class="nc" id="L111">        return reviewDAO.fetch(accountId, filmId);</span>
+<span class="fc" id="L119">        return reviewDAO.fetch(accountId, filmId);</span>
     }
 
     /**
@@ -119,12 +127,12 @@ import java.util.ArrayList;
      */
     @Override
     public boolean delete(int accountId) throws SQLException {
-<span class="nc" id="L122">        return reviewDAO.delete(accountId);</span>
+<span class="fc" id="L130">        return reviewDAO.delete(accountId);</span>
     }
 
     @Override
     public int countByAccountId(int id) throws SQLException {
-<span class="nc" id="L127">        return reviewDAO.countByAccountId(id);</span>
+<span class="fc" id="L135">        return reviewDAO.countByAccountId(id);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

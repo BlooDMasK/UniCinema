@@ -1,6 +1,7 @@
 package model.bean;
 
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * Questa classe rappresenta l'acquisto effettuato da un Utente Registrato.
  */
+@Generated
 @Data
 @NoArgsConstructor
 public class Purchase implements JsonSerializable {

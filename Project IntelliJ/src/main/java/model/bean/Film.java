@@ -1,6 +1,7 @@
 package model.bean;
 
 import lombok.Data;
+import lombok.Generated;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.JsonSerializable;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 /**
  * Questa classe rappresenta un film.
  */
+@Generated
 @Data
 public class Film implements JsonSerializable {
 
@@ -99,6 +101,23 @@ public class Film implements JsonSerializable {
         houseProductionList = new ArrayList<>();
         productionList = new ArrayList<>();
         showList = new ArrayList<>();
+    }
+
+    public Film(int id, int length, int genre, String title, String plot, String cover, String poster, LocalDate datePublishing,
+                ArrayList<Actor> actorList, ArrayList<Director> directorList, ArrayList<HouseProduction> houseProductionList,
+                ArrayList<Production> productionList) {
+        this.id = id;
+        this.length = length;
+        this.genre = genre;
+        this.title = title;
+        this.plot = plot;
+        this.cover = cover;
+        this.poster = poster;
+        this.datePublishing = datePublishing;
+        this.actorList = actorList;
+        this.directorList = directorList;
+        this.houseProductionList = houseProductionList;
+        this.productionList = productionList;
     }
 
     public Film(int id, int length, int genre, String title, String plot, String cover, String poster, LocalDate datePublishing) {

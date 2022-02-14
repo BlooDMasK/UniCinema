@@ -1,5 +1,6 @@
 package utils.validator;
 
+import lombok.Generated;
 import lombok.Getter;
 import model.bean.Account;
 import model.dao.AccountDAO;
@@ -16,6 +17,7 @@ import java.util.regex.Pattern;
 /**
  * Classe che fornisce i parametri di validazione
  */
+@Generated
 public class RequestValidator {
 
     /**

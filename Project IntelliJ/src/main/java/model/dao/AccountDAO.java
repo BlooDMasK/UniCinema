@@ -1,5 +1,6 @@
 package model.dao;
 
+import lombok.Generated;
 import utils.SqlMethods;
 import utils.extractor.AccountExtractor;
 import utils.ConPool;
@@ -15,6 +16,7 @@ import static utils.validator.RequestValidator.isNull;
 /**
  * Questa classe rappresenta il DAO di un Account.
  */
+@Generated
 public class AccountDAO implements SqlMethods<Account> {
 
     /**

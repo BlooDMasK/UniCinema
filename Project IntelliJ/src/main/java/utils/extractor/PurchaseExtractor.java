@@ -1,5 +1,6 @@
 package utils.extractor;
 
+import lombok.Generated;
 import utils.ResultSetExtractor;
 import model.bean.Purchase;
 
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 /**
  * Questa classe permette di estrarre i dati di un Acquisto da una {@link ResultSet}.
  */
+@Generated
 public class PurchaseExtractor implements ResultSetExtractor<Purchase>{
 
     /**

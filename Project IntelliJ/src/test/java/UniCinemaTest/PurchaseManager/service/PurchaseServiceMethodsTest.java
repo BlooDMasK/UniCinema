@@ -2,16 +2,20 @@ package UniCinemaTest.PurchaseManager.service;
 
 import PurchaseManager.service.PurchaseService;
 import PurchaseManager.service.PurchaseServiceMethods;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import model.bean.Purchase;
 import model.bean.Ticket;
 import model.dao.PurchaseDAO;
 import model.dao.TicketDAO;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.runner.RunWith;
 import org.mockito.*;
 import utils.Paginator;
 
@@ -21,9 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static junitparams.JUnitParamsRunner.$;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
+@RunWith(JUnitParamsRunner.class)
 public class PurchaseServiceMethodsTest {
 
     @Mock private TicketDAO ticketDAO;
@@ -31,6 +37,76 @@ public class PurchaseServiceMethodsTest {
 
     private PurchaseServiceMethods purchaseService;
 
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+
+        purchaseService = new PurchaseServiceMethods();
+        purchaseService.setTicketDAO(ticketDAO);
+        purchaseService.setPurchaseDAO(purchaseDAO);
+    }
+
+    @Test
+    @Parameters(value = "1")
+    public void fetchTickets(int showId) throws SQLException {
+        ArrayList<Ticket> ticketList = new ArrayList<>();
+        when(ticketDAO.fetchAll(showId)).thenReturn(ticketList);
+        assertEquals(purchaseService.fetchTickets(showId), ticketList);
+    }
+
+    @Test
+    @Parameters(value = "1, G, 8")
+    public void findTicket(int showId, char row, int seat) throws SQLException {
+        when(ticketDAO.fetch(showId, row, seat)).thenReturn(true);
+        assertEquals(purchaseService.findTicket(showId, row, seat), true);
+    }
+
+    @Test
+    @Parameters(method = "provideTicketList")
+    public void insert(ArrayList<Ticket> ticketList) throws SQLException {
+        when(ticketDAO.insert(ticketList)).thenReturn(true);
+        assertEquals(purchaseService.insert(ticketList), true);
+    }
+
+
+    @Test
+    @Parameters(method = "providePurchase")
+    public void insert(Purchase purchase) throws SQLException {
+        when(purchaseDAO.insertAndReturnID(purchase)).thenReturn(23);
+        assertEquals(purchaseService.insert(purchase), 23);
+    }
+
+    @Test
+    @Parameters(method = "provideAccountPaginator")
+    public void fetchAll(int accountId, Paginator paginator) throws SQLException {
+        ArrayList<Purchase> purchaseList = new ArrayList<>();
+        when(purchaseDAO.fetchAll(accountId, paginator)).thenReturn(purchaseList);
+        assertEquals(purchaseService.fetchAll(accountId, paginator), purchaseList);
+    }
+
+    @Test
+    @Parameters(value = "1")
+    public void countAll(int accountId) throws SQLException {
+        when(purchaseDAO.countAll(accountId)).thenReturn(10);
+        assertEquals(purchaseService.countAll(accountId), 10);
+    }
+
+    private Object[] provideTicketList() {
+        ArrayList<Ticket> ticketList = new ArrayList<>(List.of(new Ticket(10.0, 8, 'G'),
+                new Ticket(10.0, 9, 'G'),
+                new Ticket(10.0, 10, 'G')));
+        return $(ticketList);
+    }
+
+    private Object[] providePurchase() {
+        return $(new Purchase(3, LocalDate.now()));
+    }
+
+    private Object[] provideAccountPaginator() {
+        return $($(1, new Paginator(1, 5)));
+    }
+
+    /*
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -109,5 +185,5 @@ public class PurchaseServiceMethodsTest {
         return Stream.of(
             Arguments.of(1, new Paginator(1, 5))
         );
-    }
+    }*/
 }

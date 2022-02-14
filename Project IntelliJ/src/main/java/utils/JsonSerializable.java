@@ -1,10 +1,12 @@
 package utils;
 
+import lombok.Generated;
 import org.json.JSONObject;
 
 /**
  * Questa interfaccia permette di convertire un oggetto che la implementa a oggetto JSON.
  */
+@Generated
 public interface JsonSerializable {
 
     /**

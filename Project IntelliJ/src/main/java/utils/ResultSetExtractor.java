@@ -1,5 +1,7 @@
 package utils;
 
+import lombok.Generated;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -7,6 +9,7 @@ import java.sql.SQLException;
  * Questa interfaccia permette di generalizzare l'estrazione dei dati da una {@link ResultSet}
  * @param <B> rappresenta l'oggetto a cui assegnare i dati estratti
  */
+@Generated
 public interface ResultSetExtractor <B>{
 
     /**

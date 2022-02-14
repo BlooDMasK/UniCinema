@@ -1,5 +1,7 @@
 package PageManager;
 
+import FilmInfo.service.FilmService;
+import FilmInfo.service.FilmServiceMethods;
 import utils.Controller;
 import utils.ErrorHandler;
 import model.bean.Film;
@@ -15,6 +17,16 @@ import java.util.*;
 @WebServlet(name = "PageServlet", value = "/pages/*")
 public class PageServlet extends Controller implements ErrorHandler {
 
+    FilmService filmService;
+
+    public PageServlet() {
+        this.filmService = new FilmServiceMethods();
+    }
+
+    public void setFilmService(FilmServiceMethods filmService) {
+        this.filmService = filmService;
+    }
+
     /**
      * Implementa le funzionalità svolte durante una chiamata di tipo GET
      * @param request oggetto rappresentante la chiamata Http request
@@ -23,15 +35,14 @@ public class PageServlet extends Controller implements ErrorHandler {
      * @throws IOException
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String path = getPath(request);
-            FilmDAO filmDAO = new FilmDAO();
             switch (path) {
                 case "/": //Homepage
-                    List<Film> filmCarousel = filmDAO.fetchLastReleases(3);
-                    List<Film> filmLastReleases = filmDAO.fetchLastReleases(6);
-                    List<Film> filmComingSoon = filmDAO.fetchComingSoon(6);
+                    ArrayList<Film> filmCarousel = filmService.fetchLastReleases(3);
+                    ArrayList<Film> filmLastReleases = filmService.fetchLastReleases(6);
+                    ArrayList<Film> filmComingSoon = filmService.fetchComingSoon(6);
 
                     request.setAttribute("filmCarousel", filmCarousel);
                     request.setAttribute("filmLastReleases", filmLastReleases);

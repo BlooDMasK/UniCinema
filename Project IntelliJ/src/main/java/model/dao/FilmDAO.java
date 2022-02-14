@@ -1,5 +1,6 @@
 package model.dao;
 
+import lombok.Generated;
 import utils.*;
 import utils.extractor.FilmExtractor;
 import model.bean.Actor;
@@ -19,6 +20,7 @@ import java.util.*;
 /**
  * Questa classe rappresenta il DAO di un film.
  */
+@Generated
 public class FilmDAO implements SqlMethods<Film> {
 
     /**
@@ -121,7 +123,7 @@ public class FilmDAO implements SqlMethods<Film> {
      * @return la lista dei film
      * @throws SQLException
      */
-    public List<Film> fetchComingSoon(int n) throws SQLException {
+    public ArrayList<Film> fetchComingSoon(int n) throws SQLException {
         try(Connection con = ConPool.getConnection()) {
             try(PreparedStatement ps = con.prepareStatement("SELECT * FROM film JOIN production prod on film.id = prod.id_film JOIN house_production hp on film.id = hp.id_film JOIN director on film.id = director.id_film JOIN actor on film.id = actor.id_film WHERE DATE(date_publishing) > DATE(NOW())")) {
                 ResultSet rs = ps.executeQuery();
@@ -172,7 +174,7 @@ public class FilmDAO implements SqlMethods<Film> {
      * @return la lista dei film
      * @throws SQLException
      */
-    public List<Film> fetchLastReleases(int n) throws SQLException{
+    public ArrayList<Film> fetchLastReleases(int n) throws SQLException{
         try(Connection con = ConPool.getConnection()) {
             try(PreparedStatement ps = con.prepareStatement("SELECT * FROM film JOIN production prod on film.id = prod.id_film JOIN house_production hp on film.id = hp.id_film JOIN director on film.id = director.id_film JOIN actor on film.id = actor.id_film WHERE DATE(date_publishing) <= DATE(NOW())")) {
                 ResultSet rs = ps.executeQuery();

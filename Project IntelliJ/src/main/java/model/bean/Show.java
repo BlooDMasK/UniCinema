@@ -1,9 +1,6 @@
 package model.bean;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.json.JSONObject;
 import utils.JsonSerializable;
 
@@ -18,10 +15,18 @@ import java.util.Map;
 /**
  * Questa classe rappresenta uno spettacolo.
  */
+@Generated
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Show implements Comparable<Show>, JsonSerializable {
+
+    public Show(int id, @NonNull LocalDate date, @NonNull LocalTime time, Film film) {
+        this.id = id;
+        this.date = date;
+        this.time = time;
+        this.film = film;
+    }
 
     public Show(int id, @NonNull LocalDate date, @NonNull LocalTime time) {
         this.id = id;

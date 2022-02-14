@@ -1,5 +1,6 @@
 package utils.extractor;
 
+import lombok.Generated;
 import utils.ResultSetExtractor;
 import model.bean.Production;
 
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 /**
  * Questa classe permette di estrarre i dati della Produzione da una {@link ResultSet}.
  */
+@Generated
 public class ProductionExtractor implements ResultSetExtractor<Production> {
 
     /**

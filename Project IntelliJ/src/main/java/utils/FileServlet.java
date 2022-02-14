@@ -1,5 +1,7 @@
 package utils;
 
+import lombok.Generated;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +19,7 @@ import java.util.zip.GZIPOutputStream;
 /**
  * Questa classe rappresenta la servlet che permette di caricare le immagini da una directory.
  */
+@Generated
 @WebServlet(name = "FileServlet", urlPatterns = "/images/*")
 public class FileServlet extends HttpServlet {
 
@@ -446,6 +449,7 @@ public class FileServlet extends HttpServlet {
     /**
      * Questa classe rappresenta il range di byte.
      */
+    @Generated
     protected class Range {
         long start;
         long end;

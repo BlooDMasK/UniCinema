@@ -7,6 +7,7 @@ import utils.JsonSerializable;
 /**
  * Questa classe rappresenta la produzione del film.
  */
+@Generated
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,5 +40,11 @@ public class Production implements JsonSerializable {
         root.put("firstname", firstname);
         root.put("lastname", lastname);
         return root;
+    }
+
+    public Production(int id, String firstname, String lastname) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 }

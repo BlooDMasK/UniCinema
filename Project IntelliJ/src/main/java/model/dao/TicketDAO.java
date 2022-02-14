@@ -1,5 +1,6 @@
 package model.dao;
 
+import lombok.Generated;
 import utils.ConPool;
 import utils.Paginator;
 import utils.SqlMethods;
@@ -13,6 +14,7 @@ import java.util.List;
 /**
  * Questa classe rappresenta il DAO di un biglietto
  */
+@Generated
 public class TicketDAO implements SqlMethods<Ticket> {
     /**
      * Implementa la funzionalità di prendere una lista di biglietti

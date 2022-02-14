@@ -1,5 +1,6 @@
 package model.dao;
 
+import lombok.Generated;
 import utils.SqlMethods;
 import utils.extractor.ActorExtractor;
 import utils.ConPool;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Questa classe rappresenta il DAO di un Attore.
  */
+@Generated
 public class ActorDAO implements SqlMethods<Actor> {
 
     /**

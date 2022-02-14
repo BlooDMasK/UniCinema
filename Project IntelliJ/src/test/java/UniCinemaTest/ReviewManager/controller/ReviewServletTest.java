@@ -30,7 +30,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class ReviewServletTest {
@@ -85,6 +87,7 @@ public class ReviewServletTest {
         when(filmServiceMethods.fetch(1)).thenReturn(film);
         when(reviewServiceMethods.countAll(film)).thenReturn(1);
         when(paginator.getPages(1)).thenReturn(1);
+
         when(reviewServiceMethods.fetchAll(film, paginator)).thenReturn(reviewList);
         when(review.toJson()).thenReturn(jsonObject);
         when(reviewServiceMethods.fetchAll(1)).thenReturn(reviewList);
@@ -102,13 +105,36 @@ public class ReviewServletTest {
     }
 
     @Test
+    public void doPostListFilmNull() throws SQLException, ServletException, IOException {
+        when(reviewServlet.getPath(request)).thenReturn("/list");
+
+        when(request.getParameter("filmId")).thenReturn("1");
+        when(filmServiceMethods.fetch(1)).thenReturn(null);
+
+        reviewServlet.doPost(request, response);
+
+        verify(filmServiceMethods).fetch(1);
+    }
+
+    @Test
+    public void doPostListNoAjax() throws ServletException, IOException {
+        when(reviewServlet.getPath(request)).thenReturn("/list");
+
+        when(request.getHeader("X-Requested-With")).thenReturn("HttpRequest");
+
+        reviewServlet.doPost(request, response);
+
+        assertFalse(reviewServlet.isAjax(request));
+    }
+
+    @Test
     public void doPostAdd() throws SQLException, ServletException, IOException, InvalidRequestException {
         when(reviewServlet.getPath(request)).thenReturn("/add");
 
         when(reviewValidator.validateReview(request)).thenReturn(requestValidator);
-        when(reviewServlet.getSessionAccount(session)).thenReturn(account);
+        when(session.getAttribute("accountSession")).thenReturn(account);
         when(request.getParameter("filmId")).thenReturn("1");
-        when(reviewServiceMethods.fetch(1, 1)).thenReturn(null);
+        when(reviewServiceMethods.fetch(account.getId(), 1)).thenReturn(null);
         when(request.getParameter("reviewWriteTitle")).thenReturn("Lo consiglio vivamente.");
         when(request.getParameter("reviewWriteDescription")).thenReturn("Un film fatto veramente bene, da vedere assolutamente al cinema.");
         when(request.getParameter("reviewWriteStars")).thenReturn("5");
@@ -121,6 +147,31 @@ public class ReviewServletTest {
     }
 
     @Test
+    public void doPostAddNotNull() throws SQLException, ServletException, IOException {
+        when(reviewServlet.getPath(request)).thenReturn("/add");
+
+        when(reviewValidator.validateReview(request)).thenReturn(requestValidator);
+        when(session.getAttribute("accountSession")).thenReturn(account);
+        when(request.getParameter("filmId")).thenReturn("1");
+        when(reviewServiceMethods.fetch(account.getId(), 1)).thenReturn(review);
+
+        reviewServlet.doPost(request, response);
+
+        assertNotEquals(reviewServiceMethods.fetch(account.getId(), 1), null);
+    }
+
+    @Test
+    public void doPostAddNotAjax() throws ServletException, IOException {
+        when(reviewServlet.getPath(request)).thenReturn("/add");
+
+        when(request.getHeader("X-Requested-With")).thenReturn("HttpRequest");
+
+        reviewServlet.doPost(request, response);
+
+        assertFalse(reviewServlet.isAjax(request));
+    }
+
+    @Test
     public void doPostRemove() throws SQLException, ServletException, IOException {
         when(reviewServlet.getPath(request)).thenReturn("/remove");
 
@@ -130,5 +181,37 @@ public class ReviewServletTest {
         reviewServlet.doPost(request,response);
 
         verify(reviewServlet).sendJson(response, jsonObject);
+    }
+
+    @Test
+    public void doPostRemoveFalse() throws SQLException, ServletException, IOException {
+        when(reviewServlet.getPath(request)).thenReturn("/remove");
+
+        when(request.getParameter("accountId")).thenReturn("1");
+        when(reviewServiceMethods.delete(1)).thenReturn(false);
+
+        reviewServlet.doPost(request,response);
+
+        verify(reviewServlet).sendJson(response, jsonObject);
+    }
+
+    @Test
+    public void doPostRemoveNotAjax() throws ServletException, IOException {
+        when(reviewServlet.getPath(request)).thenReturn("/remove");
+
+        when(request.getHeader("X-Requested-With")).thenReturn("HttpRequest");
+
+        reviewServlet.doPost(request,response);
+
+        assertFalse(reviewServlet.isAjax(request));
+    }
+
+    @Test
+    public void doPostNotValid() throws ServletException, IOException {
+        when(reviewServlet.getPath(request)).thenReturn("/");
+
+        reviewServlet.doPost(request,response);
+
+        assertEquals(reviewServlet.getPath(request), "/");
     }
 }

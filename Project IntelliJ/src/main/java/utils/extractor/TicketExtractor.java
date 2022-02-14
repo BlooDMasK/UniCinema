@@ -1,5 +1,6 @@
 package utils.extractor;
 
+import lombok.Generated;
 import utils.ResultSetExtractor;
 import model.bean.Ticket;
 
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 /**
  * Implementa la funzionalità che permette di estrarre i dati di un biglietto da una {@link ResultSet}
  */
+@Generated
 public class TicketExtractor implements ResultSetExtractor<Ticket> {
     /**
      * Implementa la funzionalità che permette di estrarre i dati di un biglietto da una {@link ResultSet}

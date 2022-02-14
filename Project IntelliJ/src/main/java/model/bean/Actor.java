@@ -7,6 +7,7 @@ import utils.JsonSerializable;
 /**
  * Questa classe rappresenta l'attore facente parte del cast di un film.
  */
+@Generated
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,5 +40,11 @@ public class Actor implements JsonSerializable {
         root.put("firstname", firstname);
         root.put("lastname", lastname);
         return root;
+    }
+
+    public Actor(int id, String firstname, String lastname) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 }

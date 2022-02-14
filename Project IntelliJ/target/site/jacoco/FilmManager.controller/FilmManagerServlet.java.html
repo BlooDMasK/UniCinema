@@ -52,7 +52,7 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
 <span class="fc" id="L52">            HttpSession session = request.getSession();</span>
 <span class="fc" id="L53">            String path = getPath(request);</span>
             String reloadPath;
-<span class="pc bpc" id="L55" title="1 of 4 branches missed.">            switch(path) {</span>
+<span class="fc bfc" id="L55" title="All 4 branches covered.">            switch(path) {</span>
                 case &quot;/remove&quot;: {
 <span class="fc" id="L57">                    authorize(session);</span>
 <span class="fc" id="L58">                    reloadPath = request.getContextPath() + &quot;/film/schedule&quot;;</span>
@@ -106,40 +106,40 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-<span class="nc" id="L109">            HttpSession session = request.getSession();</span>
-<span class="nc" id="L110">            String path = getPath(request);</span>
+<span class="fc" id="L109">            HttpSession session = request.getSession();</span>
+<span class="fc" id="L110">            String path = getPath(request);</span>
 
-<span class="nc bnc" id="L112" title="All 3 branches missed.">            switch(path) {</span>
+<span class="pc bpc" id="L112" title="1 of 3 branches missed.">            switch(path) {</span>
                 case &quot;/add&quot;: {
-<span class="nc" id="L114">                    authorize(session);</span>
-<span class="nc" id="L115">                    request.setAttribute(&quot;back&quot;, view(&quot;site/movie/form&quot;));</span>
-<span class="nc" id="L116">                    validate(filmValidator.validateFilm(request));</span>
+<span class="fc" id="L114">                    authorize(session);</span>
+<span class="fc" id="L115">                    request.setAttribute(&quot;back&quot;, view(&quot;site/movie/form&quot;));</span>
+<span class="fc" id="L116">                    validate(filmValidator.validateFilm(request));</span>
 
-<span class="nc" id="L118">                    Film film = new Film();</span>
-<span class="nc" id="L119">                    setFilmValues(request, film);</span>
+<span class="fc" id="L118">                    Film film = new Film();</span>
+<span class="fc" id="L119">                    setFilmValues(request, film);</span>
 
-<span class="nc bnc" id="L121" title="All 2 branches missed.">                    if (filmManagerService.insert(film)) {</span>
-<span class="nc" id="L122">                        film.writeCover(getUploadPath(), request.getPart(&quot;cover&quot;));</span>
-<span class="nc" id="L123">                        film.writePoster(getUploadPath(), request.getPart(&quot;poster&quot;));</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">                    if (filmManagerService.insert(film)) {</span>
+<span class="fc" id="L122">                        film.writeCover(getUploadPath(), request.getPart(&quot;cover&quot;));</span>
+<span class="fc" id="L123">                        film.writePoster(getUploadPath(), request.getPart(&quot;poster&quot;));</span>
 
-<span class="nc" id="L125">                        request.setAttribute(&quot;alert&quot;, new Alert(List.of(&quot;Film aggiunto con successo.&quot;), &quot;success&quot;));</span>
-<span class="nc" id="L126">                        request.getRequestDispatcher(view(&quot;site/movie/form&quot;)).forward(request, response);</span>
+<span class="fc" id="L125">                        request.setAttribute(&quot;alert&quot;, new Alert(List.of(&quot;Film aggiunto con successo.&quot;), &quot;success&quot;));</span>
+<span class="fc" id="L126">                        request.getRequestDispatcher(view(&quot;site/movie/form&quot;)).forward(request, response);</span>
                     } else
 <span class="nc" id="L128">                        internalError();</span>
 <span class="nc" id="L129">                    break;</span>
                 }
 
                 case &quot;/update&quot;: {
-<span class="nc" id="L133">                    authorize(session);</span>
-<span class="nc" id="L134">                    request.setAttribute(&quot;back&quot;, view(&quot;site/movie/form&quot;));</span>
+<span class="fc" id="L133">                    authorize(session);</span>
+<span class="fc" id="L134">                    request.setAttribute(&quot;back&quot;, view(&quot;site/movie/form&quot;));</span>
 
-<span class="nc" id="L136">                    validate(filmValidator.validateUpdateFilm(request));</span>
+<span class="fc" id="L136">                    validate(filmValidator.validateUpdateFilm(request));</span>
 
-<span class="nc" id="L138">                    Film oldFilm = (Film) session.getAttribute(&quot;film&quot;);</span>
-<span class="nc bnc" id="L139" title="All 2 branches missed.">                    if(!hasModifiedFilm(request, oldFilm)) {</span>
-<span class="nc" id="L140">                        session.setAttribute(&quot;alert&quot;, new Alert(List.of(&quot;Devi modificare almeno un campo.&quot;), &quot;danger&quot;));</span>
-<span class="nc" id="L141">                        response.sendRedirect(getServletContext().getContextPath()+&quot;/film-manager/update?filmId=&quot;+oldFilm.getId());</span>
-<span class="nc" id="L142">                        break;</span>
+<span class="fc" id="L138">                    Film oldFilm = (Film) session.getAttribute(&quot;film&quot;);</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">                    if(!hasModifiedFilm(request, oldFilm)) {</span>
+<span class="fc" id="L140">                        session.setAttribute(&quot;alert&quot;, new Alert(List.of(&quot;Devi modificare almeno un campo.&quot;), &quot;danger&quot;));</span>
+<span class="fc" id="L141">                        response.sendRedirect(getServletContext().getContextPath()+&quot;/film-manager/update?filmId=&quot;+oldFilm.getId());</span>
+<span class="fc" id="L142">                        break;</span>
                     }
 
 <span class="nc" id="L145">                    Film film = new Film();</span>
@@ -172,183 +172,183 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
 <span class="nc" id="L172">        } catch (InvalidRequestException e) {</span>
 <span class="nc" id="L173">            log(e.getMessage());</span>
 <span class="nc" id="L174">            e.handle(request, response);</span>
-<span class="nc" id="L175">        }</span>
-<span class="nc" id="L176">    }</span>
+<span class="pc" id="L175">        }</span>
+<span class="fc" id="L176">    }</span>
 
     private boolean hasModifiedFilm(HttpServletRequest request, Film oldFilm) throws ServletException, IOException {
-<span class="nc" id="L179">        int length = Integer.parseInt(request.getParameter(&quot;length&quot;)),</span>
-<span class="nc" id="L180">            genre = Integer.parseInt(request.getParameter(&quot;genre&quot;));</span>
+<span class="fc" id="L179">        int length = Integer.parseInt(request.getParameter(&quot;length&quot;)),</span>
+<span class="fc" id="L180">            genre = Integer.parseInt(request.getParameter(&quot;genre&quot;));</span>
 
-<span class="nc" id="L182">        String  title = request.getParameter(&quot;title&quot;),</span>
-<span class="nc" id="L183">                plot = request.getParameter(&quot;plot&quot;),</span>
-<span class="nc" id="L184">                cover = request.getPart(&quot;cover&quot;).getSubmittedFileName(),</span>
-<span class="nc" id="L185">                poster = request.getPart(&quot;poster&quot;).getSubmittedFileName();</span>
+<span class="fc" id="L182">        String  title = request.getParameter(&quot;title&quot;),</span>
+<span class="fc" id="L183">                plot = request.getParameter(&quot;plot&quot;),</span>
+<span class="fc" id="L184">                cover = request.getPart(&quot;cover&quot;).getSubmittedFileName(),</span>
+<span class="fc" id="L185">                poster = request.getPart(&quot;poster&quot;).getSubmittedFileName();</span>
 
-<span class="nc" id="L187">        LocalDate datePublishing = getLocalDateFromString(request, &quot;date-publishing&quot;);</span>
+<span class="fc" id="L187">        LocalDate datePublishing = getLocalDateFromString(request, &quot;date-publishing&quot;);</span>
 
-<span class="nc" id="L189">        ArrayList&lt;String&gt; actorsFirstname = getParamsArrayList(request, &quot;ActorsFirstname&quot;);</span>
-<span class="nc" id="L190">        ArrayList&lt;String&gt; actorsLastname = getParamsArrayList(request, &quot;ActorsLastname&quot;);</span>
-<span class="nc" id="L191">        ArrayList&lt;String&gt; actorsId = getParamsArrayList(request, &quot;ActorsId&quot;);</span>
-<span class="nc" id="L192">        int actorsSize = actorsFirstname.size();</span>
+<span class="fc" id="L189">        ArrayList&lt;String&gt; actorsFirstname = getParamsArrayList(request, &quot;ActorsFirstname&quot;);</span>
+<span class="fc" id="L190">        ArrayList&lt;String&gt; actorsLastname = getParamsArrayList(request, &quot;ActorsLastname&quot;);</span>
+<span class="fc" id="L191">        ArrayList&lt;String&gt; actorsId = getParamsArrayList(request, &quot;ActorsId&quot;);</span>
+<span class="fc" id="L192">        int actorsSize = actorsFirstname.size();</span>
 
-<span class="nc" id="L194">        ArrayList&lt;String&gt; directorsFirstname = getParamsArrayList(request, &quot;DirectorsFirstname&quot;);</span>
-<span class="nc" id="L195">        ArrayList&lt;String&gt; directorsLastname = getParamsArrayList(request, &quot;DirectorsLastname&quot;);</span>
-<span class="nc" id="L196">        ArrayList&lt;String&gt; directorsId = getParamsArrayList(request, &quot;DirectorsId&quot;);</span>
-<span class="nc" id="L197">        int directorsSize = directorsFirstname.size();</span>
+<span class="fc" id="L194">        ArrayList&lt;String&gt; directorsFirstname = getParamsArrayList(request, &quot;DirectorsFirstname&quot;);</span>
+<span class="fc" id="L195">        ArrayList&lt;String&gt; directorsLastname = getParamsArrayList(request, &quot;DirectorsLastname&quot;);</span>
+<span class="fc" id="L196">        ArrayList&lt;String&gt; directorsId = getParamsArrayList(request, &quot;DirectorsId&quot;);</span>
+<span class="fc" id="L197">        int directorsSize = directorsFirstname.size();</span>
 
-<span class="nc" id="L199">        ArrayList&lt;String&gt; productionFirstname = getParamsArrayList(request, &quot;ProductionFirstname&quot;);</span>
-<span class="nc" id="L200">        ArrayList&lt;String&gt; productionLastname = getParamsArrayList(request, &quot;ProductionLastname&quot;);</span>
-<span class="nc" id="L201">        ArrayList&lt;String&gt; productionId = getParamsArrayList(request, &quot;ProductionId&quot;);</span>
-<span class="nc" id="L202">        int productionSize = productionFirstname.size();</span>
+<span class="fc" id="L199">        ArrayList&lt;String&gt; productionFirstname = getParamsArrayList(request, &quot;ProductionFirstname&quot;);</span>
+<span class="fc" id="L200">        ArrayList&lt;String&gt; productionLastname = getParamsArrayList(request, &quot;ProductionLastname&quot;);</span>
+<span class="fc" id="L201">        ArrayList&lt;String&gt; productionId = getParamsArrayList(request, &quot;ProductionId&quot;);</span>
+<span class="fc" id="L202">        int productionSize = productionFirstname.size();</span>
 
-<span class="nc" id="L204">        ArrayList&lt;String&gt; houseProductionName = getParamsArrayList(request, &quot;HouseProductionName&quot;);</span>
-<span class="nc" id="L205">        ArrayList&lt;String&gt; houseProductionId = getParamsArrayList(request, &quot;HouseProductionId&quot;);</span>
-<span class="nc" id="L206">        int houseProductionSize = houseProductionName.size();</span>
+<span class="fc" id="L204">        ArrayList&lt;String&gt; houseProductionName = getParamsArrayList(request, &quot;HouseProductionName&quot;);</span>
+<span class="fc" id="L205">        ArrayList&lt;String&gt; houseProductionId = getParamsArrayList(request, &quot;HouseProductionId&quot;);</span>
+<span class="fc" id="L206">        int houseProductionSize = houseProductionName.size();</span>
 
-<span class="nc bnc" id="L208" title="All 2 branches missed.">        if(length != oldFilm.getLength())</span>
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">        if(length != oldFilm.getLength())</span>
 <span class="nc" id="L209">            return true;</span>
 
-<span class="nc bnc" id="L211" title="All 2 branches missed.">        if(genre != oldFilm.getGenre())</span>
+<span class="pc bpc" id="L211" title="1 of 2 branches missed.">        if(genre != oldFilm.getGenre())</span>
 <span class="nc" id="L212">            return true;</span>
 
-<span class="nc bnc" id="L214" title="All 2 branches missed.">        if(!title.equals(oldFilm.getTitle()))</span>
+<span class="pc bpc" id="L214" title="1 of 2 branches missed.">        if(!title.equals(oldFilm.getTitle()))</span>
 <span class="nc" id="L215">            return true;</span>
 
-<span class="nc bnc" id="L217" title="All 2 branches missed.">        if(!plot.equals(oldFilm.getPlot()))</span>
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">        if(!plot.equals(oldFilm.getPlot()))</span>
 <span class="nc" id="L218">            return true;</span>
 
-<span class="nc bnc" id="L220" title="All 2 branches missed.">        if(!cover.isEmpty())</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">        if(!cover.isEmpty())</span>
 <span class="nc" id="L221">            return true;</span>
 
-<span class="nc bnc" id="L223" title="All 2 branches missed.">        if(!poster.isEmpty())</span>
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">        if(!poster.isEmpty())</span>
 <span class="nc" id="L224">            return true;</span>
 
-<span class="nc bnc" id="L226" title="All 2 branches missed.">        if(!datePublishing.equals(oldFilm.getDatePublishing()))</span>
+<span class="pc bpc" id="L226" title="1 of 2 branches missed.">        if(!datePublishing.equals(oldFilm.getDatePublishing()))</span>
 <span class="nc" id="L227">            return true;</span>
 
-<span class="nc bnc" id="L229" title="All 2 branches missed.">        if(actorsSize != oldFilm.getActorList().size())</span>
+<span class="pc bpc" id="L229" title="1 of 2 branches missed.">        if(actorsSize != oldFilm.getActorList().size())</span>
 <span class="nc" id="L230">            return true;</span>
 
-<span class="nc bnc" id="L232" title="All 2 branches missed.">        if(directorsSize != oldFilm.getDirectorList().size())</span>
+<span class="pc bpc" id="L232" title="1 of 2 branches missed.">        if(directorsSize != oldFilm.getDirectorList().size())</span>
 <span class="nc" id="L233">            return true;</span>
 
-<span class="nc bnc" id="L235" title="All 2 branches missed.">        if(houseProductionSize != oldFilm.getHouseProductionList().size())</span>
+<span class="pc bpc" id="L235" title="1 of 2 branches missed.">        if(houseProductionSize != oldFilm.getHouseProductionList().size())</span>
 <span class="nc" id="L236">            return true;</span>
 
-<span class="nc bnc" id="L238" title="All 2 branches missed.">        if(productionSize != oldFilm.getProductionList().size())</span>
+<span class="pc bpc" id="L238" title="1 of 2 branches missed.">        if(productionSize != oldFilm.getProductionList().size())</span>
 <span class="nc" id="L239">            return true;</span>
 
         String firstname, lastname, name;
-<span class="nc" id="L242">        int occurrenceCounter = 0, id;</span>
-<span class="nc bnc" id="L243" title="All 2 branches missed.">        for(int i = 0; i &lt; actorsSize; i++)</span>
+<span class="fc" id="L242">        int occurrenceCounter = 0, id;</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">        for(int i = 0; i &lt; actorsSize; i++)</span>
         {
-<span class="nc" id="L245">            firstname = actorsFirstname.get(i);</span>
-<span class="nc" id="L246">            lastname = actorsLastname.get(i);</span>
-<span class="nc" id="L247">            id = Integer.parseInt(actorsId.get(i));</span>
+<span class="fc" id="L245">            firstname = actorsFirstname.get(i);</span>
+<span class="fc" id="L246">            lastname = actorsLastname.get(i);</span>
+<span class="fc" id="L247">            id = Integer.parseInt(actorsId.get(i));</span>
 
-<span class="nc bnc" id="L249" title="All 2 branches missed.">            for(Actor actor : oldFilm.getActorList()) {</span>
-<span class="nc bnc" id="L250" title="All 6 branches missed.">                if (actor.getId() == id &amp;&amp; firstname.equals(actor.getFirstname()) &amp;&amp; lastname.equals(actor.getLastname())) {</span>
-<span class="nc" id="L251">                    occurrenceCounter++;</span>
-<span class="nc" id="L252">                    break;</span>
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">            for(Actor actor : oldFilm.getActorList()) {</span>
+<span class="pc bpc" id="L250" title="2 of 6 branches missed.">                if (actor.getId() == id &amp;&amp; firstname.equals(actor.getFirstname()) &amp;&amp; lastname.equals(actor.getLastname())) {</span>
+<span class="fc" id="L251">                    occurrenceCounter++;</span>
+<span class="fc" id="L252">                    break;</span>
                 }
-<span class="nc" id="L254">            }</span>
+<span class="fc" id="L254">            }</span>
         }
 
-<span class="nc bnc" id="L257" title="All 2 branches missed.">        if(occurrenceCounter != actorsSize)</span>
+<span class="pc bpc" id="L257" title="1 of 2 branches missed.">        if(occurrenceCounter != actorsSize)</span>
 <span class="nc" id="L258">            return true;</span>
 
-<span class="nc" id="L260">        occurrenceCounter = 0;</span>
-<span class="nc bnc" id="L261" title="All 2 branches missed.">        for(int i = 0; i &lt; directorsSize; i++)</span>
+<span class="fc" id="L260">        occurrenceCounter = 0;</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">        for(int i = 0; i &lt; directorsSize; i++)</span>
         {
-<span class="nc" id="L263">            firstname = directorsFirstname.get(i);</span>
-<span class="nc" id="L264">            lastname = directorsLastname.get(i);</span>
-<span class="nc" id="L265">            id = Integer.parseInt(directorsId.get(i));</span>
+<span class="fc" id="L263">            firstname = directorsFirstname.get(i);</span>
+<span class="fc" id="L264">            lastname = directorsLastname.get(i);</span>
+<span class="fc" id="L265">            id = Integer.parseInt(directorsId.get(i));</span>
 
-<span class="nc bnc" id="L267" title="All 2 branches missed.">            for(Director director : oldFilm.getDirectorList()) {</span>
-<span class="nc bnc" id="L268" title="All 6 branches missed.">                if (director.getId() == id &amp;&amp; firstname.equals(director.getFirstname()) &amp;&amp; lastname.equals(director.getLastname())) {</span>
-<span class="nc" id="L269">                    occurrenceCounter++;</span>
-<span class="nc" id="L270">                    break;</span>
+<span class="pc bpc" id="L267" title="1 of 2 branches missed.">            for(Director director : oldFilm.getDirectorList()) {</span>
+<span class="pc bpc" id="L268" title="3 of 6 branches missed.">                if (director.getId() == id &amp;&amp; firstname.equals(director.getFirstname()) &amp;&amp; lastname.equals(director.getLastname())) {</span>
+<span class="fc" id="L269">                    occurrenceCounter++;</span>
+<span class="fc" id="L270">                    break;</span>
                 }
 <span class="nc" id="L272">            }</span>
         }
 
-<span class="nc bnc" id="L275" title="All 2 branches missed.">        if(occurrenceCounter != directorsSize)</span>
+<span class="pc bpc" id="L275" title="1 of 2 branches missed.">        if(occurrenceCounter != directorsSize)</span>
 <span class="nc" id="L276">            return true;</span>
 
-<span class="nc" id="L278">        occurrenceCounter = 0;</span>
-<span class="nc bnc" id="L279" title="All 2 branches missed.">        for(int i = 0; i &lt; productionSize; i++)</span>
+<span class="fc" id="L278">        occurrenceCounter = 0;</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">        for(int i = 0; i &lt; productionSize; i++)</span>
         {
-<span class="nc" id="L281">            firstname = productionFirstname.get(i);</span>
-<span class="nc" id="L282">            lastname = productionLastname.get(i);</span>
-<span class="nc" id="L283">            id = Integer.parseInt(productionId.get(i));</span>
+<span class="fc" id="L281">            firstname = productionFirstname.get(i);</span>
+<span class="fc" id="L282">            lastname = productionLastname.get(i);</span>
+<span class="fc" id="L283">            id = Integer.parseInt(productionId.get(i));</span>
 
-<span class="nc bnc" id="L285" title="All 2 branches missed.">            for(Production production : oldFilm.getProductionList()) {</span>
-<span class="nc bnc" id="L286" title="All 6 branches missed.">                if (production.getId() == id &amp;&amp; firstname.equals(production.getFirstname()) &amp;&amp; lastname.equals(production.getLastname())) {</span>
-<span class="nc" id="L287">                    occurrenceCounter++;</span>
-<span class="nc" id="L288">                    break;</span>
+<span class="pc bpc" id="L285" title="1 of 2 branches missed.">            for(Production production : oldFilm.getProductionList()) {</span>
+<span class="pc bpc" id="L286" title="2 of 6 branches missed.">                if (production.getId() == id &amp;&amp; firstname.equals(production.getFirstname()) &amp;&amp; lastname.equals(production.getLastname())) {</span>
+<span class="fc" id="L287">                    occurrenceCounter++;</span>
+<span class="fc" id="L288">                    break;</span>
                 }
-<span class="nc" id="L290">            }</span>
+<span class="fc" id="L290">            }</span>
         }
 
-<span class="nc bnc" id="L293" title="All 2 branches missed.">        if(occurrenceCounter != productionSize)</span>
+<span class="pc bpc" id="L293" title="1 of 2 branches missed.">        if(occurrenceCounter != productionSize)</span>
 <span class="nc" id="L294">            return true;</span>
 
-<span class="nc" id="L296">        occurrenceCounter = 0;</span>
-<span class="nc bnc" id="L297" title="All 2 branches missed.">        for(int i = 0; i &lt; houseProductionSize; i++)</span>
+<span class="fc" id="L296">        occurrenceCounter = 0;</span>
+<span class="fc bfc" id="L297" title="All 2 branches covered.">        for(int i = 0; i &lt; houseProductionSize; i++)</span>
         {
-<span class="nc" id="L299">            name = houseProductionName.get(i);</span>
-<span class="nc" id="L300">            id = Integer.parseInt(houseProductionId.get(i));</span>
+<span class="fc" id="L299">            name = houseProductionName.get(i);</span>
+<span class="fc" id="L300">            id = Integer.parseInt(houseProductionId.get(i));</span>
 
-<span class="nc bnc" id="L302" title="All 2 branches missed.">            for(HouseProduction houseProduction : oldFilm.getHouseProductionList()) {</span>
-<span class="nc bnc" id="L303" title="All 4 branches missed.">                if (houseProduction.getId() == id &amp;&amp; name.equals(houseProduction.getName())) {</span>
-<span class="nc" id="L304">                    occurrenceCounter++;</span>
-<span class="nc" id="L305">                    break;</span>
+<span class="pc bpc" id="L302" title="1 of 2 branches missed.">            for(HouseProduction houseProduction : oldFilm.getHouseProductionList()) {</span>
+<span class="pc bpc" id="L303" title="1 of 4 branches missed.">                if (houseProduction.getId() == id &amp;&amp; name.equals(houseProduction.getName())) {</span>
+<span class="fc" id="L304">                    occurrenceCounter++;</span>
+<span class="fc" id="L305">                    break;</span>
                 }
-<span class="nc" id="L307">            }</span>
+<span class="fc" id="L307">            }</span>
         }
 
-<span class="nc bnc" id="L310" title="All 2 branches missed.">        if(occurrenceCounter != houseProductionSize)</span>
+<span class="pc bpc" id="L310" title="1 of 2 branches missed.">        if(occurrenceCounter != houseProductionSize)</span>
 <span class="nc" id="L311">            return true;</span>
 
-<span class="nc" id="L313">        return false;</span>
+<span class="fc" id="L313">        return false;</span>
     }
 
     private void setFilmValues(HttpServletRequest request, Film film) throws ServletException, IOException {
-<span class="nc" id="L317">        ArrayList&lt;String&gt; actorsFirstname = getParamsArrayList(request, &quot;ActorsFirstname&quot;);</span>
-<span class="nc" id="L318">        ArrayList&lt;String&gt; actorsLastname = getParamsArrayList(request, &quot;ActorsLastname&quot;);</span>
-<span class="nc" id="L319">        ArrayList&lt;String&gt; actorsId = getParamsArrayList(request, &quot;ActorsId&quot;);</span>
-<span class="nc" id="L320">        int actorsSize = actorsFirstname.size();</span>
+<span class="fc" id="L317">        ArrayList&lt;String&gt; actorsFirstname = getParamsArrayList(request, &quot;ActorsFirstname&quot;);</span>
+<span class="fc" id="L318">        ArrayList&lt;String&gt; actorsLastname = getParamsArrayList(request, &quot;ActorsLastname&quot;);</span>
+<span class="fc" id="L319">        ArrayList&lt;String&gt; actorsId = getParamsArrayList(request, &quot;ActorsId&quot;);</span>
+<span class="fc" id="L320">        int actorsSize = actorsFirstname.size();</span>
 
 
-<span class="nc" id="L323">        ArrayList&lt;String&gt; directorsFirstname = getParamsArrayList(request, &quot;DirectorsFirstname&quot;);</span>
-<span class="nc" id="L324">        ArrayList&lt;String&gt; directorsLastname = getParamsArrayList(request, &quot;DirectorsLastname&quot;);</span>
-<span class="nc" id="L325">        ArrayList&lt;String&gt; directorsId = getParamsArrayList(request, &quot;DirectorsId&quot;);</span>
-<span class="nc" id="L326">        int directorsSize = directorsFirstname.size();</span>
+<span class="fc" id="L323">        ArrayList&lt;String&gt; directorsFirstname = getParamsArrayList(request, &quot;DirectorsFirstname&quot;);</span>
+<span class="fc" id="L324">        ArrayList&lt;String&gt; directorsLastname = getParamsArrayList(request, &quot;DirectorsLastname&quot;);</span>
+<span class="fc" id="L325">        ArrayList&lt;String&gt; directorsId = getParamsArrayList(request, &quot;DirectorsId&quot;);</span>
+<span class="fc" id="L326">        int directorsSize = directorsFirstname.size();</span>
 
-<span class="nc" id="L328">        ArrayList&lt;String&gt; productionFirstname = getParamsArrayList(request, &quot;ProductionFirstname&quot;);</span>
-<span class="nc" id="L329">        ArrayList&lt;String&gt; productionLastname = getParamsArrayList(request, &quot;ProductionLastname&quot;);</span>
-<span class="nc" id="L330">        ArrayList&lt;String&gt; productionId = getParamsArrayList(request, &quot;ProductionId&quot;);</span>
-<span class="nc" id="L331">        int productionSize = productionFirstname.size();</span>
+<span class="fc" id="L328">        ArrayList&lt;String&gt; productionFirstname = getParamsArrayList(request, &quot;ProductionFirstname&quot;);</span>
+<span class="fc" id="L329">        ArrayList&lt;String&gt; productionLastname = getParamsArrayList(request, &quot;ProductionLastname&quot;);</span>
+<span class="fc" id="L330">        ArrayList&lt;String&gt; productionId = getParamsArrayList(request, &quot;ProductionId&quot;);</span>
+<span class="fc" id="L331">        int productionSize = productionFirstname.size();</span>
 
-<span class="nc" id="L333">        ArrayList&lt;String&gt; houseProductionName = getParamsArrayList(request, &quot;HouseProductionName&quot;);</span>
-<span class="nc" id="L334">        ArrayList&lt;String&gt; houseProductionId = getParamsArrayList(request, &quot;HouseProductionId&quot;);</span>
-<span class="nc" id="L335">        int houseProductionSize = houseProductionName.size();</span>
+<span class="fc" id="L333">        ArrayList&lt;String&gt; houseProductionName = getParamsArrayList(request, &quot;HouseProductionName&quot;);</span>
+<span class="fc" id="L334">        ArrayList&lt;String&gt; houseProductionId = getParamsArrayList(request, &quot;HouseProductionId&quot;);</span>
+<span class="fc" id="L335">        int houseProductionSize = houseProductionName.size();</span>
 
-<span class="nc" id="L337">        LocalDate datePublishing = getLocalDateFromString(request, &quot;date-publishing&quot;);</span>
+<span class="fc" id="L337">        LocalDate datePublishing = getLocalDateFromString(request, &quot;date-publishing&quot;);</span>
 
-<span class="nc" id="L339">        String cover = request.getPart(&quot;cover&quot;).getSubmittedFileName();</span>
-<span class="nc bnc" id="L340" title="All 2 branches missed.">        if(!cover.isEmpty())</span>
-<span class="nc" id="L341">            film.setCover(cover);</span>
+<span class="fc" id="L339">        String cover = request.getPart(&quot;cover&quot;).getSubmittedFileName();</span>
+<span class="pc bpc" id="L340" title="1 of 2 branches missed.">        if(!cover.isEmpty())</span>
+<span class="fc" id="L341">            film.setCover(cover);</span>
 
-<span class="nc" id="L343">        String poster = request.getPart(&quot;poster&quot;).getSubmittedFileName();</span>
-<span class="nc bnc" id="L344" title="All 2 branches missed.">        if(!poster.isEmpty())</span>
-<span class="nc" id="L345">            film.setPoster(poster);</span>
+<span class="fc" id="L343">        String poster = request.getPart(&quot;poster&quot;).getSubmittedFileName();</span>
+<span class="pc bpc" id="L344" title="1 of 2 branches missed.">        if(!poster.isEmpty())</span>
+<span class="fc" id="L345">            film.setPoster(poster);</span>
 
-<span class="nc" id="L347">        film.setDatePublishing(datePublishing);</span>
-<span class="nc" id="L348">        film.setGenre(Integer.parseInt(request.getParameter(&quot;genre&quot;)));</span>
-<span class="nc" id="L349">        film.setLength(Integer.parseInt(request.getParameter(&quot;length&quot;)));</span>
-<span class="nc" id="L350">        film.setPlot(request.getParameter(&quot;plot&quot;));</span>
-<span class="nc" id="L351">        film.setTitle(request.getParameter(&quot;title&quot;));</span>
+<span class="fc" id="L347">        film.setDatePublishing(datePublishing);</span>
+<span class="fc" id="L348">        film.setGenre(Integer.parseInt(request.getParameter(&quot;genre&quot;)));</span>
+<span class="fc" id="L349">        film.setLength(Integer.parseInt(request.getParameter(&quot;length&quot;)));</span>
+<span class="fc" id="L350">        film.setPlot(request.getParameter(&quot;plot&quot;));</span>
+<span class="fc" id="L351">        film.setTitle(request.getParameter(&quot;title&quot;));</span>
 
         Actor actor;
         Director director;
@@ -357,40 +357,40 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
         String firstname, lastname, name;
         int id;
         //&quot;0&quot;+id serve ad evitare eccezioni nel caso in cui la stringa fosse vuota
-<span class="nc bnc" id="L360" title="All 2 branches missed.">        for (int i = 0; i &lt; actorsSize; i++) {</span>
-<span class="nc" id="L361">            firstname = actorsFirstname.get(i);</span>
-<span class="nc" id="L362">            lastname = actorsLastname.get(i);</span>
-<span class="nc" id="L363">            id = Integer.parseInt(&quot;0&quot;+actorsId.get(i));</span>
+<span class="fc bfc" id="L360" title="All 2 branches covered.">        for (int i = 0; i &lt; actorsSize; i++) {</span>
+<span class="fc" id="L361">            firstname = actorsFirstname.get(i);</span>
+<span class="fc" id="L362">            lastname = actorsLastname.get(i);</span>
+<span class="fc" id="L363">            id = Integer.parseInt(&quot;0&quot;+actorsId.get(i));</span>
 
-<span class="nc" id="L365">            actor = new Actor(id, firstname, lastname, film);</span>
-<span class="nc" id="L366">            film.addActor(actor);</span>
+<span class="fc" id="L365">            actor = new Actor(id, firstname, lastname, film);</span>
+<span class="fc" id="L366">            film.addActor(actor);</span>
         }
 
-<span class="nc bnc" id="L369" title="All 2 branches missed.">        for (int i = 0; i &lt; directorsSize; i++) {</span>
-<span class="nc" id="L370">            firstname = directorsFirstname.get(i);</span>
-<span class="nc" id="L371">            lastname = directorsLastname.get(i);</span>
-<span class="nc" id="L372">            id = Integer.parseInt(&quot;0&quot;+directorsId.get(i));</span>
+<span class="fc bfc" id="L369" title="All 2 branches covered.">        for (int i = 0; i &lt; directorsSize; i++) {</span>
+<span class="fc" id="L370">            firstname = directorsFirstname.get(i);</span>
+<span class="fc" id="L371">            lastname = directorsLastname.get(i);</span>
+<span class="fc" id="L372">            id = Integer.parseInt(&quot;0&quot;+directorsId.get(i));</span>
 
-<span class="nc" id="L374">            director = new Director(id, firstname, lastname, film);</span>
-<span class="nc" id="L375">            film.addDirector(director);</span>
+<span class="fc" id="L374">            director = new Director(id, firstname, lastname, film);</span>
+<span class="fc" id="L375">            film.addDirector(director);</span>
         }
 
-<span class="nc bnc" id="L378" title="All 2 branches missed.">        for (int i = 0; i &lt; productionSize; i++) {</span>
-<span class="nc" id="L379">            firstname = productionFirstname.get(i);</span>
-<span class="nc" id="L380">            lastname = productionLastname.get(i);</span>
-<span class="nc" id="L381">            id = Integer.parseInt(&quot;0&quot;+productionId.get(i));</span>
+<span class="fc bfc" id="L378" title="All 2 branches covered.">        for (int i = 0; i &lt; productionSize; i++) {</span>
+<span class="fc" id="L379">            firstname = productionFirstname.get(i);</span>
+<span class="fc" id="L380">            lastname = productionLastname.get(i);</span>
+<span class="fc" id="L381">            id = Integer.parseInt(&quot;0&quot;+productionId.get(i));</span>
 
-<span class="nc" id="L383">            production = new Production(id, firstname, lastname, film);</span>
-<span class="nc" id="L384">            film.addProduction(production);</span>
+<span class="fc" id="L383">            production = new Production(id, firstname, lastname, film);</span>
+<span class="fc" id="L384">            film.addProduction(production);</span>
         }
 
-<span class="nc bnc" id="L387" title="All 2 branches missed.">        for (int i = 0; i &lt; houseProductionSize; i++) {</span>
-<span class="nc" id="L388">            name = houseProductionName.get(i);</span>
-<span class="nc" id="L389">            id = Integer.parseInt(&quot;0&quot;+houseProductionId.get(i));</span>
+<span class="fc bfc" id="L387" title="All 2 branches covered.">        for (int i = 0; i &lt; houseProductionSize; i++) {</span>
+<span class="fc" id="L388">            name = houseProductionName.get(i);</span>
+<span class="fc" id="L389">            id = Integer.parseInt(&quot;0&quot;+houseProductionId.get(i));</span>
 
-<span class="nc" id="L391">            houseProduction = new HouseProduction(id, name, film);</span>
-<span class="nc" id="L392">            film.addHouseProduction(houseProduction);</span>
+<span class="fc" id="L391">            houseProduction = new HouseProduction(id, name, film);</span>
+<span class="fc" id="L392">            film.addHouseProduction(houseProduction);</span>
         }
-<span class="nc" id="L394">    }</span>
+<span class="fc" id="L394">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

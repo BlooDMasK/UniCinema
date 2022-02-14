@@ -55,11 +55,6 @@ public class ReviewServlet extends Controller implements ErrorHandler {
 <span class="fc" id="L55">        this.reviewValidator = reviewValidator;</span>
 <span class="fc" id="L56">    }</span>
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-<span class="nc" id="L61">    }</span>
-
     /**
      * Implementa le funzionalità svolte durante una chiamata di tipo POST
      * @param request oggetto rappresentante la chiamata Http request
@@ -69,22 +64,22 @@ public class ReviewServlet extends Controller implements ErrorHandler {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
-<span class="fc" id="L72">            HttpSession session = request.getSession();</span>
+<span class="fc" id="L67">            HttpSession session = request.getSession();</span>
 
-<span class="fc" id="L74">            String path = getPath(request);</span>
-<span class="pc bpc" id="L75" title="1 of 4 branches missed.">            switch(path) {</span>
+<span class="fc" id="L69">            String path = getPath(request);</span>
+<span class="fc bfc" id="L70" title="All 4 branches covered.">            switch(path) {</span>
                 case &quot;/list&quot;:
-<span class="pc bpc" id="L77" title="1 of 2 branches missed.">                    if (isAjax(request)) {</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">                    if (isAjax(request)) {</span>
                 /*
                         Review List
                  */
-<span class="fc" id="L81">                    int filmId = Integer.parseInt(request.getParameter(&quot;filmId&quot;));</span>
-<span class="fc" id="L82">                    Film film = filmService.fetch(filmId);</span>
-<span class="pc bpc" id="L83" title="1 of 2 branches missed.">                    if (film != null) {</span>
-<span class="fc" id="L84">                        Paginator paginator = new Paginator(parsePage(request), 5);</span>
-<span class="fc" id="L85">                        int size = reviewService.countAll(film);</span>
+<span class="fc" id="L76">                    int filmId = Integer.parseInt(request.getParameter(&quot;filmId&quot;));</span>
+<span class="fc" id="L77">                    Film film = filmService.fetch(filmId);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">                    if (film != null) {</span>
+<span class="fc" id="L79">                        Paginator paginator = new Paginator(parsePage(request), 5);</span>
+<span class="fc" id="L80">                        int size = reviewService.countAll(film);</span>
 
-<span class="fc" id="L87">                        ArrayList&lt;Review&gt; reviewList = reviewService.fetchAll(film, paginator);</span>
+<span class="fc" id="L82">                        ArrayList&lt;Review&gt; reviewList = reviewService.fetchAll(film, paginator);</span>
 
                     /*
                             0 - lista delle recensioni
@@ -98,75 +93,75 @@ public class ReviewServlet extends Controller implements ErrorHandler {
                             8 - percentuale 5 stella
                             9 - totale recensioni
                      */
-<span class="fc" id="L101">                        JSONArray list = new JSONArray();</span>
+<span class="fc" id="L96">                        JSONArray list = new JSONArray();</span>
 
-<span class="pc bpc" id="L103" title="1 of 2 branches missed.">                        for (Review review : reviewList)</span>
-<span class="nc" id="L104">                            list.put(review.toJson());</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">                        for (Review review : reviewList)</span>
+<span class="nc" id="L99">                            list.put(review.toJson());</span>
 
-<span class="fc" id="L106">                        jsonObject.put(&quot;reviewList&quot;, list);</span>
-<span class="fc" id="L107">                        jsonObject.put(&quot;pages&quot;, paginator.getPages(size));</span>
+<span class="fc" id="L101">                        jsonObject.put(&quot;reviewList&quot;, list);</span>
+<span class="fc" id="L102">                        jsonObject.put(&quot;pages&quot;, paginator.getPages(size));</span>
 
                         /*
                                 Review Stats
                          */
-<span class="fc" id="L112">                        ArrayList&lt;Review&gt; reviewListTotal = reviewService.fetchAll(film.getId());</span>
+<span class="fc" id="L107">                        ArrayList&lt;Review&gt; reviewListTotal = reviewService.fetchAll(film.getId());</span>
 
-<span class="fc" id="L114">                        DecimalFormat df = new DecimalFormat(&quot;#.#&quot;);</span>
-<span class="fc" id="L115">                        double avg = reviewService.averageStars(reviewListTotal, 0);</span>
-<span class="fc" id="L116">                        jsonObject.put(&quot;reviewAverage&quot;, df.format(avg));</span>
-<span class="fc" id="L117">                        jsonObject.put(&quot;reviewAverageRounded&quot;, round(avg));</span>
+<span class="fc" id="L109">                        DecimalFormat df = new DecimalFormat(&quot;#.#&quot;);</span>
+<span class="fc" id="L110">                        double avg = reviewService.averageStars(reviewListTotal, 0);</span>
+<span class="fc" id="L111">                        jsonObject.put(&quot;reviewAverage&quot;, df.format(avg));</span>
+<span class="fc" id="L112">                        jsonObject.put(&quot;reviewAverageRounded&quot;, round(avg));</span>
 
-<span class="fc bfc" id="L119" title="All 2 branches covered.">                        for (int i = 1; i &lt; 6; i++)</span>
-<span class="fc" id="L120">                            jsonObject.put(&quot;reviewPercentage&quot; + i, df.format(reviewService.percentageStars(reviewListTotal, i)).replace(&quot;,&quot;, &quot;.&quot;) + &quot;%&quot;);</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">                        for (int i = 1; i &lt; 6; i++)</span>
+<span class="fc" id="L115">                            jsonObject.put(&quot;reviewPercentage&quot; + i, df.format(reviewService.percentageStars(reviewListTotal, i)).replace(&quot;,&quot;, &quot;.&quot;) + &quot;%&quot;);</span>
 
-<span class="fc" id="L122">                        jsonObject.put(&quot;reviewCount&quot;, reviewService.countAll(film));</span>
-<span class="fc" id="L123">                        sendJson(response, jsonObject);</span>
+<span class="fc" id="L117">                        jsonObject.put(&quot;reviewCount&quot;, reviewService.countAll(film));</span>
+<span class="fc" id="L118">                        sendJson(response, jsonObject);</span>
                     }
-<span class="fc" id="L125">                }</span>
+<span class="fc" id="L120">                }</span>
                 break;
 
                 case &quot;/add&quot;:
-<span class="pc bpc" id="L129" title="1 of 2 branches missed.">                    if(isAjax(request)) {</span>
-<span class="fc" id="L130">                        validate(reviewValidator.validateReview(request));</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">                    if(isAjax(request)) {</span>
+<span class="fc" id="L125">                        validate(reviewValidator.validateReview(request));</span>
 
-<span class="pc bpc" id="L132" title="1 of 2 branches missed.">                        if(reviewService.fetch(getSessionAccount(session).getId(), Integer.parseInt(request.getParameter(&quot;filmId&quot;))) != null)</span>
-<span class="nc" id="L133">                            throw new InvalidRequestException(&quot;Hai già pubblicato una recensione.&quot;, List.of(&quot;Hai già pubblicato una recensione.&quot;), HttpServletResponse.SC_BAD_REQUEST);</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">                        if(reviewService.fetch(getSessionAccount(session).getId(), Integer.parseInt(request.getParameter(&quot;filmId&quot;))) != null)</span>
+<span class="fc" id="L128">                            throw new InvalidRequestException(&quot;Hai già pubblicato una recensione.&quot;, List.of(&quot;Hai già pubblicato una recensione.&quot;), HttpServletResponse.SC_BAD_REQUEST);</span>
 
-<span class="fc" id="L135">                        String  title = request.getParameter(&quot;reviewWriteTitle&quot;),</span>
-<span class="fc" id="L136">                                description = request.getParameter(&quot;reviewWriteDescription&quot;);</span>
-<span class="fc" id="L137">                        int     stars = Integer.parseInt(request.getParameter(&quot;reviewWriteStars&quot;)),</span>
-<span class="fc" id="L138">                                filmId = Integer.parseInt(request.getParameter(&quot;filmId&quot;));</span>
+<span class="fc" id="L130">                        String  title = request.getParameter(&quot;reviewWriteTitle&quot;),</span>
+<span class="fc" id="L131">                                description = request.getParameter(&quot;reviewWriteDescription&quot;);</span>
+<span class="fc" id="L132">                        int     stars = Integer.parseInt(request.getParameter(&quot;reviewWriteStars&quot;)),</span>
+<span class="fc" id="L133">                                filmId = Integer.parseInt(request.getParameter(&quot;filmId&quot;));</span>
 
-<span class="fc" id="L140">                        Review review = new Review(getSessionAccount(session), new Film(filmId), description, title, LocalDate.now(), LocalTime.now(), stars);</span>
-<span class="fc" id="L141">                        reviewService.insert(review);</span>
+<span class="fc" id="L135">                        Review review = new Review(getSessionAccount(session), new Film(filmId), description, title, LocalDate.now(), LocalTime.now(), stars);</span>
+<span class="fc" id="L136">                        reviewService.insert(review);</span>
 
-<span class="fc" id="L143">                        jsonObject.put(&quot;alert&quot;, new Alert(List.of(&quot;Recensione pubblicata con successo.&quot;), &quot;success&quot;).toJson());</span>
-<span class="fc" id="L144">                        sendJson(response, jsonObject);</span>
-<span class="fc" id="L145">                    }</span>
+<span class="fc" id="L138">                        jsonObject.put(&quot;alert&quot;, new Alert(List.of(&quot;Recensione pubblicata con successo.&quot;), &quot;success&quot;).toJson());</span>
+<span class="fc" id="L139">                        sendJson(response, jsonObject);</span>
+<span class="fc" id="L140">                    }</span>
                     break;
 
                 case &quot;/remove&quot;:
-<span class="pc bpc" id="L149" title="1 of 2 branches missed.">                    if(isAjax(request)) {</span>
-<span class="fc" id="L150">                        int accountId = Integer.parseInt(request.getParameter(&quot;accountId&quot;));</span>
-<span class="pc bpc" id="L151" title="1 of 2 branches missed.">                        if(reviewService.delete(accountId))</span>
-<span class="fc" id="L152">                            jsonObject.put(&quot;result&quot;, &quot;La recensione dell'Account &quot;+accountId+&quot; è stata cancellata con successo.&quot;);</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">                    if(isAjax(request)) {</span>
+<span class="fc" id="L145">                        int accountId = Integer.parseInt(request.getParameter(&quot;accountId&quot;));</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">                        if(reviewService.delete(accountId))</span>
+<span class="fc" id="L147">                            jsonObject.put(&quot;result&quot;, &quot;La recensione dell'Account &quot;+accountId+&quot; è stata cancellata con successo.&quot;);</span>
                         else
-<span class="nc" id="L154">                            jsonObject.put(&quot;result&quot;, &quot;A causa di un errore interno, non è stato possibile cancellare la recensione dell'Account &quot;+  accountId);</span>
+<span class="fc" id="L149">                            jsonObject.put(&quot;result&quot;, &quot;A causa di un errore interno, non è stato possibile cancellare la recensione dell'Account &quot;+  accountId);</span>
 
-<span class="fc" id="L156">                        sendJson(response, jsonObject);</span>
+<span class="fc" id="L151">                        sendJson(response, jsonObject);</span>
                     }
                     break;
             }
-<span class="nc" id="L160">        } catch (SQLException ex) {</span>
-<span class="nc" id="L161">            log(ex.getMessage());</span>
-<span class="nc" id="L162">            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());</span>
-<span class="nc" id="L163">        } catch (InvalidRequestException e) {</span>
-<span class="nc" id="L164">            log(e.getMessage());</span>
-<span class="nc bnc" id="L165" title="All 2 branches missed.">            if(isAjax(request))</span>
-<span class="nc" id="L166">                e.handleAjax(response);</span>
+<span class="nc" id="L155">        } catch (SQLException ex) {</span>
+<span class="nc" id="L156">            log(ex.getMessage());</span>
+<span class="nc" id="L157">            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());</span>
+<span class="fc" id="L158">        } catch (InvalidRequestException e) {</span>
+<span class="fc" id="L159">            log(e.getMessage());</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">            if(isAjax(request))</span>
+<span class="fc" id="L161">                e.handleAjax(response);</span>
             else
-<span class="nc" id="L168">                e.handle(request, response);</span>
-<span class="pc" id="L169">        }</span>
-<span class="fc" id="L170">    }</span>
+<span class="nc" id="L163">                e.handle(request, response);</span>
+<span class="pc" id="L164">        }</span>
+<span class="fc" id="L165">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

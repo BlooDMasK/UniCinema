@@ -1,6 +1,7 @@
 package utils;
 
 import lombok.Data;
+import lombok.Generated;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Questa classe permette di mostrare gli Alert all'interno delle JSP
  */
+@Generated
 @Data
 public class Alert implements JsonSerializable {
 

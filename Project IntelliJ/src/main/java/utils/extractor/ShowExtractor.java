@@ -1,5 +1,6 @@
 package utils.extractor;
 
+import lombok.Generated;
 import model.bean.Film;
 import model.bean.Room;
 import utils.ResultSetExtractor;
@@ -11,6 +12,7 @@ import java.sql.SQLException;
 /**
  * Questa classe permette di estrarre i dati di uno Spettacolo da una {@link ResultSet}.
  */
+@Generated
 public class ShowExtractor implements ResultSetExtractor<Show> {
 
     /**

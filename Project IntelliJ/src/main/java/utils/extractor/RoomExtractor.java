@@ -1,5 +1,6 @@
 package utils.extractor;
 
+import lombok.Generated;
 import utils.ResultSetExtractor;
 import model.bean.Room;
 
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 /**
  * Questa classe permette di estrarre i dati di una sala da una {@link ResultSet}.
  */
+@Generated
 public class RoomExtractor implements ResultSetExtractor<Room> {
     /**
      * Implementa la funzionalità che permette di estrarre i dati di una sala da una {@link ResultSet}

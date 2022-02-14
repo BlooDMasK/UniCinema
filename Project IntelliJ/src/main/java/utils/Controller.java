@@ -1,5 +1,6 @@
 package utils;
 
+import lombok.Generated;
 import model.bean.Account;
 import org.json.JSONObject;
 import utils.validator.RequestValidator;
@@ -25,6 +26,7 @@ import java.util.Locale;
 /**
  * Questa classe offre funzionalità di utilità per le Servlet.
  */
+@Generated
 public class Controller extends HttpServlet implements ErrorHandler{
 
     /**
@@ -78,7 +80,7 @@ public class Controller extends HttpServlet implements ErrorHandler{
         }
     }
 
-    protected String getUploadPath() {
+    public String getUploadPath() {
         return System.getenv("CATALINA_IMAGES");
     }
 

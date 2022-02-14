@@ -1,10 +1,12 @@
 package model.bean;
 
 import lombok.Data;
+import lombok.Generated;
 
 /**
  * Questa classe rappresenta la sala in cui si tengono gli spettacoli.
  */
+@Generated
 @Data
 public class Room {
     /**

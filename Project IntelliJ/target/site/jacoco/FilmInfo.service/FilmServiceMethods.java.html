@@ -10,12 +10,21 @@ import java.util.*;
 /**
  * Classe che implementa i metodi definiti nell'interfaccia service del sottosistema Film (Gestione Film)
  */
-<span class="fc" id="L13">public class FilmServiceMethods implements FilmService {</span>
+public class FilmServiceMethods implements FilmService {
 
     /**
      * Si occupa delle operazioni CRUD di un film.
      */
-<span class="fc" id="L18">    FilmDAO filmDAO = new FilmDAO();</span>
+    FilmDAO filmDAO;
+
+<span class="fc" id="L20">    public FilmServiceMethods() {</span>
+<span class="fc" id="L21">        filmDAO = new FilmDAO();</span>
+<span class="fc" id="L22">    }</span>
+
+
+    public void setFilmDAO(FilmDAO filmDAO) {
+<span class="fc" id="L26">        this.filmDAO = filmDAO;</span>
+<span class="fc" id="L27">    }</span>
 
     /**
      * Implementa la funzionalità che permette di restituire un film, preso dal database, a partire dal suo id.
@@ -25,12 +34,22 @@ import java.util.*;
      */
     @Override
     public Film fetch(int filmId) throws SQLException {
-<span class="nc" id="L28">        return filmDAO.fetch(filmId);</span>
+<span class="fc" id="L37">        return filmDAO.fetch(filmId);</span>
     }
 
     @Override
     public ArrayList&lt;Film&gt; search(String title) throws SQLException {
-<span class="nc" id="L33">        return filmDAO.searchFromTitle(title);</span>
+<span class="fc" id="L42">        return filmDAO.searchFromTitle(title);</span>
+    }
+
+    @Override
+    public ArrayList&lt;Film&gt; fetchLastReleases(int total) throws SQLException {
+<span class="nc" id="L47">        return filmDAO.fetchLastReleases(total);</span>
+    }
+
+    @Override
+    public ArrayList&lt;Film&gt; fetchComingSoon(int total) throws SQLException {
+<span class="nc" id="L52">        return filmDAO.fetchComingSoon(total);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -24,8 +24,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.List;
 
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class AuthenticationServletTest {
@@ -150,6 +151,150 @@ public class AuthenticationServletTest {
     }
 
     @Test
+    public void doPostEditFalse() throws InvalidRequestException, SQLException, ServletException, IOException {
+        when(authenticationServlet.getPath(request)).thenReturn("/edit");
+
+        when(request.getParameter("firstname")).thenReturn("Gerardo");
+        when(request.getParameter("lastname")).thenReturn("Leone");
+        when(request.getParameter("email")).thenReturn("g.leone@gmail.com");
+        when(request.getParameter("password")).thenReturn("Password1234");
+        when(accountValidator.validateSignup(request, false)).thenReturn(validator);
+        doNothing().when(authenticationServlet).validate(validator);
+        when(authenticationServiceMethods.edit(account)).thenReturn(false);
+
+        doThrow(new InvalidRequestException("Errore interno", List.of("Un errore imprevisto è accaduto, riprova più tardi"),
+                HttpServletResponse.SC_INTERNAL_SERVER_ERROR)).when(authenticationServlet).internalError();
+
+        authenticationServlet.doPost(request, response);
+
+        assertFalse(authenticationServiceMethods.edit(account));
+    }
+
+
+
+    @Test
+    public void doPostEditPasswordNull() throws InvalidRequestException, SQLException, ServletException, IOException {
+        when(authenticationServlet.getPath(request)).thenReturn("/edit");
+
+        when(request.getParameter("firstname")).thenReturn("Gerardo");
+        when(request.getParameter("lastname")).thenReturn("Leone");
+        when(request.getParameter("email")).thenReturn("g.leone@gmail.com");
+        when(request.getParameter("password")).thenReturn("");
+        when(accountValidator.validateSignup(request, false)).thenReturn(validator);
+        doNothing().when(authenticationServlet).validate(validator);
+        when(authenticationServiceMethods.edit(account)).thenReturn(true);
+
+        authenticationServlet.doPost(request, response);
+
+        verify(session).setAttribute("accountSession", account);
+        verify(authenticationServlet).sendJson(response, jsonObject);
+    }
+
+    @Test
+    public void doPostEditFirstnameLastnameNull() throws InvalidRequestException, SQLException, ServletException, IOException {
+        when(authenticationServlet.getPath(request)).thenReturn("/edit");
+
+        when(request.getParameter("firstname")).thenReturn("");
+        when(request.getParameter("lastname")).thenReturn("");
+        when(request.getParameter("email")).thenReturn("g.leone@gmail.com");
+        when(request.getParameter("password")).thenReturn("Password1234");
+        when(accountValidator.validateSignup(request, false)).thenReturn(validator);
+        doNothing().when(authenticationServlet).validate(validator);
+        when(authenticationServiceMethods.edit(account)).thenReturn(true);
+
+        authenticationServlet.doPost(request, response);
+
+        verify(session).setAttribute("accountSession", account);
+        verify(authenticationServlet).sendJson(response, jsonObject);
+    }
+
+    @Test
+    public void doPostEditFirstnameLastnameEmailNull() throws InvalidRequestException, SQLException, ServletException, IOException {
+        when(authenticationServlet.getPath(request)).thenReturn("/edit");
+
+        when(request.getParameter("firstname")).thenReturn("");
+        when(request.getParameter("lastname")).thenReturn("");
+        when(request.getParameter("email")).thenReturn("");
+        when(request.getParameter("password")).thenReturn("Password1234");
+        when(accountValidator.validateSignup(request, false)).thenReturn(validator);
+        doNothing().when(authenticationServlet).validate(validator);
+        when(authenticationServiceMethods.edit(account)).thenReturn(true);
+
+        authenticationServlet.doPost(request, response);
+
+        verify(session).setAttribute("accountSession", account);
+        verify(authenticationServlet).sendJson(response, jsonObject);
+    }
+
+    @Test
+    public void doPostEditFirstnameNull() throws InvalidRequestException, SQLException, ServletException, IOException {
+        when(authenticationServlet.getPath(request)).thenReturn("/edit");
+
+        when(request.getParameter("firstname")).thenReturn("");
+        when(request.getParameter("lastname")).thenReturn("Leone");
+        when(request.getParameter("email")).thenReturn("g.leone@gmail.com");
+        when(request.getParameter("password")).thenReturn("Password1234");
+        when(accountValidator.validateSignup(request, false)).thenReturn(validator);
+        doNothing().when(authenticationServlet).validate(validator);
+        when(authenticationServiceMethods.edit(account)).thenReturn(true);
+
+        authenticationServlet.doPost(request, response);
+
+        verify(session).setAttribute("accountSession", account);
+        verify(authenticationServlet).sendJson(response, jsonObject);
+    }
+
+    @Test
+    public void doPostEditAccountSessionNull() throws InvalidRequestException, SQLException, ServletException, IOException {
+        when(authenticationServlet.getPath(request)).thenReturn("/edit");
+
+        when(request.getParameter("firstname")).thenReturn("Gerardo");
+        when(request.getParameter("lastname")).thenReturn("Leone");
+        when(request.getParameter("email")).thenReturn("g.leone@gmail.com");
+        when(request.getParameter("password")).thenReturn("Password1234");
+        when(accountValidator.validateSignup(request, false)).thenReturn(validator);
+        doNothing().when(authenticationServlet).validate(validator);
+        when(authenticationServiceMethods.edit(account)).thenReturn(true);
+        when(session.getAttribute("accountSession")).thenReturn(null);
+
+        doThrow(new InvalidRequestException("Non è stato trovato l'account di sessione.", List.of("Non è stato trovato l'account di sessione."),
+                HttpServletResponse.SC_NOT_FOUND)).when(authenticationServlet).notFound("Non è stato trovato l'account di sessione.");
+
+        authenticationServlet.doPost(request, response);
+
+        assertNull(session.getAttribute("accountSession"));
+        verify(authenticationServlet).notFound("Non è stato trovato l'account di sessione.");
+    }
+
+    @Test
+    public void doPostEditNotAjax() throws ServletException, IOException {
+        when(authenticationServlet.getPath(request)).thenReturn("/edit");
+
+        when(request.getHeader("X-Requested-With")).thenReturn("HttpRequest");
+
+        authenticationServlet.doPost(request, response);
+
+        assertFalse(authenticationServlet.isAjax(request));
+    }
+
+    @Test
+    public void doPostEditNullFirstname() throws ServletException, IOException {
+        when(authenticationServlet.getPath(request)).thenReturn("/edit");
+
+        when(request.getParameter("firstname")).thenReturn("");
+        when(request.getParameter("lastname")).thenReturn("");
+        when(request.getParameter("email")).thenReturn("");
+        when(request.getParameter("password")).thenReturn("");
+
+        authenticationServlet.doPost(request, response);
+
+        assertEquals(request.getParameter("firstname"), "");
+        assertEquals(request.getParameter("lastname"), "");
+        assertEquals(request.getParameter("email"), "");
+        assertEquals(request.getParameter("password"), "");
+    }
+
+    @Test
     public void doPostValueSignin() throws SQLException, ServletException, IOException, NoSuchAlgorithmException {
         when(authenticationServlet.getPath(request)).thenReturn("/signin");
 
@@ -163,5 +308,44 @@ public class AuthenticationServletTest {
 
         verify(session).setAttribute("accountSession", account);
         verify(response).sendRedirect(servletContext.getContextPath()+"/pages");
+    }
+
+    @Test
+    public void doPostSigninAccountNull() throws NoSuchAlgorithmException, ServletException, IOException, SQLException {
+        when(authenticationServlet.getPath(request)).thenReturn("/signin");
+
+        when(accountValidator.validateSignin(request)).thenReturn(validator);
+        String email = "g.leone@gmail.com",
+                password = "password";
+        when(request.getParameter("email")).thenReturn(email);
+        when(request.getParameter("password")).thenReturn(password);
+        when(authenticationServiceMethods.signin(email, authenticationServlet.getCryptedPassword(password))).thenReturn(null);
+        authenticationServlet.doPost(request, response);
+
+        assertNull(authenticationServiceMethods.signin(email, authenticationServlet.getCryptedPassword(password)));
+    }
+
+    @Test
+    public void doGetNotValid() throws ServletException, IOException, InvalidRequestException {
+        when(authenticationServlet.getPath(request)).thenReturn("/");
+
+        doThrow(new InvalidRequestException("Risorsa non trovata", List.of("Risorsa non trovata"), HttpServletResponse.SC_NOT_FOUND))
+                .when(authenticationServlet).notFound();
+
+        authenticationServlet.doGet(request, response);
+
+        assertEquals(authenticationServlet.getPath(request), "/");
+    }
+
+    @Test
+    public void doPostNotValid() throws ServletException, IOException, InvalidRequestException {
+        when(authenticationServlet.getPath(request)).thenReturn("/");
+
+        doThrow(new InvalidRequestException("Operazione non consentita", List.of("Operazione non permessa"), HttpServletResponse.SC_METHOD_NOT_ALLOWED))
+                .when(authenticationServlet).notAllowed();
+
+        authenticationServlet.doPost(request, response);
+
+        assertEquals(authenticationServlet.getPath(request), "/");
     }
 }

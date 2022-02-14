@@ -7,6 +7,7 @@ import utils.JsonSerializable;
 /**
  * Questa classe rappresenta il regista di un film.
  */
+@Generated
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,6 +32,12 @@ public class Director implements JsonSerializable {
      * Rappresenta il film a cui ha preso parte il regista.
      */
     private Film film;
+
+    public Director(int id, String firstname, String lastname) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
 
     @Override
     public JSONObject toJson() {

@@ -55,11 +55,6 @@ public class ReviewServlet extends Controller implements ErrorHandler {
         this.reviewValidator = reviewValidator;
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     /**
      * Implementa le funzionalità svolte durante una chiamata di tipo POST
      * @param request oggetto rappresentante la chiamata Http request

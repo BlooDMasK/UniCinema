@@ -7,6 +7,7 @@ import utils.JsonSerializable;
 /**
  * Questa classe rappresenta la casa produttrice di un film.
  */
+@Generated
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,5 +33,10 @@ public class HouseProduction implements JsonSerializable {
         root.put("id", id);
         root.put("name", name);
         return root;
+    }
+
+    public HouseProduction(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 }

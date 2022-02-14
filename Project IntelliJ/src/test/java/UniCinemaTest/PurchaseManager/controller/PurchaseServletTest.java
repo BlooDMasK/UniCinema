@@ -26,7 +26,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
 public class PurchaseServletTest {
@@ -102,15 +105,82 @@ public class PurchaseServletTest {
     }
 
     @Test
-    public void doPostSeatCheck() throws ServletException, IOException {
+    public void doGetSeatChoiceShowNull() throws SQLException, ServletException, IOException {
+        when(purchaseServlet.getPath(request)).thenReturn("/seat-choice");
+
+        when(request.getParameter("showId")).thenReturn("1");
+        when(showServiceMethods.fetch(1)).thenReturn(null);
+        when(showServiceMethods.fetchRoom(1)).thenReturn(room);
+
+        purchaseServlet.doGet(request, response);
+
+        assertEquals(showServiceMethods.fetch(1), null);
+        assertEquals(showServiceMethods.fetchRoom(1), room);
+    }
+
+    @Test
+    public void doGetSeatChoiceRoomNull() throws SQLException, ServletException, IOException {
+        when(purchaseServlet.getPath(request)).thenReturn("/seat-choice");
+
+        when(request.getParameter("showId")).thenReturn("1");
+        when(showServiceMethods.fetch(1)).thenReturn(show);
+        when(showServiceMethods.fetchRoom(1)).thenReturn(null);
+
+        purchaseServlet.doGet(request, response);
+
+        assertEquals(showServiceMethods.fetch(1), show);
+        assertEquals(showServiceMethods.fetchRoom(1), null);
+    }
+
+    @Test
+    public void doGetSeatChoiceShowRoomNull() throws SQLException, ServletException, IOException {
+        when(purchaseServlet.getPath(request)).thenReturn("/seat-choice");
+
+        when(request.getParameter("showId")).thenReturn("1");
+        when(showServiceMethods.fetch(1)).thenReturn(null);
+        when(showServiceMethods.fetchRoom(1)).thenReturn(null);
+
+        purchaseServlet.doGet(request, response);
+
+        assertEquals(showServiceMethods.fetch(1), null);
+        assertEquals(showServiceMethods.fetchRoom(1), null);
+    }
+
+    @Test
+    public void doPostSeatCheck() throws ServletException, IOException, SQLException {
         when(purchaseServlet.getPath(request)).thenReturn("/seat-check");
 
         when(request.getParameter("showId")).thenReturn("1");
         when(request.getParameter("key")).thenReturn("G-6");
+        when(purchaseServiceMethods.findTicket(1, 'G', 6)).thenReturn(true);
 
         purchaseServlet.doPost(request,response);
 
         verify(purchaseServlet).sendJson(response, jsonObject);
+    }
+
+    @Test
+    public void doPostSeatCheckOccupiedTrue() throws SQLException, ServletException, IOException {
+        when(purchaseServlet.getPath(request)).thenReturn("/seat-check");
+
+        when(request.getParameter("showId")).thenReturn("1");
+        when(request.getParameter("key")).thenReturn("G-6");
+        when(purchaseServiceMethods.findTicket(1, 'G', 6)).thenReturn(false);
+
+        purchaseServlet.doPost(request,response);
+
+        verify(purchaseServlet).sendJson(response, jsonObject);
+    }
+
+    @Test
+    public void doPostSeatCheckNotAjax() throws ServletException, IOException {
+        when(purchaseServlet.getPath(request)).thenReturn("/seat-check");
+
+        when(request.getHeader("X-Requested-With")).thenReturn("HttpRequest");
+
+        purchaseServlet.doPost(request,response);
+
+        assertFalse(purchaseServlet.isAjax(request));
     }
 
     @Test
@@ -127,7 +197,7 @@ public class PurchaseServletTest {
         when(request.getParameter("ticket4")).thenReturn("");
         when(request.getParameter("ticket5")).thenReturn("");
         when(purchaseServiceMethods.insert((ArrayList<Ticket>) anyObject())).thenReturn(true);
-        when(showServiceMethods.fetchRoom(anyInt())).thenReturn(room);
+        when(showServiceMethods.fetchRoom(show.getId())).thenReturn(room);
 
         purchaseServlet.doPost(request,response);
 
@@ -135,6 +205,83 @@ public class PurchaseServletTest {
         verify(request).setAttribute("film", show.getFilm());
         verify(request).setAttribute("room", room);
         verify(requestDispatcher).forward(request,response);
+    }
+
+    @Test
+    public void doPostGetTicketPurchaseZero() throws SQLException, ServletException, IOException, InvalidRequestException {
+        when(purchaseServlet.getPath(request)).thenReturn("/get-ticket");
+
+        when(purchaseServiceMethods.insert((Purchase) anyObject())).thenReturn(0);
+
+        doThrow(new InvalidRequestException("Errore interno", List.of("Errore nella creazione dell'acquisto"),
+                HttpServletResponse.SC_INTERNAL_SERVER_ERROR)).when(purchaseServlet).internalError("Errore nella creazione dell'acquisto");
+
+        purchaseServlet.doPost(request,response);
+
+        verify(purchaseServlet).internalError("Errore nella creazione dell'acquisto");
+    }
+
+    @Test
+    public void doPostGetTicketShowNull() throws SQLException, ServletException, IOException, InvalidRequestException {
+        when(purchaseServlet.getPath(request)).thenReturn("/get-ticket");
+
+        when(purchaseServiceMethods.insert((Purchase) anyObject())).thenReturn(1);
+        when(request.getParameter("showId")).thenReturn("1");
+        when(showServiceMethods.fetch(1)).thenReturn(null);
+
+        doThrow(new InvalidRequestException("Errore interno", List.of("Errore nella ricerca dello spettacolo"),
+                HttpServletResponse.SC_INTERNAL_SERVER_ERROR)).when(purchaseServlet).internalError("Errore nella ricerca dello spettacolo");
+
+        purchaseServlet.doPost(request,response);
+
+        assertEquals(showServiceMethods.fetch(1), null);
+    }
+
+    @Test
+    public void doPostGetTicketRoomNull() throws InvalidRequestException, SQLException, ServletException, IOException {
+        when(purchaseServlet.getPath(request)).thenReturn("/get-ticket");
+        when(request.getRequestDispatcher("/views/site/movie/purchase-completed.jsp")).thenReturn(requestDispatcher);
+
+        when(purchaseServiceMethods.insert((Purchase) anyObject())).thenReturn(1);
+        when(request.getParameter("showId")).thenReturn("1");
+        when(showServiceMethods.fetch(1)).thenReturn(show);
+        when(request.getParameter("ticket1")).thenReturn("G-6");
+        when(request.getParameter("ticket2")).thenReturn("");
+        when(request.getParameter("ticket3")).thenReturn("");
+        when(request.getParameter("ticket4")).thenReturn("");
+        when(request.getParameter("ticket5")).thenReturn("");
+        when(purchaseServiceMethods.insert((ArrayList<Ticket>) anyObject())).thenReturn(true);
+        when(showServiceMethods.fetchRoom(show.getId())).thenReturn(null);
+
+        doThrow(new InvalidRequestException("Errore interno", List.of("Errore nella ricerca della sala"),
+                HttpServletResponse.SC_INTERNAL_SERVER_ERROR)).when(purchaseServlet).internalError("Errore nella ricerca della sala");
+
+        purchaseServlet.doPost(request,response);
+
+        assertEquals(showServiceMethods.fetchRoom(anyInt()), null);
+    }
+
+    @Test
+    public void doPostGetTicketInsertFail() throws SQLException, InvalidRequestException, ServletException, IOException {
+        when(purchaseServlet.getPath(request)).thenReturn("/get-ticket");
+        when(request.getRequestDispatcher("/views/site/movie/purchase-completed.jsp")).thenReturn(requestDispatcher);
+
+        when(purchaseServiceMethods.insert((Purchase) anyObject())).thenReturn(1);
+        when(request.getParameter("showId")).thenReturn("1");
+        when(showServiceMethods.fetch(1)).thenReturn(show);
+        when(request.getParameter("ticket1")).thenReturn("G-6");
+        when(request.getParameter("ticket2")).thenReturn("");
+        when(request.getParameter("ticket3")).thenReturn("");
+        when(request.getParameter("ticket4")).thenReturn("");
+        when(request.getParameter("ticket5")).thenReturn("");
+        when(purchaseServiceMethods.insert((ArrayList<Ticket>) anyObject())).thenReturn(false);
+
+        doThrow(new InvalidRequestException("Errore interno", List.of("Errore nella creazione dei ticket"),
+                HttpServletResponse.SC_INTERNAL_SERVER_ERROR)).when(purchaseServlet).internalError("Errore nella creazione dei ticket");
+
+        purchaseServlet.doPost(request,response);
+
+        assertEquals(purchaseServiceMethods.insert((ArrayList<Ticket>) anyObject()), false);
     }
 
     @Test
@@ -153,5 +300,34 @@ public class PurchaseServletTest {
         purchaseServlet.doPost(request, response);
 
         verify(purchaseServlet).sendJson(response, jsonObject);
+    }
+
+    @Test
+    public void doPostListNotAjax() throws ServletException, IOException {
+        when(purchaseServlet.getPath(request)).thenReturn("/list");
+
+        when(request.getHeader("X-Requested-With")).thenReturn("HttpRequest");
+
+        purchaseServlet.doPost(request,response);
+
+        assertFalse(purchaseServlet.isAjax(request));
+    }
+
+    @Test
+    public void doGetNotValid() throws ServletException, IOException {
+        when(purchaseServlet.getPath(request)).thenReturn("/");
+
+        purchaseServlet.doGet(request, response);
+
+        assertEquals(purchaseServlet.getPath(request), "/");
+    }
+
+    @Test
+    public void doPostNotValid() throws ServletException, IOException {
+        when(purchaseServlet.getPath(request)).thenReturn("/");
+
+        purchaseServlet.doPost(request, response);
+
+        assertEquals(purchaseServlet.getPath(request), "/");
     }
 }

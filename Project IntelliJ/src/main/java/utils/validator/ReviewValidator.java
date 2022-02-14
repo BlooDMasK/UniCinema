@@ -1,11 +1,14 @@
 package utils.validator;
 
+import lombok.Generated;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.regex.Pattern;
 
 /**
  * Questa classe implementa funzionalità di validazione dei parametri di un form riguardanti la Recensione.
  */
+@Generated
 public class ReviewValidator {
 
     /**

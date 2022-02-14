@@ -1,5 +1,6 @@
 package utils;
 
+import lombok.Generated;
 import model.bean.Account;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import java.util.List;
  *      <li>INTERNAL SERVER ERROR: 500</li>
  * </ul>
  */
+@Generated
 public interface ErrorHandler {
 
     /**

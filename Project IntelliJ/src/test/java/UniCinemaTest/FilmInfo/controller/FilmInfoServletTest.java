@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import utils.Controller;
+import utils.InvalidRequestException;
 import utils.validator.AccountValidator;
 import utils.validator.RequestValidator;
 
@@ -30,8 +31,10 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -107,6 +110,21 @@ public class FilmInfoServletTest {
     }
 
     @Test
+    public void doGetDetailsFilmNull() throws ServletException, IOException, SQLException, InvalidRequestException {
+        when(filmInfoServlet.getPath(request)).thenReturn("/details");
+
+        when(request.getParameter("filmId")).thenReturn("1");
+        when(filmServiceMethods.fetch(1)).thenReturn(null);
+
+        doThrow(new InvalidRequestException("Risorsa non trovata", List.of("Risorsa non trovata"), HttpServletResponse.SC_NOT_FOUND))
+                .when(filmInfoServlet).notFound();
+
+        filmInfoServlet.doGet(request, response);
+
+        verify(filmInfoServlet).notFound();
+    }
+
+    @Test
     public void doGetSchedule() throws SQLException, ServletException, IOException {
         when(filmInfoServlet.getPath(request)).thenReturn("/schedule");
         when(request.getRequestDispatcher("/views/site/movie/schedule.jsp")).thenReturn(requestDispatcher);
@@ -118,7 +136,7 @@ public class FilmInfoServletTest {
         when(showList.iterator()).thenReturn(showIterator);
 
         when(filmMap.containsKey(anyInt())).thenReturn(true);
-        when(filmServiceMethods.fetch(anyInt())).thenReturn(film);
+        when(filmServiceMethods.fetch(anyInt())).thenReturn(film); //Caso in cui filmOptional != null
         when(film.getShowList()).thenReturn(showList);
 
         when(show.getFilm()).thenReturn(film);
@@ -144,5 +162,15 @@ public class FilmInfoServletTest {
         filmInfoServlet.doPost(request, response);
 
         verify(filmInfoServlet).sendJson(response, jsonObject);
+    }
+
+    @Test
+    public void doPostSearchNotAjax() throws SQLException, ServletException, IOException {
+        when(filmInfoServlet.getPath(request)).thenReturn("/search");
+        when(request.getHeader("X-Requested-With")).thenReturn("HttpRequest");
+
+        filmInfoServlet.doPost(request, response);
+
+        assertFalse(filmInfoServlet.isAjax(request));
     }
 }

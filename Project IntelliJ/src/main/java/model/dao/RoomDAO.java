@@ -1,5 +1,6 @@
 package model.dao;
 
+import lombok.Generated;
 import utils.ConPool;
 import utils.Paginator;
 import utils.SqlMethods;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * Questa classe rappresenta il DAO di una Sala.
  */
+@Generated
 public class RoomDAO implements SqlMethods<Room> {
 
     /**

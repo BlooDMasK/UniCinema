@@ -9,39 +9,52 @@ import utils.Paginator;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-<span class="fc" id="L12">public class PurchaseServiceMethods implements PurchaseService {</span>
+public class PurchaseServiceMethods implements PurchaseService {
 
-<span class="fc" id="L14">    TicketDAO ticketDAO = new TicketDAO();</span>
-<span class="fc" id="L15">    PurchaseDAO purchaseDAO = new PurchaseDAO();</span>
+    TicketDAO ticketDAO;
+    PurchaseDAO purchaseDAO;
+
+<span class="fc" id="L17">    public PurchaseServiceMethods() {</span>
+<span class="fc" id="L18">        ticketDAO = new TicketDAO();</span>
+<span class="fc" id="L19">        purchaseDAO = new PurchaseDAO();</span>
+<span class="fc" id="L20">    }</span>
+
+    public void setTicketDAO(TicketDAO ticketDAO) {
+<span class="fc" id="L23">        this.ticketDAO = ticketDAO;</span>
+<span class="fc" id="L24">    }</span>
+
+    public void setPurchaseDAO(PurchaseDAO purchaseDAO) {
+<span class="fc" id="L27">        this.purchaseDAO = purchaseDAO;</span>
+<span class="fc" id="L28">    }</span>
 
     @Override
     public ArrayList&lt;Ticket&gt; fetchTickets(int showId) throws SQLException {
-<span class="nc" id="L19">        return ticketDAO.fetchAll(showId);</span>
+<span class="fc" id="L32">        return ticketDAO.fetchAll(showId);</span>
     }
 
     @Override
     public boolean findTicket(int showId, char row, int seat) throws SQLException {
-<span class="nc" id="L24">        return ticketDAO.fetch(showId, row, seat);</span>
+<span class="fc" id="L37">        return ticketDAO.fetch(showId, row, seat);</span>
     }
 
     @Override
     public boolean insert(ArrayList&lt;Ticket&gt; ticketList) throws SQLException {
-<span class="nc" id="L29">        return ticketDAO.insert(ticketList);</span>
+<span class="fc" id="L42">        return ticketDAO.insert(ticketList);</span>
     }
 
     @Override
     public int insert(Purchase purchase) throws SQLException {
-<span class="nc" id="L34">        return purchaseDAO.insertAndReturnID(purchase);</span>
+<span class="fc" id="L47">        return purchaseDAO.insertAndReturnID(purchase);</span>
     }
 
     @Override
     public ArrayList&lt;Purchase&gt; fetchAll(int accountId, Paginator paginator) throws SQLException {
-<span class="nc" id="L39">        return purchaseDAO.fetchAll(accountId, paginator);</span>
+<span class="fc" id="L52">        return purchaseDAO.fetchAll(accountId, paginator);</span>
     }
 
     @Override
     public int countAll(int accountId) throws SQLException {
-<span class="nc" id="L44">        return purchaseDAO.countAll(accountId);</span>
+<span class="fc" id="L57">        return purchaseDAO.countAll(accountId);</span>
     }
 
 }

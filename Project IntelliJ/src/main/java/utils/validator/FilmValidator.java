@@ -1,10 +1,13 @@
 package utils.validator;
 
+import lombok.Generated;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+@Generated
 public class FilmValidator {
 
     public RequestValidator validateFilm(HttpServletRequest request) throws ServletException, IOException {

@@ -1,6 +1,8 @@
 package utils.validator;
 
 
+import lombok.Generated;
+
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
@@ -8,6 +10,7 @@ import java.util.regex.Pattern;
 /**
  * Questa classe implementa funzionalità di validazione dei parametri di un form riguardanti l'Account.
  */
+@Generated
 public class AccountValidator {
 
     /**

@@ -1,5 +1,6 @@
 package utils.extractor;
 
+import lombok.Generated;
 import model.bean.Film;
 
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import java.sql.SQLException;
 /**
  * Questa classe permette di estrarre i dati del Film da una {@link ResultSet}.
  */
+@Generated
 public class FilmExtractor {
 
     /**

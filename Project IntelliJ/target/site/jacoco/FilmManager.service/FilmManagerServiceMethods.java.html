@@ -5,37 +5,66 @@ import model.dao.*;
 
 import java.sql.SQLException;
 
-<span class="fc" id="L8">public class FilmManagerServiceMethods implements FilmManagerService{</span>
+public class FilmManagerServiceMethods implements FilmManagerService{
 
-<span class="fc" id="L10">    ActorDAO actorDAO = new ActorDAO();</span>
-<span class="fc" id="L11">    DirectorDAO directorDAO = new DirectorDAO();</span>
-<span class="fc" id="L12">    HouseProductionDAO houseProductionDAO = new HouseProductionDAO();</span>
-<span class="fc" id="L13">    ProductionDAO productionDAO = new ProductionDAO();</span>
-<span class="fc" id="L14">    FilmDAO filmDAO = new FilmDAO();</span>
+    ActorDAO actorDAO;
+    DirectorDAO directorDAO;
+    HouseProductionDAO houseProductionDAO;
+    ProductionDAO productionDAO;
+    FilmDAO filmDAO;
+
+
+<span class="fc" id="L17">    public FilmManagerServiceMethods() {</span>
+<span class="fc" id="L18">        actorDAO = new ActorDAO();</span>
+<span class="fc" id="L19">        directorDAO = new DirectorDAO();</span>
+<span class="fc" id="L20">        houseProductionDAO = new HouseProductionDAO();</span>
+<span class="fc" id="L21">        productionDAO = new ProductionDAO();</span>
+<span class="fc" id="L22">        filmDAO = new FilmDAO();</span>
+<span class="fc" id="L23">    }</span>
+
+    public void setActorDAO(ActorDAO actorDAO) {
+<span class="fc" id="L26">        this.actorDAO = actorDAO;</span>
+<span class="fc" id="L27">    }</span>
+
+    public void setDirectorDAO(DirectorDAO directorDAO) {
+<span class="fc" id="L30">        this.directorDAO = directorDAO;</span>
+<span class="fc" id="L31">    }</span>
+
+    public void setHouseProductionDAO(HouseProductionDAO houseProductionDAO) {
+<span class="fc" id="L34">        this.houseProductionDAO = houseProductionDAO;</span>
+<span class="fc" id="L35">    }</span>
+
+    public void setProductionDAO(ProductionDAO productionDAO) {
+<span class="fc" id="L38">        this.productionDAO = productionDAO;</span>
+<span class="fc" id="L39">    }</span>
+
+    public void setFilmDAO(FilmDAO filmDAO) {
+<span class="fc" id="L42">        this.filmDAO = filmDAO;</span>
+<span class="fc" id="L43">    }</span>
 
     @Override
     public boolean removeFilm(int filmId) throws SQLException {
-<span class="nc" id="L18">        return filmDAO.delete(filmId);</span>
+<span class="fc" id="L47">        return filmDAO.delete(filmId);</span>
     }
 
     @Override
     public boolean insert(Film film) throws SQLException {
-<span class="nc" id="L23">        return</span>
-<span class="nc bnc" id="L24" title="All 2 branches missed.">                filmDAO.insertAndReturnID(film) != 0 &amp;&amp;</span>
-<span class="nc bnc" id="L25" title="All 2 branches missed.">                actorDAO.insert(film.getActorList()) &amp;&amp;</span>
-<span class="nc bnc" id="L26" title="All 2 branches missed.">                directorDAO.insert(film.getDirectorList()) &amp;&amp;</span>
-<span class="nc bnc" id="L27" title="All 2 branches missed.">                houseProductionDAO.insert(film.getHouseProductionList()) &amp;&amp;</span>
-<span class="nc bnc" id="L28" title="All 2 branches missed.">                productionDAO.insert(film.getProductionList());</span>
+<span class="fc" id="L52">        return</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">                filmDAO.insertAndReturnID(film) != 0 &amp;&amp;</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">                actorDAO.insert(film.getActorList()) &amp;&amp;</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">                directorDAO.insert(film.getDirectorList()) &amp;&amp;</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">                houseProductionDAO.insert(film.getHouseProductionList()) &amp;&amp;</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">                productionDAO.insert(film.getProductionList());</span>
     }
 
     @Override
     public boolean update(Film film) throws SQLException {
-<span class="nc" id="L33">            return</span>
-<span class="nc bnc" id="L34" title="All 2 branches missed.">                    filmDAO.update(film) &amp;&amp;</span>
-<span class="nc bnc" id="L35" title="All 2 branches missed.">                    actorDAO.update(film.getActorList(), film.getId()) &amp;&amp;</span>
-<span class="nc bnc" id="L36" title="All 2 branches missed.">                    directorDAO.update(film.getDirectorList(), film.getId()) &amp;&amp;</span>
-<span class="nc bnc" id="L37" title="All 2 branches missed.">                    houseProductionDAO.update(film.getHouseProductionList(), film.getId()) &amp;&amp;</span>
-<span class="nc bnc" id="L38" title="All 2 branches missed.">                    productionDAO.update(film.getProductionList(), film.getId());</span>
+<span class="fc" id="L62">            return</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">                    filmDAO.update(film) &amp;&amp;</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">                    actorDAO.update(film.getActorList(), film.getId()) &amp;&amp;</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">                    directorDAO.update(film.getDirectorList(), film.getId()) &amp;&amp;</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">                    houseProductionDAO.update(film.getHouseProductionList(), film.getId()) &amp;&amp;</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                    productionDAO.update(film.getProductionList(), film.getId());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

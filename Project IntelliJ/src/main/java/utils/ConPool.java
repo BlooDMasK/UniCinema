@@ -1,5 +1,6 @@
 package utils;
 
+import lombok.Generated;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 
@@ -10,6 +11,7 @@ import java.util.TimeZone;
 /**
  * Questa classe offre le funzionalità di connessione al DBMS.
  */
+@Generated
 public class ConPool {
 
     /**

@@ -41,4 +41,14 @@ public class FilmServiceMethods implements FilmService {
     public ArrayList<Film> search(String title) throws SQLException {
         return filmDAO.searchFromTitle(title);
     }
+
+    @Override
+    public ArrayList<Film> fetchLastReleases(int total) throws SQLException {
+        return filmDAO.fetchLastReleases(total);
+    }
+
+    @Override
+    public ArrayList<Film> fetchComingSoon(int total) throws SQLException {
+        return filmDAO.fetchComingSoon(total);
+    }
 }

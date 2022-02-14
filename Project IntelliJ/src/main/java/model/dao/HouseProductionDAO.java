@@ -1,5 +1,6 @@
 package model.dao;
 
+import lombok.Generated;
 import model.bean.HouseProduction;
 import utils.ConPool;
 import utils.Paginator;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * Questa classe rappresenta il DAO di una Casa di produzione.
  */
+@Generated
 public class HouseProductionDAO implements SqlMethods<HouseProduction> {
 
     /**

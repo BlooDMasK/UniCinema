@@ -1,6 +1,7 @@
 package model.bean;
 
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 import org.json.JSONObject;
 import utils.JsonSerializable;
@@ -8,6 +9,7 @@ import utils.JsonSerializable;
 /**
  * Questa classe rappresenta il biglietto per lo spettacolo.
  */
+@Generated
 @Data
 @NoArgsConstructor
 public class Ticket implements JsonSerializable {

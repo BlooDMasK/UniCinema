@@ -44,7 +44,7 @@ public class SignupServlet extends Controller implements ErrorHandler {
      * @throws IOException
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher(view("site/account/signup")).forward(request, response);
     }
 
@@ -56,7 +56,7 @@ public class SignupServlet extends Controller implements ErrorHandler {
      * @throws IOException
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
 
             /**

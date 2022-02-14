@@ -24,13 +24,12 @@
                <groupId>org.jacoco</groupId>
                <artifactId>jacoco-maven-plugin</artifactId>
                <version>0.8.7</version>
-
                <executions>
                     <execution>
                             <goals>
                                 <goal>prepare-agent</goal>
                             </goals>
-               </execution>
+                    </execution>
                <execution>
                    <id>report</id>
                         <phase>test</phase>
@@ -126,6 +125,19 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.8.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>pl.pragmatists</groupId>
+            <artifactId>JUnitParams</artifactId>
+            <version>1.0.4</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 

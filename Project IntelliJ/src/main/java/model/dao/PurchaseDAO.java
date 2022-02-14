@@ -1,5 +1,6 @@
 package model.dao;
 
+import lombok.Generated;
 import model.bean.Show;
 import model.bean.Ticket;
 import utils.SqlMethods;
@@ -18,6 +19,7 @@ import java.util.*;
 /**
  * Questa classe rappresenta il DAO di un Acquisto.
  */
+@Generated
 public class PurchaseDAO implements SqlMethods<Purchase> {
 
     /**
