@@ -2,7 +2,6 @@ package model.dao.review;
 
 import lombok.Generated;
 import model.bean.Account;
-import utils.SqlMethods;
 import utils.extractor.ReviewExtractor;
 import utils.extractor.AccountExtractor;
 import utils.ConPool;

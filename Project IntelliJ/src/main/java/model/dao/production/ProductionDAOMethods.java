@@ -4,7 +4,6 @@ import lombok.Generated;
 import model.bean.Production;
 import utils.ConPool;
 import utils.Paginator;
-import utils.SqlMethods;
 import utils.extractor.ProductionExtractor;
 import model.bean.Film;
 

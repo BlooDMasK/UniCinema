@@ -1,7 +1,7 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 UniCinema,Signup.controller,SignupServlet,15,123,1,3,4,32,1,6,0,5
 UniCinema,ReviewManager.controller,ReviewServlet,25,316,2,20,5,63,2,16,0,6
-UniCinema,ShowManager.controller,ShowManagerServlet,33,453,12,34,11,101,11,22,0,8
+UniCinema,ShowManager.controller,ShowManagerServlet,24,462,8,38,9,103,8,25,0,8
 UniCinema,PageManager,PageServlet,11,61,0,2,4,16,1,4,1,3
 UniCinema,PurchaseManager.service,PurchaseServiceMethods,0,54,0,0,0,14,0,9,0,9
 UniCinema,PurchaseManager.controller,PurchaseServlet,54,377,4,28,15,84,4,19,0,6
