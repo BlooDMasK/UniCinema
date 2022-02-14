@@ -3,8 +3,10 @@
 import model.bean.Film;
 import model.bean.Room;
 import model.bean.Show;
-import model.dao.RoomDAO;
-import model.dao.ShowDAO;
+import model.dao.room.RoomDAO;
+import model.dao.room.RoomDAOMethods;
+import model.dao.show.ShowDAO;
+import model.dao.show.ShowDAOMethods;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -16,29 +18,22 @@ import java.util.Collections;
  */
 public class ShowServiceMethods implements ShowService{
 
-    /**
-     * Si occupa delle operazioni CRUD per uno spettacolo.
-     */
     ShowDAO showDAO;
 
-    /**
-     *  Si occupa delle operazioni CRUD per una sala.
-     */
     RoomDAO roomDAO;
 
-<span class="fc" id="L29">    public ShowServiceMethods() {</span>
-<span class="fc" id="L30">        showDAO = new ShowDAO();</span>
-<span class="fc" id="L31">        roomDAO = new RoomDAO();</span>
+<span class="fc" id="L25">    public ShowServiceMethods() throws SQLException {</span>
+<span class="fc" id="L26">        showDAO = new ShowDAOMethods();</span>
+<span class="fc" id="L27">        roomDAO = new RoomDAOMethods();</span>
+<span class="fc" id="L28">    }</span>
+
+    public void setShowDAO(ShowDAOMethods showDAO) {
+<span class="fc" id="L31">        this.showDAO = showDAO;</span>
 <span class="fc" id="L32">    }</span>
 
-    public void setShowDAO(ShowDAO showDAO) {
-<span class="fc" id="L35">        this.showDAO = showDAO;</span>
+    public void setRoomDAO(RoomDAOMethods roomDAO) {
+<span class="fc" id="L35">        this.roomDAO = roomDAO;</span>
 <span class="fc" id="L36">    }</span>
-
-    public void setRoomDAO(RoomDAO roomDAO) {
-<span class="fc" id="L39">        this.roomDAO = roomDAO;</span>
-<span class="fc" id="L40">    }</span>
-
 
     /**
      * Firma del metodo che implementa la funzionalità che restituisce tutti gli spettacoli che proiettano un dato film.
@@ -48,9 +43,9 @@ public class ShowServiceMethods implements ShowService{
      */
     @Override
     public ArrayList&lt;Show&gt; fetchAll(Film film) throws SQLException {
-<span class="fc" id="L51">        ArrayList&lt;Show&gt; showList = showDAO.fetchAll(film);</span>
-<span class="fc" id="L52">        Collections.sort(showList);</span>
-<span class="fc" id="L53">        return showList;</span>
+<span class="fc" id="L46">        ArrayList&lt;Show&gt; showList = showDAO.fetchAll(film);</span>
+<span class="fc" id="L47">        Collections.sort(showList);</span>
+<span class="fc" id="L48">        return showList;</span>
     }
 
     /**
@@ -60,17 +55,17 @@ public class ShowServiceMethods implements ShowService{
      */
     @Override
     public ArrayList&lt;Show&gt; fetchAll() throws SQLException {
-<span class="fc" id="L63">        return showDAO.fetchAll();</span>
+<span class="fc" id="L58">        return showDAO.fetchAll();</span>
     }
 
     @Override
     public ArrayList&lt;Show&gt; fetchDaily(int roomId, LocalDate date) throws SQLException {
-<span class="fc" id="L68">        return showDAO.fetchDaily(roomId, date);</span>
+<span class="fc" id="L63">        return showDAO.fetchDaily(roomId, date);</span>
     }
 
     @Override
     public ArrayList&lt;Show&gt; fetchDaily(int roomId, LocalDate date, Show show) throws SQLException {
-<span class="fc" id="L73">        return showDAO.fetchDaily(roomId, date, show);</span>
+<span class="fc" id="L68">        return showDAO.fetchDaily(roomId, date, show);</span>
     }
 
     /**
@@ -81,7 +76,7 @@ public class ShowServiceMethods implements ShowService{
      */
     @Override
     public Show fetch(int id) throws SQLException {
-<span class="nc" id="L84">        return showDAO.fetch(id);</span>
+<span class="nc" id="L79">        return showDAO.fetch(id);</span>
     }
 
     /**
@@ -92,22 +87,22 @@ public class ShowServiceMethods implements ShowService{
      */
     @Override
     public Room fetchRoom(int showId) throws SQLException {
-<span class="fc" id="L95">        return roomDAO.fetchFromShowId(showId);</span>
+<span class="fc" id="L90">        return roomDAO.fetchFromShowId(showId);</span>
     }
 
     @Override
     public boolean remove(int showId) throws SQLException {
-<span class="fc" id="L100">        return showDAO.delete(showId);</span>
+<span class="fc" id="L95">        return showDAO.delete(showId);</span>
     }
 
     @Override
     public boolean insert(Show show) throws SQLException {
-<span class="fc" id="L105">        return showDAO.insert(show);</span>
+<span class="fc" id="L100">        return showDAO.insert(show);</span>
     }
 
     @Override
     public boolean update(Show show) throws SQLException {
-<span class="fc" id="L110">        return showDAO.update(show);</span>
+<span class="fc" id="L105">        return showDAO.update(show);</span>
     }
 
 

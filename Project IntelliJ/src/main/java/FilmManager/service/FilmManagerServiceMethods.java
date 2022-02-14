@@ -1,7 +1,16 @@
 package FilmManager.service;
 
 import model.bean.*;
-import model.dao.*;
+import model.dao.actor.ActorDAO;
+import model.dao.actor.ActorDAOMethods;
+import model.dao.director.DirectorDAO;
+import model.dao.director.DirectorDAOMethods;
+import model.dao.film.FilmDAO;
+import model.dao.film.FilmDAOMethods;
+import model.dao.houseproduction.HouseProductionDAO;
+import model.dao.houseproduction.HouseProductionDAOMethods;
+import model.dao.production.ProductionDAO;
+import model.dao.production.ProductionDAOMethods;
 
 import java.sql.SQLException;
 
@@ -13,33 +22,32 @@ public class FilmManagerServiceMethods implements FilmManagerService{
     ProductionDAO productionDAO;
     FilmDAO filmDAO;
 
-
-    public FilmManagerServiceMethods() {
-        actorDAO = new ActorDAO();
-        directorDAO = new DirectorDAO();
-        houseProductionDAO = new HouseProductionDAO();
-        productionDAO = new ProductionDAO();
-        filmDAO = new FilmDAO();
+    public FilmManagerServiceMethods() throws SQLException {
+        actorDAO = new ActorDAOMethods();
+        directorDAO = new DirectorDAOMethods();
+        houseProductionDAO = new HouseProductionDAOMethods();
+        productionDAO = new ProductionDAOMethods();
+        filmDAO = new FilmDAOMethods();
     }
 
-    public void setActorDAO(ActorDAO actorDAO) {
-        this.actorDAO = actorDAO;
+    public void setActorDAO(ActorDAOMethods ActorDAO) {
+        this.actorDAO = ActorDAO;
     }
 
-    public void setDirectorDAO(DirectorDAO directorDAO) {
-        this.directorDAO = directorDAO;
+    public void setDirectorDAO(DirectorDAOMethods DirectorDAO) {
+        this.directorDAO = DirectorDAO;
     }
 
-    public void setHouseProductionDAO(HouseProductionDAO houseProductionDAO) {
-        this.houseProductionDAO = houseProductionDAO;
+    public void setHouseProductionDAO(HouseProductionDAOMethods houseProductionDAOMethods) {
+        this.houseProductionDAO = houseProductionDAOMethods;
     }
 
-    public void setProductionDAO(ProductionDAO productionDAO) {
-        this.productionDAO = productionDAO;
+    public void setProductionDAO(ProductionDAOMethods productionDAOMethods) {
+        this.productionDAO = productionDAOMethods;
     }
 
-    public void setFilmDAO(FilmDAO filmDAO) {
-        this.filmDAO = filmDAO;
+    public void setFilmDAO(FilmDAOMethods filmDAOMethods) {
+        this.filmDAO = filmDAOMethods;
     }
 
     @Override

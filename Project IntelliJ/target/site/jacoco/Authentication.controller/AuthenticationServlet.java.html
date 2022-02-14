@@ -43,7 +43,7 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
 <span class="fc" id="L43">        this.reviewService = reviewService;</span>
 <span class="fc" id="L44">    }</span>
 
-<span class="fc" id="L46">    public AuthenticationServlet() {</span>
+<span class="fc" id="L46">    public AuthenticationServlet() throws SQLException {</span>
 <span class="fc" id="L47">        authenticationService = new AuthenticationServiceMethods();</span>
 <span class="fc" id="L48">        reviewService = new ReviewServiceMethods();</span>
 <span class="fc" id="L49">        accountValidator = new AccountValidator();</span>

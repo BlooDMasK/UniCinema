@@ -2,7 +2,8 @@ package FilmInfo.service;
 
 
 import model.bean.Film;
-import model.dao.FilmDAO;
+import model.dao.film.FilmDAO;
+import model.dao.film.FilmDAOMethods;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -17,13 +18,12 @@ public class FilmServiceMethods implements FilmService {
      */
     FilmDAO filmDAO;
 
-    public FilmServiceMethods() {
-        filmDAO = new FilmDAO();
+    public FilmServiceMethods() throws SQLException {
+        filmDAO = new FilmDAOMethods();
     }
 
-
-    public void setFilmDAO(FilmDAO filmDAO) {
-        this.filmDAO = filmDAO;
+    public void setFilmDAO(FilmDAOMethods filmDAOMethods) {
+        this.filmDAO = filmDAOMethods;
     }
 
     /**

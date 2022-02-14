@@ -4,15 +4,10 @@ import FilmInfo.service.FilmServiceMethods;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import model.bean.Film;
-import model.dao.*;
+import model.dao.film.FilmDAOMethods;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -25,16 +20,16 @@ import static org.mockito.Mockito.when;
 @RunWith(JUnitParamsRunner.class)
 public class FilmServiceMethodsTest {
 
-    @Mock private FilmDAO filmDAO;
+    @Mock private FilmDAOMethods filmDAOMethods;
 
     private FilmServiceMethods filmInfoServiceMethods;
 
     @Before
-    public void setup() {
+    public void setup() throws SQLException {
         MockitoAnnotations.initMocks(this);
         filmInfoServiceMethods = new FilmServiceMethods();
 
-        filmInfoServiceMethods.setFilmDAO(filmDAO);
+        filmInfoServiceMethods.setFilmDAO(filmDAOMethods);
     }
 
     @Test
@@ -44,7 +39,7 @@ public class FilmServiceMethodsTest {
         Film film = new Film();
         film.setId(filmId);
 
-        when(filmDAO.fetch(filmId)).thenReturn(film);
+        when(filmDAOMethods.fetch(filmId)).thenReturn(film);
         assertEquals(film, filmInfoServiceMethods.fetch(filmId));
     }
 
@@ -53,7 +48,7 @@ public class FilmServiceMethodsTest {
     public void search(String title) throws SQLException {
         ArrayList<Film> films = new ArrayList<>();
 
-        when(filmDAO.searchFromTitle(title)).thenReturn(films);
+        when(filmDAOMethods.searchFromTitle(title)).thenReturn(films);
         assertEquals(filmInfoServiceMethods.search(title), films);
     }
 

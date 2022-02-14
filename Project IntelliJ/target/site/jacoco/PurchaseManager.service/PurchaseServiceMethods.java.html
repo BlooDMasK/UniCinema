@@ -2,8 +2,10 @@
 
 import model.bean.Purchase;
 import model.bean.Ticket;
-import model.dao.PurchaseDAO;
-import model.dao.TicketDAO;
+import model.dao.purchase.PurchaseDAO;
+import model.dao.purchase.PurchaseDAOMethods;
+import model.dao.ticket.TicketDAO;
+import model.dao.ticket.TicketDAOMethods;
 import utils.Paginator;
 
 import java.sql.SQLException;
@@ -14,47 +16,47 @@ public class PurchaseServiceMethods implements PurchaseService {
     TicketDAO ticketDAO;
     PurchaseDAO purchaseDAO;
 
-<span class="fc" id="L17">    public PurchaseServiceMethods() {</span>
-<span class="fc" id="L18">        ticketDAO = new TicketDAO();</span>
-<span class="fc" id="L19">        purchaseDAO = new PurchaseDAO();</span>
-<span class="fc" id="L20">    }</span>
+<span class="fc" id="L19">    public PurchaseServiceMethods() throws SQLException {</span>
+<span class="fc" id="L20">        ticketDAO = new TicketDAOMethods();</span>
+<span class="fc" id="L21">        purchaseDAO = new PurchaseDAOMethods();</span>
+<span class="fc" id="L22">    }</span>
 
-    public void setTicketDAO(TicketDAO ticketDAO) {
-<span class="fc" id="L23">        this.ticketDAO = ticketDAO;</span>
-<span class="fc" id="L24">    }</span>
+    public void setTicketDAO(TicketDAOMethods ticketDAOMethods) {
+<span class="fc" id="L25">        this.ticketDAO = ticketDAOMethods;</span>
+<span class="fc" id="L26">    }</span>
 
-    public void setPurchaseDAO(PurchaseDAO purchaseDAO) {
-<span class="fc" id="L27">        this.purchaseDAO = purchaseDAO;</span>
-<span class="fc" id="L28">    }</span>
+    public void setPurchaseDAO(PurchaseDAOMethods purchaseDAOMethods) {
+<span class="fc" id="L29">        this.purchaseDAO = purchaseDAOMethods;</span>
+<span class="fc" id="L30">    }</span>
 
     @Override
     public ArrayList&lt;Ticket&gt; fetchTickets(int showId) throws SQLException {
-<span class="fc" id="L32">        return ticketDAO.fetchAll(showId);</span>
+<span class="fc" id="L34">        return ticketDAO.fetchAll(showId);</span>
     }
 
     @Override
     public boolean findTicket(int showId, char row, int seat) throws SQLException {
-<span class="fc" id="L37">        return ticketDAO.fetch(showId, row, seat);</span>
+<span class="fc" id="L39">        return ticketDAO.fetch(showId, row, seat);</span>
     }
 
     @Override
     public boolean insert(ArrayList&lt;Ticket&gt; ticketList) throws SQLException {
-<span class="fc" id="L42">        return ticketDAO.insert(ticketList);</span>
+<span class="fc" id="L44">        return ticketDAO.insert(ticketList);</span>
     }
 
     @Override
     public int insert(Purchase purchase) throws SQLException {
-<span class="fc" id="L47">        return purchaseDAO.insertAndReturnID(purchase);</span>
+<span class="fc" id="L49">        return purchaseDAO.insertAndReturnID(purchase);</span>
     }
 
     @Override
     public ArrayList&lt;Purchase&gt; fetchAll(int accountId, Paginator paginator) throws SQLException {
-<span class="fc" id="L52">        return purchaseDAO.fetchAll(accountId, paginator);</span>
+<span class="fc" id="L54">        return purchaseDAO.fetchAll(accountId, paginator);</span>
     }
 
     @Override
     public int countAll(int accountId) throws SQLException {
-<span class="fc" id="L57">        return purchaseDAO.countAll(accountId);</span>
+<span class="fc" id="L59">        return purchaseDAO.countAll(accountId);</span>
     }
 
 }

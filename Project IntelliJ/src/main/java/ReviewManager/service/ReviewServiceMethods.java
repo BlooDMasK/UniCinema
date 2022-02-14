@@ -2,7 +2,8 @@ package ReviewManager.service;
 
 import model.bean.Film;
 import model.bean.Review;
-import model.dao.ReviewDAO;
+import model.dao.review.ReviewDAO;
+import model.dao.review.ReviewDAOMethods;
 import utils.Paginator;
 
 import java.sql.SQLException;
@@ -18,12 +19,12 @@ public class ReviewServiceMethods implements ReviewService{
      */
     ReviewDAO reviewDAO;
 
-    public ReviewServiceMethods() {
-        reviewDAO = new ReviewDAO();
+    public ReviewServiceMethods() throws SQLException {
+        reviewDAO = new ReviewDAOMethods();
     }
 
-    public void setReviewDAO(ReviewDAO reviewDAO) {
-        this.reviewDAO = reviewDAO;
+    public void setReviewDAO(ReviewDAOMethods reviewDAOMethods) {
+        this.reviewDAO = reviewDAOMethods;
     }
 
     /**

@@ -2,8 +2,10 @@ package PurchaseManager.service;
 
 import model.bean.Purchase;
 import model.bean.Ticket;
-import model.dao.PurchaseDAO;
-import model.dao.TicketDAO;
+import model.dao.purchase.PurchaseDAO;
+import model.dao.purchase.PurchaseDAOMethods;
+import model.dao.ticket.TicketDAO;
+import model.dao.ticket.TicketDAOMethods;
 import utils.Paginator;
 
 import java.sql.SQLException;
@@ -14,17 +16,17 @@ public class PurchaseServiceMethods implements PurchaseService {
     TicketDAO ticketDAO;
     PurchaseDAO purchaseDAO;
 
-    public PurchaseServiceMethods() {
-        ticketDAO = new TicketDAO();
-        purchaseDAO = new PurchaseDAO();
+    public PurchaseServiceMethods() throws SQLException {
+        ticketDAO = new TicketDAOMethods();
+        purchaseDAO = new PurchaseDAOMethods();
     }
 
-    public void setTicketDAO(TicketDAO ticketDAO) {
-        this.ticketDAO = ticketDAO;
+    public void setTicketDAO(TicketDAOMethods ticketDAOMethods) {
+        this.ticketDAO = ticketDAOMethods;
     }
 
-    public void setPurchaseDAO(PurchaseDAO purchaseDAO) {
-        this.purchaseDAO = purchaseDAO;
+    public void setPurchaseDAO(PurchaseDAOMethods purchaseDAOMethods) {
+        this.purchaseDAO = purchaseDAOMethods;
     }
 
     @Override

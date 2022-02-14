@@ -4,22 +4,15 @@ import Authentication.service.AuthenticationServiceMethods;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import model.bean.Account;
-import model.dao.AccountDAO;
+import model.dao.account.AccountDAOMethods;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.stream.Stream;
 
 import static junit.framework.TestCase.assertEquals;
 import static junitparams.JUnitParamsRunner.$;
@@ -28,17 +21,16 @@ import static org.mockito.Mockito.when;
 @RunWith(JUnitParamsRunner.class)
 public class AuthenticationServiceMethodsTest {
 
-
-    @Mock private AccountDAO accountDAO;
+    @Mock private AccountDAOMethods accountDAOMethods;
 
     private AuthenticationServiceMethods authenticationServiceMethods;
 
     @Before
-    public void setUp(){
+    public void setUp() throws SQLException {
         MockitoAnnotations.initMocks(this);
         authenticationServiceMethods = new AuthenticationServiceMethods();
 
-        authenticationServiceMethods.setAccountDAO(accountDAO);
+        authenticationServiceMethods.setAccountDAO(accountDAOMethods);
     }
 
     @Test
@@ -47,7 +39,7 @@ public class AuthenticationServiceMethodsTest {
 
         Account account = new Account(email,pswrd,false);
 
-        when(accountDAO.find(email,pswrd,false)).thenReturn(account);
+        when(accountDAOMethods.find(email,pswrd,false)).thenReturn(account);
         assertEquals(account, authenticationServiceMethods.signin(email,pswrd));
     }
 
@@ -57,7 +49,7 @@ public class AuthenticationServiceMethodsTest {
 
         Account account = new Account();
         account.setEmail(email);
-        when(accountDAO.fetch(email)).thenReturn(account);
+        when(accountDAOMethods.fetch(email)).thenReturn(account);
         assertEquals(account, authenticationServiceMethods.fetch(email));
 
     }
@@ -66,7 +58,7 @@ public class AuthenticationServiceMethodsTest {
     @Parameters(method = "provideAccount")
     public void edit(Account account) throws SQLException{
 
-        when(accountDAO.update(account)).thenReturn(true);
+        when(accountDAOMethods.update(account)).thenReturn(true);
         assertEquals(authenticationServiceMethods.edit(account), true);
     }
 

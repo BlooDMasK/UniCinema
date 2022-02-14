@@ -2,7 +2,8 @@
 
 import model.bean.Film;
 import model.bean.Review;
-import model.dao.ReviewDAO;
+import model.dao.review.ReviewDAO;
+import model.dao.review.ReviewDAOMethods;
 import utils.Paginator;
 
 import java.sql.SQLException;
@@ -18,13 +19,13 @@ public class ReviewServiceMethods implements ReviewService{
      */
     ReviewDAO reviewDAO;
 
-<span class="fc" id="L21">    public ReviewServiceMethods() {</span>
-<span class="fc" id="L22">        reviewDAO = new ReviewDAO();</span>
-<span class="fc" id="L23">    }</span>
+<span class="fc" id="L22">    public ReviewServiceMethods() throws SQLException {</span>
+<span class="fc" id="L23">        reviewDAO = new ReviewDAOMethods();</span>
+<span class="fc" id="L24">    }</span>
 
-    public void setReviewDAO(ReviewDAO reviewDAO) {
-<span class="fc" id="L26">        this.reviewDAO = reviewDAO;</span>
-<span class="fc" id="L27">    }</span>
+    public void setReviewDAO(ReviewDAOMethods reviewDAOMethods) {
+<span class="fc" id="L27">        this.reviewDAO = reviewDAOMethods;</span>
+<span class="fc" id="L28">    }</span>
 
     /**
      * Implementa la funzionalità che conta tutte le recensioni effettuate per un film.
@@ -34,7 +35,7 @@ public class ReviewServiceMethods implements ReviewService{
      */
     @Override
     public int countAll(Film film) throws SQLException {
-<span class="fc" id="L37">        return reviewDAO.countAll(film);</span>
+<span class="fc" id="L38">        return reviewDAO.countAll(film);</span>
     }
 
     /**
@@ -46,12 +47,12 @@ public class ReviewServiceMethods implements ReviewService{
      */
     @Override
     public ArrayList&lt;Review&gt; fetchAll(Film film, Paginator paginator) throws SQLException {
-<span class="fc" id="L49">        return reviewDAO.fetchAll(film, paginator);</span>
+<span class="fc" id="L50">        return reviewDAO.fetchAll(film, paginator);</span>
     }
 
     @Override
     public ArrayList&lt;Review&gt; fetchAll(int filmId) throws SQLException {
-<span class="fc" id="L54">        return reviewDAO.fetchAll(filmId);</span>
+<span class="fc" id="L55">        return reviewDAO.fetchAll(filmId);</span>
     }
 
     /**
@@ -63,16 +64,16 @@ public class ReviewServiceMethods implements ReviewService{
      */
     @Override
     public double averageStars(ArrayList&lt;Review&gt; reviewList, int stars) {
-<span class="fc" id="L66">        int size = reviewList.size();</span>
-<span class="fc bfc" id="L67" title="All 2 branches covered.">        if(size == 0)</span>
-<span class="fc" id="L68">            return 0;</span>
+<span class="fc" id="L67">        int size = reviewList.size();</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if(size == 0)</span>
+<span class="fc" id="L69">            return 0;</span>
 
-<span class="fc" id="L70">        double avg = 0.0;</span>
-<span class="fc bfc" id="L71" title="All 2 branches covered.">        for(Review review : reviewList)</span>
-<span class="fc bfc" id="L72" title="All 4 branches covered.">            if(stars == 0 || stars == review.getStars())</span>
-<span class="fc" id="L73">                avg += review.getStars();</span>
+<span class="fc" id="L71">        double avg = 0.0;</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        for(Review review : reviewList)</span>
+<span class="fc bfc" id="L73" title="All 4 branches covered.">            if(stars == 0 || stars == review.getStars())</span>
+<span class="fc" id="L74">                avg += review.getStars();</span>
 
-<span class="fc" id="L75">        return avg / size;</span>
+<span class="fc" id="L76">        return avg / size;</span>
     }
 
     /**
@@ -84,18 +85,18 @@ public class ReviewServiceMethods implements ReviewService{
      */
     @Override
     public double percentageStars(ArrayList&lt;Review&gt; reviewList, int stars) {
-<span class="fc" id="L87">        double size = reviewList.size();</span>
-<span class="fc bfc" id="L88" title="All 2 branches covered.">        if(size == 0.0)</span>
-<span class="fc" id="L89">            return 0.0;</span>
+<span class="fc" id="L88">        double size = reviewList.size();</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        if(size == 0.0)</span>
+<span class="fc" id="L90">            return 0.0;</span>
 
-<span class="fc" id="L91">        double count = 0.0;</span>
-<span class="fc bfc" id="L92" title="All 2 branches covered.">        for(Review review : reviewList)</span>
-<span class="fc bfc" id="L93" title="All 4 branches covered.">            if (stars == 0.0 || stars == review.getStars())</span>
-<span class="fc" id="L94">                count++;</span>
+<span class="fc" id="L92">        double count = 0.0;</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        for(Review review : reviewList)</span>
+<span class="fc bfc" id="L94" title="All 4 branches covered.">            if (stars == 0.0 || stars == review.getStars())</span>
+<span class="fc" id="L95">                count++;</span>
 
 
 
-<span class="fc" id="L98">        return (count/size)*100.0;</span>
+<span class="fc" id="L99">        return (count/size)*100.0;</span>
     }
 
     /**
@@ -105,7 +106,7 @@ public class ReviewServiceMethods implements ReviewService{
      * @throws SQLException
      */
     public boolean insert(Review review) throws SQLException {
-<span class="fc" id="L108">        return reviewDAO.insert(review);</span>
+<span class="fc" id="L109">        return reviewDAO.insert(review);</span>
     }
 
     /**
@@ -116,7 +117,7 @@ public class ReviewServiceMethods implements ReviewService{
      */
     @Override
     public Review fetch(int accountId, int filmId) throws SQLException {
-<span class="fc" id="L119">        return reviewDAO.fetch(accountId, filmId);</span>
+<span class="fc" id="L120">        return reviewDAO.fetch(accountId, filmId);</span>
     }
 
     /**
@@ -127,12 +128,12 @@ public class ReviewServiceMethods implements ReviewService{
      */
     @Override
     public boolean delete(int accountId) throws SQLException {
-<span class="fc" id="L130">        return reviewDAO.delete(accountId);</span>
+<span class="fc" id="L131">        return reviewDAO.delete(accountId);</span>
     }
 
     @Override
     public int countByAccountId(int id) throws SQLException {
-<span class="fc" id="L135">        return reviewDAO.countByAccountId(id);</span>
+<span class="fc" id="L136">        return reviewDAO.countByAccountId(id);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

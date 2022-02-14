@@ -5,7 +5,6 @@ import FilmInfo.service.FilmServiceMethods;
 import utils.Controller;
 import utils.ErrorHandler;
 import model.bean.Film;
-import model.dao.FilmDAO;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -19,7 +18,7 @@ public class PageServlet extends Controller implements ErrorHandler {
 
     FilmService filmService;
 
-    public PageServlet() {
+    public PageServlet() throws SQLException {
         this.filmService = new FilmServiceMethods();
     }
 

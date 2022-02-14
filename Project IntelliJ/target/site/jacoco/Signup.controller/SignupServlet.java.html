@@ -23,7 +23,7 @@ public class SignupServlet extends Controller implements ErrorHandler {
     SignupService signupService;
     AccountValidator accountValidator;
 
-<span class="fc" id="L26">    public SignupServlet() {</span>
+<span class="fc" id="L26">    public SignupServlet() throws SQLException {</span>
 <span class="fc" id="L27">        this.signupService = new SignupServiceMethods();</span>
 <span class="fc" id="L28">        this.accountValidator = new AccountValidator();</span>
 <span class="fc" id="L29">    }</span>

@@ -40,7 +40,7 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
 <span class="fc" id="L40">        this.filmInfoService = filmInfoService;</span>
 <span class="fc" id="L41">    }</span>
 
-<span class="fc" id="L43">    public FilmManagerServlet() {</span>
+<span class="fc" id="L43">    public FilmManagerServlet() throws SQLException {</span>
 <span class="fc" id="L44">        filmManagerService = new FilmManagerServiceMethods();</span>
 <span class="fc" id="L45">        filmInfoService = new FilmServiceMethods();</span>
 <span class="fc" id="L46">        filmValidator = new FilmValidator();</span>

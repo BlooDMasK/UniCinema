@@ -42,7 +42,7 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
 <span class="fc" id="L42">        this.showService = showService;</span>
 <span class="fc" id="L43">    }</span>
 
-<span class="fc" id="L45">    public FilmInfoServlet() {</span>
+<span class="fc" id="L45">    public FilmInfoServlet() throws SQLException {</span>
 <span class="fc" id="L46">        filmService = new FilmServiceMethods();</span>
 <span class="fc" id="L47">        showService = new ShowServiceMethods();</span>
 <span class="fc" id="L48">        jsonObject = new JSONObject();</span>

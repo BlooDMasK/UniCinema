@@ -60,6 +60,6 @@
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
   <testcase classname="UniCinemaTest.FilmManager.service.FilmManagerServiceMethodsTest" name="[0] Film[id=12, length=120, genre=5, title=titoloFilm, plot=tramaFilm, cover=cover.png, poster=poster.png, datePublishing=2022-02-14, actorList=null, directorList=null, houseProductionList=null, productionList=null, reviewList=null, showList=null] (insert)" time="0.016"/>
-  <testcase classname="UniCinemaTest.FilmManager.service.FilmManagerServiceMethodsTest" name="[0] Film[id=12, length=120, genre=5, title=titoloFilm, plot=tramaFilm, cover=cover.png, poster=poster.png, datePublishing=2022-02-14, actorList=null, directorList=null, houseProductionList=null, productionList=null, reviewList=null, showList=null] (update)" time="0.002"/>
-  <testcase classname="UniCinemaTest.FilmManager.service.FilmManagerServiceMethodsTest" name="[0] 12 (removeFilm)" time="0"/>
+  <testcase classname="UniCinemaTest.FilmManager.service.FilmManagerServiceMethodsTest" name="[0] Film[id=12, length=120, genre=5, title=titoloFilm, plot=tramaFilm, cover=cover.png, poster=poster.png, datePublishing=2022-02-14, actorList=null, directorList=null, houseProductionList=null, productionList=null, reviewList=null, showList=null] (update)" time="0.001"/>
+  <testcase classname="UniCinemaTest.FilmManager.service.FilmManagerServiceMethodsTest" name="[0] 12 (removeFilm)" time="0.001"/>
 </testsuite>

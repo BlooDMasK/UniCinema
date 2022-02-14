@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="6" failures="0" name="UniCinemaTest.PurchaseManager.service.PurchaseServiceMethodsTest" time="0.011" errors="0" skipped="0">
+<testsuite tests="6" failures="0" name="UniCinemaTest.PurchaseManager.service.PurchaseServiceMethodsTest" time="0.01" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2021.2.3"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -59,10 +59,10 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="UniCinemaTest.PurchaseManager.service.PurchaseServiceMethodsTest" name="[0] [Ticket[price=10.0, id=0, seat=8, rowLetter=G, purchase=null, show=null], Ticket[price=10.0, id=0, seat=9, rowLetter=G, purchase=null, show=null], Ticket[price=10.0, id=0, seat=10, rowLetter=G, purchase=null, show=null]] (insert)" time="0.008"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.service.PurchaseServiceMethodsTest" name="[0] [Ticket[price=10.0, id=0, seat=8, rowLetter=G, purchase=null, show=null], Ticket[price=10.0, id=0, seat=9, rowLetter=G, purchase=null, show=null], Ticket[price=10.0, id=0, seat=10, rowLetter=G, purchase=null, show=null]] (insert)" time="0.007"/>
   <testcase classname="UniCinemaTest.PurchaseManager.service.PurchaseServiceMethodsTest" name="[0] Purchase[id=3, datePurchase=2022-02-14, account=null, ticketList=null] (insert)" time="0"/>
-  <testcase classname="UniCinemaTest.PurchaseManager.service.PurchaseServiceMethodsTest" name="[0] 1 (countAll)" time="0"/>
-  <testcase classname="UniCinemaTest.PurchaseManager.service.PurchaseServiceMethodsTest" name="[0] 1, G, 8 (findTicket)" time="0.001"/>
-  <testcase classname="UniCinemaTest.PurchaseManager.service.PurchaseServiceMethodsTest" name="[0] 1, Paginator[limit=5, offset=0] (fetchAll)" time="0.001"/>
-  <testcase classname="UniCinemaTest.PurchaseManager.service.PurchaseServiceMethodsTest" name="[0] 1 (fetchTickets)" time="0.001"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.service.PurchaseServiceMethodsTest" name="[0] 1 (countAll)" time="0.001"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.service.PurchaseServiceMethodsTest" name="[0] 1, G, 8 (findTicket)" time="0.002"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.service.PurchaseServiceMethodsTest" name="[0] 1, Paginator[limit=5, offset=0] (fetchAll)" time="0"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.service.PurchaseServiceMethodsTest" name="[0] 1 (fetchTickets)" time="0"/>
 </testsuite>

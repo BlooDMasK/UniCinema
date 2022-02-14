@@ -43,7 +43,7 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
         this.reviewService = reviewService;
     }
 
-    public AuthenticationServlet() {
+    public AuthenticationServlet() throws SQLException {
         authenticationService = new AuthenticationServiceMethods();
         reviewService = new ReviewServiceMethods();
         accountValidator = new AccountValidator();

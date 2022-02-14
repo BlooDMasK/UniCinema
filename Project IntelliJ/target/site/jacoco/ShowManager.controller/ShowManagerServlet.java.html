@@ -31,7 +31,7 @@ public class ShowManagerServlet extends Controller implements ErrorHandler {
 <span class="fc" id="L31">        this.jsonObject = jsonObject;</span>
 <span class="fc" id="L32">    }</span>
 
-<span class="fc" id="L34">    public ShowManagerServlet() {</span>
+<span class="fc" id="L34">    public ShowManagerServlet() throws SQLException {</span>
 <span class="fc" id="L35">        showService = new ShowServiceMethods();</span>
 <span class="fc" id="L36">        jsonObject = new JSONObject();</span>
 <span class="fc" id="L37">    }</span>

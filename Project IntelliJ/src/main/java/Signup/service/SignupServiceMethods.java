@@ -1,7 +1,8 @@
 package Signup.service;
 
 import model.bean.Account;
-import model.dao.AccountDAO;
+import model.dao.account.AccountDAO;
+import model.dao.account.AccountDAOMethods;
 
 import java.sql.SQLException;
 
@@ -9,11 +10,11 @@ public class SignupServiceMethods implements SignupService{
 
     AccountDAO accountDAO;
 
-    public SignupServiceMethods() {
-        accountDAO = new AccountDAO();
+    public SignupServiceMethods() throws SQLException {
+        accountDAO = new AccountDAOMethods();
     }
 
-    public void setAccountDAO(AccountDAO accountDAO) {
+    public void setAccountDAO(AccountDAOMethods accountDAO) {
         this.accountDAO = accountDAO;
     }
 

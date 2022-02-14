@@ -30,7 +30,7 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
 <span class="fc" id="L30">        this.jsonObject = jsonObject;</span>
 <span class="fc" id="L31">    }</span>
 
-<span class="fc" id="L33">    public PurchaseServlet() {</span>
+<span class="fc" id="L33">    public PurchaseServlet() throws SQLException {</span>
 <span class="fc" id="L34">        showService = new ShowServiceMethods();</span>
 <span class="fc" id="L35">        purchaseService = new PurchaseServiceMethods();</span>
 <span class="fc" id="L36">        jsonObject = new JSONObject();</span>

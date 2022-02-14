@@ -5,7 +5,6 @@ import FilmInfo.service.FilmServiceMethods;
 import utils.Controller;
 import utils.ErrorHandler;
 import model.bean.Film;
-import model.dao.FilmDAO;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -19,13 +18,13 @@ public class PageServlet extends Controller implements ErrorHandler {
 
     FilmService filmService;
 
-<span class="fc" id="L22">    public PageServlet() {</span>
-<span class="fc" id="L23">        this.filmService = new FilmServiceMethods();</span>
-<span class="fc" id="L24">    }</span>
+<span class="fc" id="L21">    public PageServlet() throws SQLException {</span>
+<span class="fc" id="L22">        this.filmService = new FilmServiceMethods();</span>
+<span class="fc" id="L23">    }</span>
 
     public void setFilmService(FilmServiceMethods filmService) {
-<span class="fc" id="L27">        this.filmService = filmService;</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L26">        this.filmService = filmService;</span>
+<span class="fc" id="L27">    }</span>
 
     /**
      * Implementa le funzionalità svolte durante una chiamata di tipo GET
@@ -37,31 +36,31 @@ public class PageServlet extends Controller implements ErrorHandler {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-<span class="fc" id="L40">            String path = getPath(request);</span>
-<span class="fc bfc" id="L41" title="All 2 branches covered.">            switch (path) {</span>
+<span class="fc" id="L39">            String path = getPath(request);</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            switch (path) {</span>
                 case &quot;/&quot;: //Homepage
-<span class="fc" id="L43">                    ArrayList&lt;Film&gt; filmCarousel = filmService.fetchLastReleases(3);</span>
-<span class="fc" id="L44">                    ArrayList&lt;Film&gt; filmLastReleases = filmService.fetchLastReleases(6);</span>
-<span class="fc" id="L45">                    ArrayList&lt;Film&gt; filmComingSoon = filmService.fetchComingSoon(6);</span>
+<span class="fc" id="L42">                    ArrayList&lt;Film&gt; filmCarousel = filmService.fetchLastReleases(3);</span>
+<span class="fc" id="L43">                    ArrayList&lt;Film&gt; filmLastReleases = filmService.fetchLastReleases(6);</span>
+<span class="fc" id="L44">                    ArrayList&lt;Film&gt; filmComingSoon = filmService.fetchComingSoon(6);</span>
 
-<span class="fc" id="L47">                    request.setAttribute(&quot;filmCarousel&quot;, filmCarousel);</span>
-<span class="fc" id="L48">                    request.setAttribute(&quot;filmLastReleases&quot;, filmLastReleases);</span>
-<span class="fc" id="L49">                    request.setAttribute(&quot;filmComingSoon&quot;, filmComingSoon);</span>
+<span class="fc" id="L46">                    request.setAttribute(&quot;filmCarousel&quot;, filmCarousel);</span>
+<span class="fc" id="L47">                    request.setAttribute(&quot;filmLastReleases&quot;, filmLastReleases);</span>
+<span class="fc" id="L48">                    request.setAttribute(&quot;filmComingSoon&quot;, filmComingSoon);</span>
 
                     //Nella homepage getto gli ultimi 3 film usciti
-<span class="fc" id="L52">                    request.getRequestDispatcher(view(&quot;site/homepage&quot;)).forward(request, response);</span>
+<span class="fc" id="L51">                    request.getRequestDispatcher(view(&quot;site/homepage&quot;)).forward(request, response);</span>
                     break;
 
             }
-<span class="nc" id="L56">        } catch (SQLException ex) {</span>
-<span class="nc" id="L57">            log(ex.getMessage());</span>
-<span class="nc" id="L58">            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());</span>
-<span class="fc" id="L59">        }</span>
-<span class="fc" id="L60">    }</span>
+<span class="nc" id="L55">        } catch (SQLException ex) {</span>
+<span class="nc" id="L56">            log(ex.getMessage());</span>
+<span class="nc" id="L57">            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());</span>
+<span class="fc" id="L58">        }</span>
+<span class="fc" id="L59">    }</span>
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-<span class="nc" id="L65">    }</span>
+<span class="nc" id="L64">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

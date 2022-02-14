@@ -6,15 +6,9 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import model.bean.Film;
 import model.bean.Review;
-import model.dao.ReviewDAO;
-import org.apache.commons.validator.Arg;
+import model.dao.review.ReviewDAOMethods;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -25,7 +19,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static junit.framework.TestCase.assertEquals;
 import static junitparams.JUnitParamsRunner.$;
@@ -35,22 +28,22 @@ import static org.mockito.Mockito.when;
 public class ReviewServiceMethodsTest {
 
     @Mock
-    private ReviewDAO reviewDAO;
+    private ReviewDAOMethods reviewDAOMethods;
 
     private ReviewServiceMethods reviewServiceMethods;
 
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
         MockitoAnnotations.initMocks(this);
 
         reviewServiceMethods = new ReviewServiceMethods();
-        reviewServiceMethods.setReviewDAO(reviewDAO);
+        reviewServiceMethods.setReviewDAO(reviewDAOMethods);
     }
 
     @Test
     @Parameters(method = "provideFilm")
     public void countAll(Film film) throws SQLException {
-        when(reviewDAO.countAll(film)).thenReturn(15);
+        when(reviewDAOMethods.countAll(film)).thenReturn(15);
         assertEquals(reviewServiceMethods.countAll(film), 15);
     }
 
@@ -58,7 +51,7 @@ public class ReviewServiceMethodsTest {
     @Parameters(method = "provideFilmPaginator")
     public void fetchAll(Film film, Paginator paginator) throws SQLException {
         ArrayList<Review> reviewList = new ArrayList<>();
-        when(reviewDAO.fetchAll(film, paginator)).thenReturn(reviewList);
+        when(reviewDAOMethods.fetchAll(film, paginator)).thenReturn(reviewList);
         assertEquals(reviewServiceMethods.fetchAll(film, paginator), reviewList);
     }
 
@@ -66,7 +59,7 @@ public class ReviewServiceMethodsTest {
     @Parameters(value = "1")
     public void fetchAll(int filmId) throws SQLException {
         ArrayList<Review> reviewList = new ArrayList<>();
-        when(reviewDAO.fetchAll(filmId)).thenReturn(reviewList);
+        when(reviewDAOMethods.fetchAll(filmId)).thenReturn(reviewList);
         assertEquals(reviewServiceMethods.fetchAll(filmId), reviewList);
     }
 
@@ -137,7 +130,7 @@ public class ReviewServiceMethodsTest {
     @Test
     @Parameters(method = "provideReview")
     public void insert(Review review) throws SQLException {
-        when(reviewDAO.insert(review)).thenReturn(true);
+        when(reviewDAOMethods.insert(review)).thenReturn(true);
         assertEquals(reviewServiceMethods.insert(review), true);
     }
 
@@ -145,21 +138,21 @@ public class ReviewServiceMethodsTest {
     @Parameters(value = "1, 7")
     public void fetch(int accountId, int filmId) throws SQLException {
         Review review = new Review();
-        when(reviewDAO.fetch(accountId, filmId)).thenReturn(review);
+        when(reviewDAOMethods.fetch(accountId, filmId)).thenReturn(review);
         assertEquals(reviewServiceMethods.fetch(accountId, filmId), review);
     }
 
     @Test
     @Parameters(value = "1")
     public void delete(int accountId) throws SQLException {
-        when(reviewDAO.delete(accountId)).thenReturn(true);
+        when(reviewDAOMethods.delete(accountId)).thenReturn(true);
         assertEquals(reviewServiceMethods.delete(accountId), true);
     }
 
     @Test
     @Parameters(value = "1")
     public void countByAccountId(int id) throws SQLException {
-        when(reviewDAO.countByAccountId(id)).thenReturn(15);
+        when(reviewDAOMethods.countByAccountId(id)).thenReturn(15);
         assertEquals(reviewServiceMethods.countByAccountId(id), 15);
     }
 

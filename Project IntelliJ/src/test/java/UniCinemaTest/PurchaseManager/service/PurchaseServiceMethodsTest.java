@@ -1,20 +1,14 @@
 package UniCinemaTest.PurchaseManager.service;
 
-import PurchaseManager.service.PurchaseService;
 import PurchaseManager.service.PurchaseServiceMethods;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import model.bean.Purchase;
 import model.bean.Ticket;
-import model.dao.PurchaseDAO;
-import model.dao.TicketDAO;
+import model.dao.purchase.PurchaseDAOMethods;
+import model.dao.ticket.TicketDAOMethods;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
 import org.mockito.*;
 import utils.Paginator;
@@ -23,7 +17,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static junitparams.JUnitParamsRunner.$;
 import static org.junit.Assert.assertEquals;
@@ -32,39 +25,39 @@ import static org.mockito.Mockito.when;
 @RunWith(JUnitParamsRunner.class)
 public class PurchaseServiceMethodsTest {
 
-    @Mock private TicketDAO ticketDAO;
-    @Mock private PurchaseDAO purchaseDAO;
+    @Mock private TicketDAOMethods ticketDAOMethods;
+    @Mock private PurchaseDAOMethods purchaseDAOMethods;
 
     private PurchaseServiceMethods purchaseService;
 
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
         MockitoAnnotations.initMocks(this);
 
         purchaseService = new PurchaseServiceMethods();
-        purchaseService.setTicketDAO(ticketDAO);
-        purchaseService.setPurchaseDAO(purchaseDAO);
+        purchaseService.setTicketDAO(ticketDAOMethods);
+        purchaseService.setPurchaseDAO(purchaseDAOMethods);
     }
 
     @Test
     @Parameters(value = "1")
     public void fetchTickets(int showId) throws SQLException {
         ArrayList<Ticket> ticketList = new ArrayList<>();
-        when(ticketDAO.fetchAll(showId)).thenReturn(ticketList);
+        when(ticketDAOMethods.fetchAll(showId)).thenReturn(ticketList);
         assertEquals(purchaseService.fetchTickets(showId), ticketList);
     }
 
     @Test
     @Parameters(value = "1, G, 8")
     public void findTicket(int showId, char row, int seat) throws SQLException {
-        when(ticketDAO.fetch(showId, row, seat)).thenReturn(true);
+        when(ticketDAOMethods.fetch(showId, row, seat)).thenReturn(true);
         assertEquals(purchaseService.findTicket(showId, row, seat), true);
     }
 
     @Test
     @Parameters(method = "provideTicketList")
     public void insert(ArrayList<Ticket> ticketList) throws SQLException {
-        when(ticketDAO.insert(ticketList)).thenReturn(true);
+        when(ticketDAOMethods.insert(ticketList)).thenReturn(true);
         assertEquals(purchaseService.insert(ticketList), true);
     }
 
@@ -72,7 +65,7 @@ public class PurchaseServiceMethodsTest {
     @Test
     @Parameters(method = "providePurchase")
     public void insert(Purchase purchase) throws SQLException {
-        when(purchaseDAO.insertAndReturnID(purchase)).thenReturn(23);
+        when(purchaseDAOMethods.insertAndReturnID(purchase)).thenReturn(23);
         assertEquals(purchaseService.insert(purchase), 23);
     }
 
@@ -80,14 +73,14 @@ public class PurchaseServiceMethodsTest {
     @Parameters(method = "provideAccountPaginator")
     public void fetchAll(int accountId, Paginator paginator) throws SQLException {
         ArrayList<Purchase> purchaseList = new ArrayList<>();
-        when(purchaseDAO.fetchAll(accountId, paginator)).thenReturn(purchaseList);
+        when(purchaseDAOMethods.fetchAll(accountId, paginator)).thenReturn(purchaseList);
         assertEquals(purchaseService.fetchAll(accountId, paginator), purchaseList);
     }
 
     @Test
     @Parameters(value = "1")
     public void countAll(int accountId) throws SQLException {
-        when(purchaseDAO.countAll(accountId)).thenReturn(10);
+        when(purchaseDAOMethods.countAll(accountId)).thenReturn(10);
         assertEquals(purchaseService.countAll(accountId), 10);
     }
 

@@ -1,7 +1,8 @@
 package Authentication.service;
 
 import model.bean.Account;
-import model.dao.AccountDAO;
+import model.dao.account.AccountDAO;
+import model.dao.account.AccountDAOMethods;
 
 import java.sql.SQLException;
 
@@ -15,11 +16,11 @@ public class AuthenticationServiceMethods implements AuthenticationService{
     private AccountDAO accountDAO;
 
 
-    public AuthenticationServiceMethods() {
-        accountDAO = new AccountDAO();
+    public AuthenticationServiceMethods() throws SQLException {
+        accountDAO = new AccountDAOMethods();
     }
 
-    public void setAccountDAO(AccountDAO accountDAO) {
+    public void setAccountDAO(AccountDAOMethods accountDAO) {
         this.accountDAO = accountDAO;
     }
 

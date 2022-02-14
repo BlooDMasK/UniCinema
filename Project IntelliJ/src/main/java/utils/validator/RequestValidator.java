@@ -3,7 +3,7 @@ package utils.validator;
 import lombok.Generated;
 import lombok.Getter;
 import model.bean.Account;
-import model.dao.AccountDAO;
+import model.dao.account.AccountDAOMethods;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -199,7 +199,7 @@ public class RequestValidator {
      * @throws SQLException
      */
     public boolean assertExistingEmail(String value, String msg) throws SQLException {
-        Account account = new AccountDAO().fetch(request.getParameter(value));
+        Account account = new AccountDAOMethods().fetch(request.getParameter(value));
 
         return gatherError(account == null, msg);
     }

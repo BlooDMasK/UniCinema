@@ -32,7 +32,7 @@ public class ReviewServlet extends Controller implements ErrorHandler {
     ReviewValidator reviewValidator;
     JSONObject jsonObject;
 
-    public ReviewServlet() {
+    public ReviewServlet() throws SQLException {
         reviewService = new ReviewServiceMethods();
         filmService = new FilmServiceMethods();
         reviewValidator = new ReviewValidator();

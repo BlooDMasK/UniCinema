@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="3" failures="0" name="UniCinemaTest.Authentication.service.AuthenticationServiceMethodsTest" time="0.013" errors="0" skipped="0">
+<testsuite tests="3" failures="0" name="UniCinemaTest.Authentication.service.AuthenticationServiceMethodsTest" time="0.007" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2021.2.3"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -59,7 +59,7 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="UniCinemaTest.Authentication.service.AuthenticationServiceMethodsTest" name="[0] utente@gmail.com, Utente1234 (signin)" time="0.013"/>
+  <testcase classname="UniCinemaTest.Authentication.service.AuthenticationServiceMethodsTest" name="[0] utente@gmail.com, Utente1234 (signin)" time="0.006"/>
   <testcase classname="UniCinemaTest.Authentication.service.AuthenticationServiceMethodsTest" name="[0] Account[email=utente@gmail.com, firstname=nomeUtente, lastname=cognomeUtente, pswrd=405893ea78a2aef8379c55287dfe6d8e2346da2ec140ba02614aec7351c446b2f8b5e81be01afc50aeaae26c4d44237ffd97728444c3fcef6f7e1869e641d211, id=4, administrator=false, purchaseList=null, reviewList=null] (edit)" time="0"/>
-  <testcase classname="UniCinemaTest.Authentication.service.AuthenticationServiceMethodsTest" name="[0] utente@gmail.com (fetch)" time="0"/>
+  <testcase classname="UniCinemaTest.Authentication.service.AuthenticationServiceMethodsTest" name="[0] utente@gmail.com (fetch)" time="0.001"/>
 </testsuite>

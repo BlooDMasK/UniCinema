@@ -3,8 +3,10 @@ package ShowManager.service;
 import model.bean.Film;
 import model.bean.Room;
 import model.bean.Show;
-import model.dao.RoomDAO;
-import model.dao.ShowDAO;
+import model.dao.room.RoomDAO;
+import model.dao.room.RoomDAOMethods;
+import model.dao.show.ShowDAO;
+import model.dao.show.ShowDAOMethods;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -16,29 +18,22 @@ import java.util.Collections;
  */
 public class ShowServiceMethods implements ShowService{
 
-    /**
-     * Si occupa delle operazioni CRUD per uno spettacolo.
-     */
     ShowDAO showDAO;
 
-    /**
-     *  Si occupa delle operazioni CRUD per una sala.
-     */
     RoomDAO roomDAO;
 
-    public ShowServiceMethods() {
-        showDAO = new ShowDAO();
-        roomDAO = new RoomDAO();
+    public ShowServiceMethods() throws SQLException {
+        showDAO = new ShowDAOMethods();
+        roomDAO = new RoomDAOMethods();
     }
 
-    public void setShowDAO(ShowDAO showDAO) {
+    public void setShowDAO(ShowDAOMethods showDAO) {
         this.showDAO = showDAO;
     }
 
-    public void setRoomDAO(RoomDAO roomDAO) {
+    public void setRoomDAO(RoomDAOMethods roomDAO) {
         this.roomDAO = roomDAO;
     }
-
 
     /**
      * Firma del metodo che implementa la funzionalità che restituisce tutti gli spettacoli che proiettano un dato film.

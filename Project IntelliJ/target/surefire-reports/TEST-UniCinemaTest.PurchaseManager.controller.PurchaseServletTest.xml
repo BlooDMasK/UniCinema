@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="16" failures="0" name="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" time="0.091" errors="0" skipped="0">
+<testsuite tests="16" failures="0" name="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" time="0.083" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2021.2.3"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -59,20 +59,20 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doGetSeatChoiceShowRoomNull" time="0.039"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doGetSeatChoiceShowRoomNull" time="0.033"/>
   <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doGetNotValid" time="0.003"/>
-  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostSeatCheckOccupiedTrue" time="0.005"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostSeatCheckOccupiedTrue" time="0.002"/>
   <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostGetTicketShowNull" time="0.004"/>
-  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostList" time="0.002"/>
-  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostGetTicketRoomNull" time="0.004"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostList" time="0.003"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostGetTicketRoomNull" time="0.005"/>
   <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostNotValid" time="0.002"/>
   <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostListNotAjax" time="0.001"/>
   <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostGetTicket" time="0.004"/>
   <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doGetSeatChoice" time="0.006"/>
-  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostSeatCheckNotAjax" time="0.002"/>
-  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostGetTicketInsertFail" time="0.003"/>
-  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostGetTicketPurchaseZero" time="0.002"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostSeatCheckNotAjax" time="0.001"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostGetTicketInsertFail" time="0.002"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostGetTicketPurchaseZero" time="0.003"/>
   <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doPostSeatCheck" time="0.002"/>
-  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doGetSeatChoiceShowNull" time="0.009"/>
-  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doGetSeatChoiceRoomNull" time="0.003"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doGetSeatChoiceShowNull" time="0.002"/>
+  <testcase classname="UniCinemaTest.PurchaseManager.controller.PurchaseServletTest" name="doGetSeatChoiceRoomNull" time="0.01"/>
 </testsuite>
