@@ -33,6 +33,10 @@ public class Actor implements JsonSerializable {
      */
     private Film film;
 
+    /**
+     * metodo che converte la classe in un oggetto JSON
+     * @return root, oggetto JSON
+     */
     @Override
     public JSONObject toJson() {
         JSONObject root = new JSONObject();
@@ -42,6 +46,12 @@ public class Actor implements JsonSerializable {
         return root;
     }
 
+    /**
+     *
+      * @param id Rappresenta l'identificativo numerico dell'attore.
+     * @param firstname Rappresenta il nome dell'attore.
+     * @param lastname Rappresenta il cognome dell'attore.
+     */
     public Actor(int id, String firstname, String lastname) {
         this.id = id;
         this.firstname = firstname;

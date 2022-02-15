@@ -141,6 +141,12 @@ public class DirectorDAOMethods implements DirectorDAO {
         }
     }
 
+    /**
+     * metodo che permette di inserire una lista di Registi
+     * @param directorList lista di Registi da inserire
+     * @return true se la lista viene aggiunta, false altrimenti
+     * @throws SQLException
+     */
     public boolean insert(ArrayList<Director> directorList) throws SQLException {
 
         String query = "INSERT INTO director (firstname, lastname, id_film) VALUE ";
@@ -177,6 +183,13 @@ public class DirectorDAOMethods implements DirectorDAO {
         }
     }
 
+    /**
+     * Metodo che permette la modifica di una lista di attori a partire da filmId
+     * @param directorList lista di Registi da modificare
+     * @param filmId id del film in cui è presenta la lista dei registi
+     * @return true se la modifica va a buon fine, false altrimenti
+     * @throws SQLException
+     */
     public boolean update(ArrayList<Director> directorList, int filmId) throws SQLException {
 
         int deleteCount = 0,

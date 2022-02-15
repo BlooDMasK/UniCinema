@@ -245,6 +245,12 @@ public class FilmDAOMethods implements FilmDAO {
             return null;
     }
 
+    /**
+     * Metodo che permette di registrare un Film e ritorna il suo idFilm
+     * @param film da aggiungere
+     * @return id del film aggiunto
+     * @throws SQLException
+     */
     public int insertAndReturnID(Film film) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement("INSERT INTO film (title, duration, date_publishing, genre, plot, cover, poster) VALUES(?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, film.getTitle());

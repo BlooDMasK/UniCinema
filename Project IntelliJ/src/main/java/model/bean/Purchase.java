@@ -38,17 +38,29 @@ public class Purchase implements JsonSerializable {
      */
     private List<Ticket> ticketList;
 
+    /**
+     *
+     * @param account rappresenta l'Utente Registrato che ha effettuato l'acquisto
+     */
     public Purchase(Account account) {
         this.account = account;
         this.datePurchase = LocalDate.now();
     }
 
+    /**
+     *
+     * @param id Rappresenta l'identificativo dell'acquisto.
+     * @param date Rappresenta la data dell'acquisto.
+     */
     public Purchase(int id, LocalDate date) {
         this.id = id;
         this.datePurchase = date;
     }
 
-
+    /**
+     * metodo che converte la classe in un oggetto JSON
+     * @return root, oggetto JSON
+     */
     @Override
     public JSONObject toJson() {
         JSONObject root = new JSONObject();
