@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Classe che implementa i metodi definiti nell'interfaccia service del sottosistema Review (Gestione Recensioni)
+ * Classe che implementa i metodi definiti nell'interfaccia service del sottosistema Review (ReviewManager)
  */
 public class ReviewServiceMethods implements ReviewService{
 
@@ -50,6 +50,11 @@ public class ReviewServiceMethods implements ReviewService{
         return reviewDAO.fetchAll(film, paginator);
     }
 
+    /**
+     * Implementa la funzionalità che permette di restituire una lista contenete le recensioni effettuate per un film.
+     * @return lista di recensioni.
+     * @throws SQLException
+     */
     @Override
     public ArrayList<Review> fetchAll(int filmId) throws SQLException {
         return reviewDAO.fetchAll(filmId);
@@ -131,6 +136,12 @@ public class ReviewServiceMethods implements ReviewService{
         return reviewDAO.delete(accountId);
     }
 
+    /**
+     * Implementa la funzionalità che conta tutte le recensioni effettuate da un accountId
+     * @param id che ha effettuato le recensioni
+     * @return un intero che rappresenta il conteggio degli acquisti
+     * @throws SQLException
+     */
     @Override
     public int countByAccountId(int id) throws SQLException {
         return reviewDAO.countByAccountId(id);

@@ -22,6 +22,10 @@ public class FilmServiceMethods implements FilmService {
         filmDAO = new FilmDAOMethods();
     }
 
+    /**
+     * Metodo che permette di settare il filmDAO con la propria implementazione.
+     * @param filmDAOMethods
+     */
     public void setFilmDAO(FilmDAOMethods filmDAOMethods) {
         this.filmDAO = filmDAOMethods;
     }
@@ -37,16 +41,34 @@ public class FilmServiceMethods implements FilmService {
         return filmDAO.fetch(filmId);
     }
 
+    /**
+     * Implementa la funzionalità che permette di restituire la lista dei film contenenti il carattere immesso nella searchbar
+     * @param title del film da ricercare
+     * @return lista dei film
+     * @throws SQLException
+     */
     @Override
     public ArrayList<Film> search(String title) throws SQLException {
         return filmDAO.searchFromTitle(title);
     }
 
+    /**
+     * Implementa la funzionalità che permette di restituire la lista degli ultimi film usciti al cinema.
+     * @param total numero di film da restituire
+     * @return lista dei film
+     * @throws SQLException
+     */
     @Override
     public ArrayList<Film> fetchLastReleases(int total) throws SQLException {
         return filmDAO.fetchLastReleases(total);
     }
 
+    /**
+     * Implementa la funzionalità che permette di restituire la lista dei film prossimi all'uscita
+     * @param total numero di film da restituire
+     * @return lista dei film
+     * @throws SQLException
+     */
     @Override
     public ArrayList<Film> fetchComingSoon(int total) throws SQLException {
         return filmDAO.fetchComingSoon(total);

@@ -24,18 +24,39 @@ import java.util.List;
 @MultipartConfig
 public class FilmManagerServlet extends Controller implements ErrorHandler {
 
+    /**
+     * {@link FilmManagerService}
+     */
     FilmManagerService filmManagerService;
+    /**
+     * {@link FilmService}
+     */
     FilmService filmInfoService;
+    /**
+     * {@link FilmValidator}
+     */
     FilmValidator filmValidator;
 
+    /**
+     * Metodo che permette di settare il FilmValidator
+     * @param filmValidator
+     */
     public void setFilmValidator(FilmValidator filmValidator) {
         this.filmValidator = filmValidator;
     }
 
+    /**
+     * Metodo che permette di settare il FilmManagerService con la sua implementazione
+     * @param filmManagerService
+     */
     public void setFilmManagerService(FilmManagerService filmManagerService) {
         this.filmManagerService = filmManagerService;
     }
 
+    /**
+     * Metodo che permette di settare il FilmService con la sua implementazione
+     * @param filmInfoService
+     */
     public void setFilmInfoService(FilmService filmInfoService) {
         this.filmInfoService = filmInfoService;
     }
@@ -46,13 +67,30 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
         filmValidator = new FilmValidator();
     }
 
+    /**
+     * Implementa le funzionalità svolte durante una chiamata di tipo GET
+     * @param request oggetto rappresentante la chiamata Http request
+     * @param response oggetto rappresentante la chiamata Http response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession();
+            /**
+             * Rappresenta il path che permette di smistare le funzionalità.
+             */
             String path = getPath(request);
+
+            /**
+             * Rappresenta la sessione attuale {@link HttpSession}.
+             */
+            HttpSession session = request.getSession();
             String reloadPath;
             switch(path) {
+                /**
+                 * Implementa le funzionalità che permettono di rimuovere un film
+                 */
                 case "/remove": {
                     authorize(session);
                     reloadPath = request.getContextPath() + "/film/schedule";
@@ -67,6 +105,9 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
                     break;
                 }
 
+                /**
+                 * Implementa le funzionalità che permettono di aggiungere un film
+                 */
                 case "/add":
                     authorize(session);
                     session.removeAttribute("alert");
@@ -77,6 +118,9 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
                     request.getRequestDispatcher(view("site/movie/form")).forward(request, response);
                     break;
 
+                /**
+                 * Implementa le funzionalità che permettono di aggiornare un film
+                 */
                 case "/update": {
                     authorize(session);
                     int filmId = Integer.parseInt(request.getParameter("filmId"));
@@ -103,13 +147,30 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
         }
     }
 
+    /**
+     * Implementa le funzionalità svolte durante una chiamata di tipo POST
+     * @param request oggetto rappresentante la chiamata Http request
+     * @param response oggetto rappresentante la chiamata Http response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession();
+            /**
+             * Rappresenta il path che permette di smistare le funzionalità.
+             */
             String path = getPath(request);
 
+            /**
+             * Rappresenta la sessione attuale {@link HttpSession}.
+             */
+            HttpSession session = request.getSession();
+
             switch(path) {
+                /**
+                 * Implementa le funzionalità che permettono di aggiungere un film
+                 */
                 case "/add": {
                     authorize(session);
                     request.setAttribute("back", view("site/movie/form"));
@@ -129,6 +190,9 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
                     break;
                 }
 
+                /**
+                 * Implementa le funzionalità che permettono di aggiornare un film
+                 */
                 case "/update": {
                     authorize(session);
                     request.setAttribute("back", view("site/movie/form"));
@@ -175,6 +239,14 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
         }
     }
 
+    /**
+     * Implementa la funzionalità che permette di verificare se un film è stato modificato
+     * @param request {@link HttpServletRequest}
+     * @param oldFilm oggetto film prima delle modifiche
+     * @return true se il film è stato modificato, false altrimenti
+     * @throws ServletException
+     * @throws IOException
+     */
     private boolean hasModifiedFilm(HttpServletRequest request, Film oldFilm) throws ServletException, IOException {
         int length = Integer.parseInt(request.getParameter("length")),
             genre = Integer.parseInt(request.getParameter("genre"));
@@ -313,6 +385,13 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
         return false;
     }
 
+    /**
+     * Implementa la funzionalità che permette di settare valori aggiornati ad un film
+     * @param request {@link HttpServletRequest}
+     * @param film aggiornato
+     * @throws ServletException
+     * @throws IOException
+     */
     public void setFilmValues(HttpServletRequest request, Film film) throws ServletException, IOException {
         ArrayList<String> actorsFirstname = getParamsArrayList(request, "ActorsFirstname");
         ArrayList<String> actorsLastname = getParamsArrayList(request, "ActorsLastname");

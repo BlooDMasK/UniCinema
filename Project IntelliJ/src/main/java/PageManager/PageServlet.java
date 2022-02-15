@@ -16,12 +16,19 @@ import java.util.*;
 @WebServlet(name = "PageServlet", value = "/pages/*")
 public class PageServlet extends Controller implements ErrorHandler {
 
+    /**
+     * {@link FilmService}
+     */
     FilmService filmService;
 
     public PageServlet() throws SQLException {
         this.filmService = new FilmServiceMethods();
     }
 
+    /**
+     * Metodo che permette di settare il FilmServiceMethods e la sua implementazione
+     * @param filmService
+     */
     public void setFilmService(FilmServiceMethods filmService) {
         this.filmService = filmService;
     }
@@ -38,6 +45,9 @@ public class PageServlet extends Controller implements ErrorHandler {
         try {
             String path = getPath(request);
             switch (path) {
+                /**
+                 * Implementa la funzionalità di visualizzazione dell'homepage
+                 */
                 case "/": //Homepage
                     ArrayList<Film> filmCarousel = filmService.fetchLastReleases(3);
                     ArrayList<Film> filmLastReleases = filmService.fetchLastReleases(6);

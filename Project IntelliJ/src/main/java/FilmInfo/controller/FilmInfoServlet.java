@@ -23,21 +23,37 @@ import static java.lang.Math.round;
 
 @WebServlet(name = "FilmInfoServlet", value = "/film/*")
 public class FilmInfoServlet extends Controller implements ErrorHandler {
+
     /**
-     * I service per effettuare le operazioni di persistenza.
+     * {@link FilmService}
      */
     private FilmService filmService;
+    /**
+     * {@link ShowService}
+     */
     private ShowService showService;
     private JSONObject jsonObject;
 
+    /**
+     * Metodo che permette di settare il JSONObject
+     * @param jsonObject
+     */
     public void setJsonObject(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
     }
 
+    /**
+     * Metodo che permette di settare il FilmService con la sua implementazione
+     * @param filmService
+     */
     public void setFilmService(FilmService filmService) {
         this.filmService = filmService;
     }
 
+    /**
+     * Metodo che permette di settare lo ShowService con la sua implementazione
+     * @param showService
+     */
     public void setShowService(ShowService showService) {
         this.showService = showService;
     }
@@ -120,12 +136,25 @@ public class FilmInfoServlet extends Controller implements ErrorHandler {
         }
     }
 
+    /**
+     * Implementa le funzionalità svolte durante una chiamata di tipo POST
+     * @param request oggetto rappresentante la chiamata Http request
+     * @param response oggetto rappresentante la chiamata Http response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            /**
+             * Rappresenta il path che permette di smistare le funzionalità.
+             */
             String path = getPath(request);
 
             switch(path) {
+                /**
+                 * Implementa la funzionalità che permette di ricercare un film
+                 */
                 case "/search":
                     if(isAjax(request)) {
                         String title = request.getParameter("title");

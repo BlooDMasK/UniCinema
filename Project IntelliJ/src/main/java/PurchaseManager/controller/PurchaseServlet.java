@@ -22,10 +22,17 @@ import java.util.*;
 @WebServlet(name = "PurchaseServlet", value = "/purchase/*")
 public class PurchaseServlet extends Controller implements ErrorHandler {
 
+    /**
+     * {@link ShowService}
+     */
     ShowService showService;
     PurchaseService purchaseService;
     JSONObject jsonObject;
 
+    /**
+     * Metodo che permette di settare il JSONObject
+     * @param jsonObject
+     */
     public void setJsonObject(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
     }
@@ -36,20 +43,45 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
         jsonObject = new JSONObject();
     }
 
+    /**
+     * Metodo che permette di settare lo ShowService con la sua implementazione
+     * @param showService
+     */
     public void setShowService(ShowService showService) {
         this.showService = showService;
     }
 
+    /**
+     * Metodo che permette di settare il PurchaseService con la sua implementazione
+     * @param purchaseService
+     */
     public void setPurchaseService(PurchaseService purchaseService) {
         this.purchaseService = purchaseService;
     }
 
+    /**
+     * Implementa le funzionalità svolte durante una chiamata di tipo GET
+     * @param request oggetto rappresentante la chiamata Http request
+     * @param response oggetto rappresentante la chiamata Http response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            /**
+             * Rappresenta il path che permette di smistare le funzionalità.
+             */
             String path = getPath(request);
+
+            /**
+             * Rappresenta la sessione
+             */
             HttpSession session = request.getSession();
             switch (path) {
+                /**
+                 * Implementa la funzionalità che permette di scegliere un posto in sala
+                 */
                 case "/seat-choice":
                     authenticate(session);
                     int showId = Integer.parseInt(request.getParameter("showId"));
@@ -81,12 +113,30 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
         }
     }
 
+    /**
+     * Implementa le funzionalità svolte durante una chiamata di tipo POST
+     * @param request oggetto rappresentante la chiamata Http request
+     * @param response oggetto rappresentante la chiamata Http response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession();
+
+            /**
+             * Rappresenta il path che permette di smistare le funzionalità.
+             */
             String path = getPath(request);
+
+            /**
+             * Rappresenta la sessione
+             */
+            HttpSession session = request.getSession();
             switch (path) {
+                /**
+                 * Implementa la funzionalità che permette di verificare se un posto è occupato o meno
+                 */
                 case "/seat-check":
                     if(isAjax(request)) {
                         int showId = Integer.parseInt(request.getParameter("showId"));
@@ -103,6 +153,9 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
                     }
                     break;
 
+                /**
+                 * Implementa la funzionalità che permette di acquistare un biglietto
+                 */
                 case "/get-ticket":
                     authenticate(session);
                     Purchase purchase = new Purchase(getSessionAccount(session));
@@ -148,6 +201,9 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
                         internalError("Errore nella creazione dell'acquisto");
                     break;
 
+                /**
+                 * Implementa la funzionalità che permette di restituire una lista di purchase
+                 */
                 case "/list":
                     if(isAjax(request)) {
                         int accountId = getSessionAccount(session).getId();
@@ -177,5 +233,8 @@ public class PurchaseServlet extends Controller implements ErrorHandler {
         }
     }
 
+    /**
+     * Stabilisce il prezzo del biglietto
+     */
     public final static double TICKET_PRICE = 7.0;
 }

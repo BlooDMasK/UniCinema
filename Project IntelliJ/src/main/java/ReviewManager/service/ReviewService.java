@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Interfaccia per i metodi del sottosistema Review (Gestione Recensioni)
+ * Interfaccia per i metodi del sottosistema Review (ReviewManager)
  */
 public interface ReviewService {
 
@@ -78,5 +78,11 @@ public interface ReviewService {
      */
     boolean delete(int accountId) throws SQLException;
 
+    /**
+     * Firma del metodo che implementa la funzionalità che conta tutte le recensioni effettuate da un accountId
+     * @param id che ha effettuato le recensioni
+     * @return un intero che rappresenta il conteggio degli acquisti
+     * @throws SQLException
+     */
     int countByAccountId(int id) throws SQLException;
 }

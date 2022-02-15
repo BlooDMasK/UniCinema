@@ -20,7 +20,13 @@ import java.util.List;
 @WebServlet(name = "SignupServlet", value = "/signup")
 public class SignupServlet extends Controller implements ErrorHandler {
 
+    /**
+     * {@link SignupService}
+     */
     SignupService signupService;
+    /**
+     * {@link AccountValidator}
+     */
     AccountValidator accountValidator;
 
     public SignupServlet() throws SQLException {
@@ -28,10 +34,18 @@ public class SignupServlet extends Controller implements ErrorHandler {
         this.accountValidator = new AccountValidator();
     }
 
+    /**
+     * Metodo che setta il SignupService con la sua implementazone
+     * @param signupService
+     */
     public void setSignupService(SignupService signupService) {
         this.signupService = signupService;
     }
 
+    /**
+     * Metodo che setta l'AccountValidator con la sua implementazione
+     * @param accountValidator
+     */
     public void setAccountValidator(AccountValidator accountValidator) {
         this.accountValidator = accountValidator;
     }
@@ -49,7 +63,7 @@ public class SignupServlet extends Controller implements ErrorHandler {
     }
 
     /**
-     * Implementa le funzionalità svolte durante una chiamata di tipo POST
+     * Implementa le funzionalità svolte durante una chiamata di tipo POST (nello specifico, le funzionalità di Signup)
      * @param request oggetto rappresentante la chiamata Http request
      * @param response oggetto rappresentante la chiamata Http response
      * @throws ServletException

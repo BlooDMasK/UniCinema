@@ -6,9 +6,9 @@ import model.dao.account.AccountDAOMethods;
 
 import java.sql.SQLException;
 
-
-
-
+/**
+ * Classe che implementa i metodi definiti nell'interfaccia service del sottosistema Account (Authentication)
+ */
 public class AuthenticationServiceMethods implements AuthenticationService{
     /**
      * Si occupa delle operazioni CRUD per un account.

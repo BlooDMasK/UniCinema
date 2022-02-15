@@ -4,10 +4,14 @@ import model.bean.Account;
 
 import java.sql.SQLException;
 
+/**
+ * Interfaccia per i metodi del sottosistema Account (Authentication)
+ */
 public interface AuthenticationService {
     /**
      * Firma del metodo che implementa la funzione di login.
-     * @param account dell'utente da loggare.
+     * @param email dell'utente da loggare.
+     * @param pswrd dell'utente da loggare
      * @return dell'utente da loggato.
      * @throws SQLException
      */

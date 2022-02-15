@@ -15,8 +15,6 @@ import java.util.TimeZone;
 @Generated
 public class ConPool {
 
-    //private static DataSource datasource;
-
     private static ConPool instance;
     private Connection connection;
 

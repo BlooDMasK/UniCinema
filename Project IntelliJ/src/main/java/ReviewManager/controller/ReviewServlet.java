@@ -27,8 +27,17 @@ import static java.lang.Math.round;
 @WebServlet(name = "ReviewServlet", value = "/review/*")
 public class ReviewServlet extends Controller implements ErrorHandler {
 
+    /**
+     * {@link ReviewService}
+     */
     ReviewService reviewService;
+    /**
+     * {@link FilmService}
+     */
     FilmService filmService;
+    /**
+     * {@link ReviewValidator}
+     */
     ReviewValidator reviewValidator;
     JSONObject jsonObject;
 
@@ -43,14 +52,26 @@ public class ReviewServlet extends Controller implements ErrorHandler {
         this.jsonObject = jsonObject;
     }
 
+    /**
+     * Metodo che permette di settare il ReviewService con la sua implementazione
+     * @param reviewService
+     */
     public void setReviewService(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
 
+    /**
+     * Metodo che permette di settare il FilmService con la sua implementazione
+     * @param filmService
+     */
     public void setFilmService(FilmService filmService) {
         this.filmService = filmService;
     }
 
+    /**
+     * Metodo che permette di settare il ReviewValidator
+     * @param reviewValidator
+     */
     public void setReviewValidator(ReviewValidator reviewValidator) {
         this.reviewValidator = reviewValidator;
     }
@@ -64,10 +85,19 @@ public class ReviewServlet extends Controller implements ErrorHandler {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
-            HttpSession session = request.getSession();
-
+            /**
+             * Rappresenta il path che permette di smistare le funzionalità.
+             */
             String path = getPath(request);
+
+            /**
+             * Rappresenta la sessione attuale {@link HttpSession}.
+             */
+            HttpSession session = request.getSession();
             switch(path) {
+                /**
+                 * Implementa le funzionalità che permettono di visualizzare la lista delle recensioni
+                 */
                 case "/list":
                     if (isAjax(request)) {
                 /*
@@ -120,6 +150,9 @@ public class ReviewServlet extends Controller implements ErrorHandler {
                 }
                 break;
 
+                /**
+                 * Implementa le funzionalità che permettono di aggiungere una recensione
+                 */
                 case "/add":
                     if(isAjax(request)) {
                         validate(reviewValidator.validateReview(request));
@@ -140,6 +173,9 @@ public class ReviewServlet extends Controller implements ErrorHandler {
                     }
                     break;
 
+                /**
+                 * Implementa le funzionalità che permettono di rimuovere una recensione
+                 */
                 case "/remove":
                     if(isAjax(request)) {
                         int accountId = Integer.parseInt(request.getParameter("accountId"));

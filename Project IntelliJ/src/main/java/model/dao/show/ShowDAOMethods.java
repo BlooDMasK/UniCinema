@@ -78,6 +78,13 @@ public class ShowDAOMethods implements ShowDAO {
         }
     }
 
+    /**
+     * Implementa la funzionalità del metodo che permette di restituire la lista degli spettacoli giornalieri
+     * @param roomId identificativo numerico della sala all'interno della quale viene proiettato lo spettacolo
+     * @param date data dello spettacolo
+     * @return lista degli spettacoli
+     * @throws SQLException
+     */
     public ArrayList<Show> fetchDaily(int roomId, LocalDate date) throws SQLException {
 
 
@@ -104,6 +111,14 @@ public class ShowDAOMethods implements ShowDAO {
 
     }
 
+    /**
+     * Implementa la funzionalità del metodo che permette di restituire la lista degli spettacoli giornalieri
+     * @param roomId identificativo numerico della sala all'interno della quale viene proiettato lo spettacolo
+     * @param date data dello spettacolo
+     * @param excludingShow spettacolo da escludere
+     * @return lista degli spettacoli
+     * @throws SQLException
+     */
     public ArrayList<Show> fetchDaily(int roomId, LocalDate date, Show excludingShow) throws SQLException {
 
 

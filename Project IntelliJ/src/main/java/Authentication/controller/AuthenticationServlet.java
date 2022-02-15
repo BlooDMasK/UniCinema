@@ -22,23 +22,48 @@ import static utils.validator.RequestValidator.isNull;
 @WebServlet(name = "AuthenticationServlet", value = "/account/*")
 public class AuthenticationServlet extends Controller implements ErrorHandler {
 
+    /**
+     * {@link AuthenticationService}
+     */
     AuthenticationService authenticationService;
+    /**
+     * {@link ReviewService}
+     */
     ReviewService reviewService;
+    /**
+     * {@link AccountValidator}
+     */
     AccountValidator accountValidator;
     JSONObject jsonObject;
 
+    /**
+     * Metodo che permette di settare il JSONObject
+     * @param jsonObject
+     */
     public void setJsonObject(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
     }
 
+    /**
+     * Metodo che permette di settare l'accountValidator
+     * @param accountValidator
+     */
     public void setAccountValidator(AccountValidator accountValidator) {
         this.accountValidator = accountValidator;
     }
 
+    /**
+     * Metodo che permette di settare l'AuthenticationService con la sua implementazione
+     * @param authenticationService
+     */
     public void setAuthenticationService(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
+    /**
+     * Metodo che permette di settare il ReviewService con la sua implementazione
+     * @param reviewService
+     */
     public void setReviewService(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
