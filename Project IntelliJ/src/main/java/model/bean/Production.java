@@ -42,6 +42,13 @@ public class Production implements JsonSerializable {
         return root;
     }
 
+
+    /**
+     *
+     * @param id rappresenta l'id della produzione
+     * @param firstname rappresenta il nome della produzione
+     * @param lastname rappresenta il cognome della produzione
+     */
     public Production(int id, String firstname, String lastname) {
         this.id = id;
         this.firstname = firstname;

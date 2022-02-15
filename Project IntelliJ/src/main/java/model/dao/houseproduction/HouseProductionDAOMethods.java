@@ -4,7 +4,6 @@ import lombok.Generated;
 import model.bean.HouseProduction;
 import utils.ConPool;
 import utils.Paginator;
-import utils.SqlMethods;
 import utils.extractor.HouseProductionExtractor;
 import model.bean.Film;
 
@@ -139,6 +138,12 @@ public class HouseProductionDAOMethods implements HouseProductionDAO {
         }
     }
 
+    /**
+     * Metodo che permette di registrare una lista di Case di Produzione
+     * @param houseProductionList lista di Case di Produzione da registrare
+     * @return true se la lista di Case di Produzione viene aggiunta, false altrimenti
+     * @throws SQLException
+     */
     public boolean insert(ArrayList<HouseProduction> houseProductionList) throws SQLException {
 
         String query = "INSERT INTO house_production (name_house, id_film) VALUE ";
@@ -171,6 +176,13 @@ public class HouseProductionDAOMethods implements HouseProductionDAO {
         }
     }
 
+    /**
+     * Metodo che permette la modifica di una lista di Case di Produzione presente in un film, a partire dal suo filmId
+     * @param houseProductionList lista di Case di Produzione da modificare
+     * @param filmId id del film contente la lista da modificare
+     * @return true se la modifica va a buon fine, false altrimenti
+     * @throws SQLException
+     */
     public boolean update(ArrayList<HouseProduction> houseProductionList, int filmId) throws SQLException {
 
         int deleteCount = 0,

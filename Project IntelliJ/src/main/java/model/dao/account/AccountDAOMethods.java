@@ -1,7 +1,6 @@
 package model.dao.account;
 
 import lombok.Generated;
-import utils.SqlMethods;
 import utils.extractor.AccountExtractor;
 import utils.ConPool;
 import utils.Paginator;
@@ -21,6 +20,7 @@ public class AccountDAOMethods implements AccountDAO {
 
     private ConPool conPool = ConPool.getInstance();
     private Connection con = conPool.getConnection();
+
 
     public AccountDAOMethods() throws SQLException {
     }

@@ -4,7 +4,6 @@ import lombok.Generated;
 import model.bean.Production;
 import utils.ConPool;
 import utils.Paginator;
-import utils.SqlMethods;
 import utils.extractor.ProductionExtractor;
 import model.bean.Film;
 
@@ -143,6 +142,12 @@ public class ProductionDAOMethods implements ProductionDAO {
 
     }
 
+    /**
+     * Metodo che implementa la funzionalità di registrare una lista di Produzioni
+     * @param productionList lista di Produzioni da registrare
+     * @return true se la registrazione ha successo, false altrimenti
+     * @throws SQLException
+     */
     public boolean insert(ArrayList<Production> productionList) throws SQLException {
 
         String query = "INSERT INTO production (firstname, lastname, id_film) VALUE ";
@@ -178,6 +183,13 @@ public class ProductionDAOMethods implements ProductionDAO {
 
     }
 
+    /**
+     * Metodo che implementa la funzionalità di aggiornamento di una lista di Produzioni di un film, a partire dal suo idFilm
+     * @param productionList lista di Produzioni da modificare
+     * @param filmId id del film contenente la lista di Produzioni da modificare
+     * @return
+     * @throws SQLException
+     */
     public boolean update(ArrayList<Production> productionList, int filmId) throws SQLException {
 
         int deleteCount = 0,

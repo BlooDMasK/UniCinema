@@ -20,9 +20,10 @@ public class ConPool {
     private static ConPool instance;
     private Connection connection;
 
-    private String url = "jdbc:mysql://localhost:3307/cinema?useSSL=false&serverTimezone=" + TimeZone.getDefault().getID();
+    private String url = "jdbc:mysql://localhost:3306/cinema?useSSL=false&serverTimezone=" + TimeZone.getDefault().getID();
     private String username = "root";
     private String password = "Napoli*99";
+
 
     private ConPool() throws SQLException {
         try {

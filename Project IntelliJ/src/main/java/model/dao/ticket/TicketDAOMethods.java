@@ -3,7 +3,6 @@ package model.dao.ticket;
 import lombok.Generated;
 import utils.ConPool;
 import utils.Paginator;
-import utils.SqlMethods;
 import utils.extractor.TicketExtractor;
 import model.bean.Ticket;
 
@@ -100,6 +99,14 @@ public class TicketDAOMethods implements TicketDAO {
 
     }
 
+    /**
+     * Metodo che implementa la funzionalità di verificare se un Biglietto è disponibile a partire da showId, row, seat
+     * @param showId identificativo numerico dello Spettacolo
+     * @param row carattere che rappresenta la fila
+     * @param seat intero che rappresenta il posto in sala
+     * @return true se il Biglietto è disponibile, false altrimenti
+     * @throws SQLException
+     */
     public boolean fetch(int showId, char row, int seat) throws SQLException {
 
         try (PreparedStatement ps = con.prepareStatement("SELECT * FROM ticket WHERE id_spectacle = ? AND rowletter = ? AND seat = ?")) {
@@ -159,7 +166,6 @@ public class TicketDAOMethods implements TicketDAO {
             int rows = ps.executeUpdate();
             return rows == 1;
         }
-
     }
 
     /**

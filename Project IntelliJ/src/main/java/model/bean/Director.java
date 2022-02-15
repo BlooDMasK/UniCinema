@@ -33,12 +33,24 @@ public class Director implements JsonSerializable {
      */
     private Film film;
 
+    /**
+     *
+     * @param id Rappresenta l'identificativo numerico del regista.
+     * @param firstname Rappresenta il nome del regista.
+     * @param lastname Rappresenta il cognome del regista.
+     */
+
     public Director(int id, String firstname, String lastname) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
     }
 
+
+    /**
+     * metodo che converte la classe in un oggetto JSON
+     * @return root, oggetto JSON
+     */
     @Override
     public JSONObject toJson() {
         JSONObject root = new JSONObject();

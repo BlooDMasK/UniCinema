@@ -3,7 +3,6 @@ package model.dao.purchase;
 import lombok.Generated;
 import model.bean.Show;
 import model.bean.Ticket;
-import utils.SqlMethods;
 import utils.extractor.FilmExtractor;
 import utils.extractor.PurchaseExtractor;
 import utils.ConPool;
@@ -39,6 +38,13 @@ public class PurchaseDAOMethods implements PurchaseDAO {
         return new ArrayList<>();
     }
 
+    /**
+     * Metodo che implementa la funzionalità di restuituire la lista degli Ordini di un Account a partire da accountId
+     * @param accountId identificativo numerico che rappresenta l'id dell'Account
+     * @param paginator {@link Paginator}
+     * @return lista degli Ordini
+     * @throws SQLException
+     */
     public ArrayList<Purchase> fetchAll(int accountId, Paginator paginator) throws SQLException {
 
         ArrayList<Purchase> purchaseList = new ArrayList<>();
@@ -109,6 +115,12 @@ public class PurchaseDAOMethods implements PurchaseDAO {
         }
     }
 
+    /**
+     * Metodo che implementa la funzionalità di aggiungere un Ordine e restituire il suo identificativo
+     * @param purchase Ordine da registrare
+     * @return identificativo numerico dell'Ordine aggiunto
+     * @throws SQLException
+     */
     public int insertAndReturnID(Purchase purchase) throws SQLException {
 
         try (PreparedStatement ps = con.prepareStatement("INSERT INTO purchase(date_purchase, id_customer) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS)) {
@@ -126,6 +138,11 @@ public class PurchaseDAOMethods implements PurchaseDAO {
         }
     }
 
+    /**
+     * Metodo che implementa la funzionalità di restituire quanti Ordini sono presenti nel Db
+     * @return intero
+     * @throws SQLException
+     */
     @Override
     public int countAll() throws SQLException {
 
@@ -140,6 +157,12 @@ public class PurchaseDAOMethods implements PurchaseDAO {
 
     }
 
+    /**
+     * Metodo che implementa la funzionalità di restituire quanti Ordini sono presenti in un Account a partire da accountId
+     * @param accountId identificativo numerico dell'Account
+     * @return intero
+     * @throws SQLException
+     */
     public int countAll(int accountId) throws SQLException{
 
         try (PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) AS ct FROM purchase WHERE id_customer = ?")) {

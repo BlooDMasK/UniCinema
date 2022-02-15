@@ -313,7 +313,7 @@ public class FilmManagerServlet extends Controller implements ErrorHandler {
 <span class="fc" id="L313">        return false;</span>
     }
 
-    private void setFilmValues(HttpServletRequest request, Film film) throws ServletException, IOException {
+    public void setFilmValues(HttpServletRequest request, Film film) throws ServletException, IOException {
 <span class="fc" id="L317">        ArrayList&lt;String&gt; actorsFirstname = getParamsArrayList(request, &quot;ActorsFirstname&quot;);</span>
 <span class="fc" id="L318">        ArrayList&lt;String&gt; actorsLastname = getParamsArrayList(request, &quot;ActorsLastname&quot;);</span>
 <span class="fc" id="L319">        ArrayList&lt;String&gt; actorsId = getParamsArrayList(request, &quot;ActorsId&quot;);</span>

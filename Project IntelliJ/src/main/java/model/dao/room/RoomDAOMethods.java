@@ -3,7 +3,6 @@ package model.dao.room;
 import lombok.Generated;
 import utils.ConPool;
 import utils.Paginator;
-import utils.SqlMethods;
 import utils.extractor.RoomExtractor;
 import model.bean.Room;
 
@@ -78,6 +77,12 @@ public class RoomDAOMethods implements RoomDAO {
 
     }
 
+    /**
+     * Metodo che implementa la funzionalità che restituisce la Sala in cui viene effettuato uno Spettacolo a partire da showId
+     * @param showId identificativo numerico dello Spettacolo ospitato dalla Sala
+     * @return
+     * @throws SQLException
+     */
     public Room fetchFromShowId(int showId) throws SQLException {
 
         try (PreparedStatement ps = con.prepareStatement("SELECT * FROM room JOIN spectacle sp on room.id = sp.id_room WHERE sp.id = ?")) {
