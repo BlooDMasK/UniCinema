@@ -3,7 +3,6 @@ package model.dao.room;
 import lombok.Generated;
 import utils.ConPool;
 import utils.Paginator;
-import utils.SqlMethods;
 import utils.extractor.RoomExtractor;
 import model.bean.Room;
 

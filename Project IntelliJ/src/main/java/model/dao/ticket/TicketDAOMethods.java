@@ -3,7 +3,6 @@ package model.dao.ticket;
 import lombok.Generated;
 import utils.ConPool;
 import utils.Paginator;
-import utils.SqlMethods;
 import utils.extractor.TicketExtractor;
 import model.bean.Ticket;
 

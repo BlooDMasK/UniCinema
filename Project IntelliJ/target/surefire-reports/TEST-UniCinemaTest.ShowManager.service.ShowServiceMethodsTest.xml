@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="9" failures="0" name="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" time="0.015" errors="0" skipped="0">
+<testsuite tests="9" failures="0" name="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" time="0.025" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2021.2.3"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -59,13 +59,13 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] 1 (fetchRoom)" time="0.006"/>
-  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] Show[id=12, date=2022-02-14, time=11:29:28.118009700, ticketList=null, film=null, room=null] (insert)" time="0.001"/>
-  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] 1 (remove)" time="0.002"/>
-  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] Show[id=12, date=2022-02-14, time=11:29:28.118009700, ticketList=null, film=null, room=null] (update)" time="0"/>
+  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] 1 (fetchRoom)" time="0.016"/>
+  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] Show[id=12, date=2022-02-14, time=17:49:08.963753100, ticketList=null, film=null, room=null] (insert)" time="0"/>
+  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] 1 (remove)" time="0"/>
+  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] Show[id=12, date=2022-02-14, time=17:49:08.963753100, ticketList=null, film=null, room=null] (update)" time="0"/>
   <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] 1 (fetch)" time="0"/>
-  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="fetchAll" time="0"/>
-  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] Film[id=12, length=120, genre=5, title=titoloFilm, plot=tramaFilm, cover=cover.png, poster=poster.png, datePublishing=2022-02-14, actorList=null, directorList=null, houseProductionList=null, productionList=null, reviewList=null, showList=null] (fetchAll)" time="0.006"/>
-  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] 12, 2022-02-14 (fetchDaily)" time="0"/>
-  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] 12, 2022-02-14, Show[id=10, date=2022-02-14, time=11:29:28.118009700, ticketList=null, film=null, room=null] (fetchDaily)" time="0"/>
+  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="fetchAll" time="0.001"/>
+  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] Film[id=12, length=120, genre=5, title=titoloFilm, plot=tramaFilm, cover=cover.png, poster=poster.png, datePublishing=2022-02-14, actorList=null, directorList=null, houseProductionList=null, productionList=null, reviewList=null, showList=null] (fetchAll)" time="0"/>
+  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] 12, 2022-02-14 (fetchDaily)" time="0.008"/>
+  <testcase classname="UniCinemaTest.ShowManager.service.ShowServiceMethodsTest" name="[0] 12, 2022-02-14, Show[id=10, date=2022-02-14, time=17:49:08.963753100, ticketList=null, film=null, room=null] (fetchDaily)" time="0"/>
 </testsuite>

@@ -3,7 +3,6 @@ package model.dao.show;
 import lombok.Generated;
 import utils.ConPool;
 import utils.Paginator;
-import utils.SqlMethods;
 import utils.extractor.FilmExtractor;
 import utils.extractor.ShowExtractor;
 import model.bean.Film;

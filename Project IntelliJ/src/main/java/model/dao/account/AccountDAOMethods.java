@@ -1,7 +1,6 @@
 package model.dao.account;
 
 import lombok.Generated;
-import utils.SqlMethods;
 import utils.extractor.AccountExtractor;
 import utils.ConPool;
 import utils.Paginator;

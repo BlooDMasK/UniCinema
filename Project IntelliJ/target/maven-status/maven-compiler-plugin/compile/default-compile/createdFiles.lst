@@ -56,7 +56,6 @@ utils\Alert.class
 model\dao\show\ShowDAO.class
 utils\extractor\ShowExtractor.class
 utils\extractor\ReviewExtractor.class
-utils\SqlMethods.class
 model\bean\Film.class
 utils\InvalidRequestException.class
 model\bean\Director.class

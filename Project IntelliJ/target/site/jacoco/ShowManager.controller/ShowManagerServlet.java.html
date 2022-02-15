@@ -169,7 +169,7 @@ public class ShowManagerServlet extends Controller implements ErrorHandler {
 <span class="fc" id="L169">    }</span>
 
     private boolean isOverlapping(LocalDateTime start1, LocalDateTime end1, LocalDateTime start2, LocalDateTime end2) {
-<span class="pc bpc" id="L172" title="3 of 4 branches missed.">        return start1.isBefore(end2) &amp;&amp; start2.isBefore(end1);</span>
+<span class="pc bpc" id="L172" title="1 of 4 branches missed.">        return start1.isBefore(end2) &amp;&amp; start2.isBefore(end1);</span>
     }
 
     private long toHour(int filmMinutes) {
@@ -191,13 +191,13 @@ public class ShowManagerServlet extends Controller implements ErrorHandler {
 <span class="fc" id="L191">                LocalTime showTime = show.getTime();</span>
 <span class="fc" id="L192">                LocalDateTime showDateTime = LocalDateTime.of(date, showTime);</span>
 <span class="fc" id="L193">                long showLength = toHour(show.getFilm().getLength()) + 1;</span>
-<span class="pc bpc" id="L194" title="1 of 2 branches missed.">                if (isOverlapping(localDateTime, localDateTime.plusHours(hourTime), showDateTime, showDateTime.plusHours(showLength))) {</span>
-<span class="nc" id="L195">                    skipFlag = true;</span>
-<span class="nc" id="L196">                    break;</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">                if (isOverlapping(localDateTime, localDateTime.plusHours(hourTime), showDateTime, showDateTime.plusHours(showLength))) {</span>
+<span class="fc" id="L195">                    skipFlag = true;</span>
+<span class="fc" id="L196">                    break;</span>
                 }
 <span class="fc" id="L198">            }</span>
 
-<span class="pc bpc" id="L200" title="1 of 2 branches missed.">            if (!skipFlag)</span>
+<span class="fc bfc" id="L200" title="All 2 branches covered.">            if (!skipFlag)</span>
 <span class="pc bpc" id="L201" title="1 of 2 branches missed.">                list.put(localDateTime.getHour() + &quot;:&quot; + (localDateTime.getMinute() &lt; 10 ? localDateTime.getMinute() + &quot;0&quot; : localDateTime.getMinute()));</span>
 
 <span class="fc" id="L203">            localDateTime = localDateTime.plusHours(1);</span>

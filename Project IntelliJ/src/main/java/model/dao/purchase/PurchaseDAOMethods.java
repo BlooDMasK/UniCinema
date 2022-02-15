@@ -3,7 +3,6 @@ package model.dao.purchase;
 import lombok.Generated;
 import model.bean.Show;
 import model.bean.Ticket;
-import utils.SqlMethods;
 import utils.extractor.FilmExtractor;
 import utils.extractor.PurchaseExtractor;
 import utils.ConPool;
