@@ -26,7 +26,8 @@ public class AuthenticationServiceMethods implements AuthenticationService{
 
     /**
      * Implementa la funzionalità di login per l'Utente Registrato.
-     * @param account dell'utente da loggare.
+     * @param email email dell'utente da loggare
+     * @param pswrd password dell'utente da loggare
      * @return dell'utente da loggato.
      * @throws SQLException
      */

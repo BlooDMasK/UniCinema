@@ -66,7 +66,7 @@ public class PurchaseServiceMethods implements PurchaseService {
 
     /**
      * Implementa la funzionalità che permette di registrare un biglietto nel database
-     * @param ticketList lista dei biglietti da registrare (1 <= size <= 4)
+     * @param ticketList lista dei biglietti da registrare (la size andrà da 1 a 4)
      * @return true se la registrazione va a buon fine, false altrimenti
      * @throws SQLException
      */

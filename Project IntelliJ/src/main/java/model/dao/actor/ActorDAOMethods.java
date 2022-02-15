@@ -140,6 +140,12 @@ public class ActorDAOMethods implements ActorDAO {
         }
     }
 
+    /**
+     * Metodo che implementa la funzionalità di inserire una lista di attori
+     * @param actorList lista di attori da aggiungere
+     * @return true se l'inserimento va a buon fine, false altrimenti
+     * @throws SQLException
+     */
     public boolean insert(ArrayList<Actor> actorList) throws SQLException {
 
         String query = "INSERT INTO actor (firstname, lastname, id_film) VALUE ";

@@ -35,11 +35,6 @@ public class FileServlet extends HttpServlet {
 
     // Actions ------------------------------------------------------------------------------------
 
-    /**
-     * Inizializza la servlet
-     *
-     * {@see HttpServlet#init()}.
-     */
     @Override
     public void init() throws ServletException {
 
