@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * Classe che fornisce i parametri di validazione
+ * Questa Classe fornisce i parametri di validazione
  */
 @Generated
 public class RequestValidator {
@@ -102,6 +102,13 @@ public class RequestValidator {
         return gatherError(condition, msg);
     }
 
+    /**
+     * Implementa la funzionalità che permette di stabilire se un parametro è vuoto o meno
+     * @param value rappresenta la stringa da verificare
+     * @param msg rappresenta il messaggio d'errore
+     * @param required rappresenta l'obbligatorietà del parametro.
+     * @return  true se il pattern è rispettato, false altrimenti
+     */
     public boolean assertEmpty(String value, String msg, boolean required) {
         String param = request.getParameter(value);
         boolean condition;
@@ -113,6 +120,13 @@ public class RequestValidator {
         return gatherError(condition, msg);
     }
 
+    /**
+     * Implementa la funzionalità che permette di verificare che tutti gli elementi di un'array rispettino un dato Pattern
+     * @param value rappresenta la stringa da verificare
+     * @param regexp rappresenta il pattern da rispettare
+     * @param msg rappresenta il messaggio d'errore
+     * @return true se il pattern è rispettato, false altrimenti
+     */
     public boolean assertMatchArray(String value, Pattern regexp, String msg) {
         String[] array = request.getParameterValues(value);
 
@@ -215,6 +229,12 @@ public class RequestValidator {
         return assertMatch(value, pattern, msg, required);
     }
 
+    /**
+     * Implementa la funzionalità che verifica se una Stringa rispetta il pattern dei valori interi.
+     * @param values rappresenta la stringa da verificare
+     * @param msg rappresenta il messaggio d'errore
+     * @return true se la stringa segue il pattern, false altrimenti
+     */
     public boolean assertInts(String values, String msg) {
         String[] params = request.getParameterValues(values);
         boolean allInt = Arrays.stream(params).allMatch(param -> INT_PATTERN.matcher(param).matches());

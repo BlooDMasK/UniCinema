@@ -98,6 +98,13 @@ public class Account {
         this.administrator = administrator;
     }
 
+    /**
+     *
+     * @param email
+     * @param pswrd
+     * @param administrator
+     * @throws NoSuchAlgorithmException
+     */
     public Account(String email, String pswrd,boolean administrator) throws NoSuchAlgorithmException {
         this.email = email;
         setPswrd(pswrd);

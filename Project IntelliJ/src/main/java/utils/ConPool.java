@@ -22,7 +22,7 @@ public class ConPool {
 
     private String url = "jdbc:mysql://localhost:3307/cinema?useSSL=false&serverTimezone=" + TimeZone.getDefault().getID();
     private String username = "root";
-    private String password = "studentiTSW_2021";
+    private String password = "Napoli*99";
 
     private ConPool() throws SQLException {
         try {
@@ -33,10 +33,19 @@ public class ConPool {
         }
     }
 
+    /**
+     * Implementa la funzionalità che permette di restituire un oggetto di tipo Connection
+     * @return l'oggetto di tipo Connection
+     */
     public Connection getConnection() {
         return connection;
     }
 
+    /**
+     * Implementa la funzionalità che permette di restituire l'instanza del ConPool
+     * @return l'oggetto di tipo ConPool
+     * @throws SQLException
+     */
     public static ConPool getInstance() throws SQLException {
         if(instance == null) {
             instance = new ConPool();

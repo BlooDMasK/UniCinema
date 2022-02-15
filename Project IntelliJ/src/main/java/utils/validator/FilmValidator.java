@@ -7,9 +7,18 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+/**
+ * Questa classe implementa la funzionalità di validazione dei parametri di un form riguardanti il Film.
+ */
 @Generated
 public class FilmValidator {
-
+    /**
+     * Implementa la funzionalità di validazione del film.
+     * @param request è l'oggetto contenente i parametri
+     * @return il validator
+     * @throws ServletException
+     * @throws IOException
+     */
     public RequestValidator validateFilm(HttpServletRequest request) throws ServletException, IOException {
         RequestValidator requestValidator = new RequestValidator(request);
         requestValidator.assertMatch("title", Pattern.compile("^.[^{}\\[\\];_]{6,50}$"), "Il titolo non è valido.", true);
@@ -29,6 +38,13 @@ public class FilmValidator {
         return requestValidator;
     }
 
+    /**
+     * Implementa la funzionalità di validazione per la modifica ai film.
+     * @param request è l'oggetto contenente i parametri
+     * @return il validator
+     * @throws ServletException
+     * @throws IOException
+     */
     public RequestValidator validateUpdateFilm(HttpServletRequest request) throws ServletException, IOException {
         RequestValidator requestValidator = new RequestValidator(request);
         requestValidator.assertMatch("title", Pattern.compile("^.[^{}\\[\\];_]{6,50}$"), "Il titolo non è valido.", true);

@@ -19,6 +19,9 @@ import java.util.List;
 
 import static utils.validator.RequestValidator.isNull;
 
+/**
+ *
+ */
 @WebServlet(name = "AuthenticationServlet", value = "/account/*")
 public class AuthenticationServlet extends Controller implements ErrorHandler {
 
@@ -27,14 +30,26 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
     AccountValidator accountValidator;
     JSONObject jsonObject;
 
+    /**
+     *
+     * @param jsonObject
+     */
     public void setJsonObject(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
     }
 
+    /**
+     *
+     * @param accountValidator
+     */
     public void setAccountValidator(AccountValidator accountValidator) {
         this.accountValidator = accountValidator;
     }
 
+    /**
+     *
+     * @param authenticationService
+     */
     public void setAuthenticationService(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
@@ -43,6 +58,10 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
         this.reviewService = reviewService;
     }
 
+    /**
+     *
+     * @throws SQLException
+     */
     public AuthenticationServlet() throws SQLException {
         authenticationService = new AuthenticationServiceMethods();
         reviewService = new ReviewServiceMethods();
