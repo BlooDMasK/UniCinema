@@ -19,6 +19,9 @@ import java.util.List;
 
 import static utils.validator.RequestValidator.isNull;
 
+/**
+ *
+ */
 @WebServlet(name = "AuthenticationServlet", value = "/account/*")
 public class AuthenticationServlet extends Controller implements ErrorHandler {
 
@@ -68,6 +71,10 @@ public class AuthenticationServlet extends Controller implements ErrorHandler {
         this.reviewService = reviewService;
     }
 
+    /**
+     *
+     * @throws SQLException
+     */
     public AuthenticationServlet() throws SQLException {
         authenticationService = new AuthenticationServiceMethods();
         reviewService = new ReviewServiceMethods();

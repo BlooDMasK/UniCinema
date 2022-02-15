@@ -103,6 +103,22 @@ public class Film implements JsonSerializable {
         showList = new ArrayList<>();
     }
 
+
+    /**
+     *
+     * @param id Rappresenta l'identificativo numerico del film.
+     * @param length Rappresenta la durata del film.
+     * @param genre Rappresenta il genere (si veda {@link #toStringGenre()} per ulteriori informazioni).
+     * @param title Rappresenta il titolo del film.
+     * @param plot Rappresenta la trama del film.
+     * @param cover Rappresenta la cover in 16:9 del film.
+     * @param poster Rappresenta la locandina del film.
+     * @param datePublishing Rappresenta la data di pubblicazione del film.
+     * @param actorList Rappresenta i registi che hanno preso parte al film.
+     * @param directorList Rappresenta i registi che hanno preso parte al film.
+     * @param houseProductionList Rappresenta le case produttrici che hanno preso parte al film.
+     * @param productionList Rappresenta la produzione del film.
+     */
     public Film(int id, int length, int genre, String title, String plot, String cover, String poster, LocalDate datePublishing,
                 ArrayList<Actor> actorList, ArrayList<Director> directorList, ArrayList<HouseProduction> houseProductionList,
                 ArrayList<Production> productionList) {
@@ -120,6 +136,17 @@ public class Film implements JsonSerializable {
         this.productionList = productionList;
     }
 
+    /**
+     *
+     * @param id Rappresenta l'identificativo numerico del film.
+     * @param length Rappresenta la durata del film.
+     * @param genre Rappresenta il genere (si veda {@link #toStringGenre()} per ulteriori informazioni).
+     * @param title Rappresenta il titolo del film.
+     * @param plot Rappresenta la trama del film.
+     * @param cover Rappresenta la cover in 16:9 del film.
+     * @param poster Rappresenta la locandina del film.
+     * @param datePublishing Rappresenta la data di pubblicazione del film.
+     */
     public Film(int id, int length, int genre, String title, String plot, String cover, String poster, LocalDate datePublishing) {
         this.id = id;
         this.length = length;
@@ -131,26 +158,53 @@ public class Film implements JsonSerializable {
         this.datePublishing = datePublishing;
     }
 
+    /**
+     *
+     * @param filmId  Rappresenta l'identificativo numerico del film.
+     */
     public Film(int filmId) {
         id = filmId;
     }
 
+
+    /**
+     * implementa l'aggiunta di un attore alla lista degli attori
+     * @param actor rappresenta l'attore da aggiungere
+     */
     public void addActor(Actor actor) {
         actorList.add(actor);
     }
 
+    /**
+     * implementa l'aggiunta di un regista alla lista dei registi
+     * @param director rappresenta il regista da aggiungere
+     */
     public void addDirector(Director director) {
         directorList.add(director);
     }
 
+
+    /**
+     * implementa l'aggiunta di una casa di produzione alla lista delle case di produzione
+     * @param houseProduction rappresenta la casa di produzione da aggiungere
+     */
     public void addHouseProduction(HouseProduction houseProduction) {
         houseProductionList.add(houseProduction);
     }
 
+
+    /**
+     * implementa l'aggiunta di un produttore alla lista dei produttori
+     * @param production rappresenta il produttore da aggiungere
+     */
     public void addProduction(Production production) {
         productionList.add(production);
     }
 
+    /**
+     * implementa l'aggiunta di uno spettacolo alla lista degli spettacoli
+     * @param show rappresenta lo spettacolo da aggiungere
+     */
     public void addShow(Show show) {
         showList.add(show);
     }
@@ -208,7 +262,10 @@ public class Film implements JsonSerializable {
         return null;
     }
 
-
+    /**
+     * metodo che converte la classe in un oggetto JSON
+     * @return root, oggetto JSON
+     */
     @Override
     public JSONObject toJson() {
         JSONObject root = new JSONObject();
@@ -242,6 +299,12 @@ public class Film implements JsonSerializable {
         return root;
     }
 
+
+    /**
+     * metodo che permette di scrivere file(immagini) all'interno della path designata
+     * @param uploadPath rappresenta la path designata
+     * @param stream rappresenta il file da caricare
+     */
     public void writeCover(String uploadPath, Part stream) {
         try(InputStream fileStream = stream.getInputStream()) {
             File file = new File(uploadPath + cover);
@@ -250,6 +313,12 @@ public class Film implements JsonSerializable {
 
         }
     }
+
+    /**
+     * metodo che permette di scrivere file(immagini) all'interno della path designata
+     * @param uploadPath rappresenta la path designata
+     * @param stream rappresenta il file da caricare
+     */
 
     public void writePoster(String uploadPath, Part stream) {
         try(InputStream fileStream = stream.getInputStream()) {

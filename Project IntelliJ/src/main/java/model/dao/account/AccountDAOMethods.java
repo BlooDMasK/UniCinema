@@ -21,6 +21,7 @@ public class AccountDAOMethods implements AccountDAO {
     private ConPool conPool = ConPool.getInstance();
     private Connection con = conPool.getConnection();
 
+
     public AccountDAOMethods() throws SQLException {
     }
 

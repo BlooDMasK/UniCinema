@@ -15,12 +15,20 @@ import java.util.Map;
 /**
  * Questa classe rappresenta uno spettacolo.
  */
+
 @Generated
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Show implements Comparable<Show>, JsonSerializable {
 
+    /**
+     *
+     * @param id Rappresenta il numero identificativo di uno spettacolo.
+     * @param date Rappresenta la data in cui si svolge lo spettacolo.
+     * @param time Rappresenta l'orario in cui si svolge lo spettacolo.
+     * @param film Rappresenta il film trasmesso durante lo spettacolo.
+     */
     public Show(int id, @NonNull LocalDate date, @NonNull LocalTime time, Film film) {
         this.id = id;
         this.date = date;
@@ -28,6 +36,12 @@ public class Show implements Comparable<Show>, JsonSerializable {
         this.film = film;
     }
 
+    /**
+     *
+     * @param id Rappresenta il numero identificativo di uno spettacolo.
+     * @param date Rappresenta la data in cui si svolge lo spettacolo.
+     * @param time Rappresenta l'orario in cui si svolge lo spettacolo.
+     */
     public Show(int id, @NonNull LocalDate date, @NonNull LocalTime time) {
         this.id = id;
         this.date = date;
@@ -60,8 +74,16 @@ public class Show implements Comparable<Show>, JsonSerializable {
      */
     private Film film;
 
+    /**
+     * rappresenta la sala in cui sarà trasmesso lo spettacolo
+     */
     private Room room;
 
+    /**
+     *
+     * @param showList Rappresenta la lista degli spettacoli
+     * @return
+     */
     public static Map<LocalDate, ArrayList<Show>> toHashMapDateTime(List<Show> showList) {
         Map<LocalDate, ArrayList<Show>> dateMap = new LinkedHashMap<>(); //Chiave: data, Valore: orari
         for(Show show : showList) {
@@ -84,6 +106,11 @@ public class Show implements Comparable<Show>, JsonSerializable {
         return LocalDateTime.of(this.getDate(), this.getTime()).compareTo(LocalDateTime.of(show.getDate(), show.getTime()));
     }
 
+
+    /**
+     * metodo che converte la classe in un oggetto JSON
+     * @return root, oggetto JSON
+     */
     @Override
     public JSONObject toJson() {
         JSONObject root = new JSONObject();

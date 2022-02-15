@@ -173,10 +173,12 @@ public class ActorDAOMethods implements ActorDAO {
         }
     }
 
-    /*
-    1 3 5 7 attori
-    1 3 5 7 - - id
-
+    /**
+     * Metodo che permette di aggiornare una lista di attori, a partire dal filmId
+     * @param actorList lista di attori da modificare
+     * @param filmId id del film contenente la lista degli attori da modificare
+     * @return true se la modifica va a buon fine, false altrimenti
+     * @throws SQLException
      */
     public boolean update(ArrayList<Actor> actorList, int filmId) throws SQLException {
 

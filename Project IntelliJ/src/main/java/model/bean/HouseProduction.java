@@ -27,6 +27,10 @@ public class HouseProduction implements JsonSerializable {
      */
     private Film film;
 
+    /**
+     * metodo che converte la classe in un oggetto JSON
+     * @return root, oggetto JSON
+     */
     @Override
     public JSONObject toJson() {
         JSONObject root = new JSONObject();
@@ -35,6 +39,12 @@ public class HouseProduction implements JsonSerializable {
         return root;
     }
 
+
+    /**
+     *
+     * @param id rappresenta l'id della casa di produzione
+     * @param name rappresenta il nome della casa di produzione
+     */
     public HouseProduction(int id, String name) {
         this.id = id;
         this.name = name;

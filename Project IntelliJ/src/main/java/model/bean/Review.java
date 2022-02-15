@@ -56,6 +56,15 @@ public class Review implements JsonSerializable {
      */
     private int stars;
 
+
+    /**
+     *
+     * @param description Rappresenta il testo della recensione.
+     * @param title Rappresenta il titolo della recensione.
+     * @param date Rappresenta la data in cui è stata pubblicata la recensione.
+     * @param time Rappresenta l'orario in cui è stata pubblicata la recensione.
+     * @param stars Rappresenta la valutazione in stelle (da 1 a 5).
+     */
     public Review(String description, String title, LocalDate date, LocalTime time, int stars) {
         this.description = description;
         this.title = title;

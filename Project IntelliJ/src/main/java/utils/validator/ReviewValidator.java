@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class ReviewValidator {
 
     /**
-     * Implementa la funzionalità di validazione dela recensione
+     * Implementa la funzionalità di validazione della recensione
      * @param request è l'oggetto contenente i parametri
      * @return il validator
      */

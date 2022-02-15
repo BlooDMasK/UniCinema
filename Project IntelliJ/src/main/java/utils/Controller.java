@@ -80,6 +80,10 @@ public class Controller extends HttpServlet implements ErrorHandler{
         }
     }
 
+    /**
+     * Implementa la funzionalità che permette di restituire il path inerente alle immagini
+     * @return il path delle immagini
+     */
     public String getUploadPath() {
         return System.getenv("CATALINA_IMAGES");
     }
@@ -125,11 +129,23 @@ public class Controller extends HttpServlet implements ErrorHandler{
         writer.flush();
     }
 
+    /**
+     * Implementa la funzionalità che permette di restituire un array di parametri
+     * @param request rappresenta l'oggetto della request
+     * @param params nome del paramtro
+     * @return un array di parametri
+     */
     public ArrayList<String> getParamsArrayList(HttpServletRequest request, String params) {
         String[] paramsArray = request.getParameterValues(params);
         return new ArrayList<>(List.of(paramsArray));
     }
 
+    /**
+     * Implementa la funzionalità che permette di convertire una Stringa in un oggetto LocalDate
+     * @param request  rappresenta l'oggetto della request
+     * @param param nome del parametro
+     * @return l'oggetto LocalDate
+     */
     public static LocalDate getLocalDateFromString(HttpServletRequest request, String param) {
         String dateString = request.getParameter(param);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -138,6 +154,12 @@ public class Controller extends HttpServlet implements ErrorHandler{
         return LocalDate.parse(dateString, dateTimeFormatter);
     }
 
+    /**
+     * Implementa la funzionalità  che permette di convertire una stringa in un oggetto LocalTime
+     * @param request  rappresenta l'oggetto della request
+     * @param param nome del parametro
+     * @return l'oggetto LocalTime
+     */
     public static LocalTime getLocalTimeFromString(HttpServletRequest request, String param) {
         String timeString = request.getParameter(param);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("H:mm");
@@ -145,6 +167,12 @@ public class Controller extends HttpServlet implements ErrorHandler{
         return LocalTime.parse(timeString, dateTimeFormatter);
     }
 
+    /**
+     * Implementa la funzionalità che permette di criptare la password
+     * @param pswrd password criptata
+     * @return la password criptata
+     * @throws NoSuchAlgorithmException
+     */
     public String getCryptedPassword(String pswrd) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-512");
         byte[] hashedPwd = digest.digest(pswrd.getBytes(StandardCharsets.UTF_8));

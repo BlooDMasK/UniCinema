@@ -82,12 +82,13 @@ public class Account {
 
     /**
      *
-     * @param email l'email dell'Utente Registrato
+     * @param email  l'email dell'Utente Registrato
      * @param firstname il nome dell'Utente Registrato
      * @param lastname il cognome dell'Utente Registrato
      * @param pswrd la password dell'Utente Registrato
      * @param id l'identificativo numerico dell'Utente Registrato
      * @param administrator il ruolo amministrativo dell'Utente Registrato
+     * @throws NoSuchAlgorithmException
      */
     public Account(String email, String firstname, String lastname, String pswrd, int id, boolean administrator) throws NoSuchAlgorithmException {
         this.email = email;
@@ -98,6 +99,13 @@ public class Account {
         this.administrator = administrator;
     }
 
+    /**
+     *
+     * @param email l'email dell'Utente Registrato
+     * @param pswrd la password dell'Utente Registrato
+     * @param administrator Rappresenta il ruolo amministrativo che ricopre l'Utente Registrato.
+     * @throws NoSuchAlgorithmException
+     */
     public Account(String email, String pswrd,boolean administrator) throws NoSuchAlgorithmException {
         this.email = email;
         setPswrd(pswrd);

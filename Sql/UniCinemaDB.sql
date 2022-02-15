@@ -8,7 +8,6 @@ email varchar(30),
 pswrd varchar(200),
 firstname varchar(25),
 lastname varchar(25),
-registered boolean,
 administrator boolean
 );
 
@@ -165,9 +164,13 @@ INSERT INTO director VALUES
 ("05","04","Christopher","Nolan");
 
 INSERT INTO customer VALUES
-("01","gleone2000@gmail.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Gerardo","Leone",false,true),
-("02","mlezzi@gvkd.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Mario","Lezzi",false,false),
-("03","suosso@gvkd.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Antonio","Santosuosso",false,false);
+("01","gleone2000@gmail.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Gerardo","Leone",true),
+("02","mlezziAdmin@gmail.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Mario","Lezzi",true),
+("03","asantosuossoAdmin@gmail.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Antonio","Santosuosso",true),
+
+("04","gleone2000Cliente@gmail.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Gerardo","Leone",false),
+("05","mlezziCliente@gmail.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Mario","Lezzi",false),
+("06","asantosuossoCliente@gmail.com","78feb7296322c966b855fc42df5666a8cbb9640e3ea626e082f72d77fc6e0f2001271e5134fc4f95808bc96773f0782991a804cddc1a150587df56026d40e268","Antonio","Santosuosso",false);
 
 INSERT INTO room VALUES
 ("01","10","12"),
